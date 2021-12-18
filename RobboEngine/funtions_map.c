@@ -3,7 +3,8 @@
 #include "monsters.h"
 #include "lasers.h"
 
-#define REFRESH_ONLY ((function)(0x0010))
+#define REFRESH1_ONLY ((function)(0x0001))
+#define REFRESH2_ONLY ((function)(0x0002))
 
 const function functions_map[] =
 {
@@ -12,7 +13,7 @@ const function functions_map[] =
 	NULL, NULL, monsterRL, monsterRR, monsterRD, monsterRU,
 	monsterLL, monsterLR, monsterLD, monsterLU,
 	NULL, 
-	laserHeadRR, REFRESH_ONLY, laserHeadRL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+	laserHeadRR, REFRESH2_ONLY, laserHeadRL, laserR, expolosion3, expolosion4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
 	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
 	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
 	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,

@@ -29,7 +29,7 @@ void monsterRR()
 {
 
 	uint8_t* newMap = MAP_RIGHT(mapPtr);
-	if (*newMap == FIELD_EMPTY && *(y_next_tilesPtr+1) == FIELD_NONE)
+	if (*newMap == FIELD_EMPTY && *(nextYTilesPtr+1) == FIELD_NONE)
 	{
 		*mapPtr = FIELD_EMPTY;
 		x_next_tile = MOB_R_DOWN;
@@ -47,7 +47,7 @@ void monsterRD()
 	if (*newMap == FIELD_EMPTY)
 	{
 		*mapPtr = FIELD_EMPTY;
-		*y_next_tilesPtr = MOB_R_LEFT;
+		*nextYTilesPtr = MOB_R_LEFT;
 	}
 	else
 	{
@@ -96,7 +96,7 @@ void monsterLL()
 void monsterLR()
 {
 	uint8_t* newMap = MAP_RIGHT(mapPtr);
-	if (*newMap == FIELD_EMPTY && *(y_next_tilesPtr+1) == FIELD_NONE)
+	if (*newMap == FIELD_EMPTY && *(nextYTilesPtr+1) == FIELD_NONE)
 	{
 		*mapPtr = FIELD_EMPTY;
 		x_next_tile = MOB_L_UP;
@@ -113,7 +113,7 @@ void monsterLD()
 	if (*newMap == FIELD_EMPTY)
 	{
 		*mapPtr = FIELD_EMPTY;
-		*y_next_tilesPtr = MOB_L_RIGHT;
+		*nextYTilesPtr = MOB_L_RIGHT;
 	}
 	else
 	{

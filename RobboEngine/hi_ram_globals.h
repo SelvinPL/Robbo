@@ -10,8 +10,8 @@ extern uint8_t doChanege;
 extern uint8_t x_next_tile;
 extern uint8_t* mapPtr;
 extern uint8_t* chanegesPtr;
-extern uint8_t y_next_tiles[];
-extern uint8_t* y_next_tilesPtr;
+extern uint8_t nextYTiles[];
+extern uint8_t* nextYTilesPtr;
 
 
 extern uint8_t counter;
@@ -19,7 +19,7 @@ extern const uint8_t* map_to_tiles;
 extern uint8_t map_pos_x;
 extern uint8_t map_pos_y;
 
-extern uint8_t anim_counter;
+extern uint8_t animCounter;
 extern int8_t slideX;
 extern int8_t slideY;
 

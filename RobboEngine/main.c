@@ -1,38 +1,10 @@
 ﻿#include <gb/gb.h>
 #include <string.h>
-#include "tiles.h"
 #include <gb/cgb.h>
 #include "fields.h"
 #include "functions_map.h"
 #include "map.h"
 #include "hi_ram_globals.h"
-
-
-const uint8_t const map_to_tiles1[] =
-{
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-	tiles_trans_empty, tiles_trans_wall1, 
-	tiles_trans_mob_left, tiles_trans_mob_left, tiles_trans_mob_left, tiles_trans_mob_left,
-	tiles_trans_mob_right, tiles_trans_mob_right, tiles_trans_mob_right, tiles_trans_mob_right,
-	tiles_trans_pickable_screw, tiles_missle_horizontal, tiles_missle_horizontal, tiles_missle_horizontal, tiles_trans_gun_right
-};
-
-const uint8_t const map_to_tiles2[] =
-{
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-	tiles_trans_empty, tiles_trans_wall1, 
-	tiles_trans_mob_left2, tiles_trans_mob_left2, tiles_trans_mob_left2, tiles_trans_mob_left2,
-	tiles_trans_mob_right2, tiles_trans_mob_right2, tiles_trans_mob_right2, tiles_trans_mob_right2,
-	tiles_trans_pickable_screw, tiles_missle_horizontal2, tiles_missle_horizontal2, tiles_missle_horizontal2, tiles_trans_gun_right
-};
-
-extern void mapIterationASM();
-extern void mapIterationC();
-
-//#define mapIteration mapIterationASM
-#define mapIteration mapIterationC
 
 extern uint8_t chaneges[];
 
@@ -40,26 +12,26 @@ extern uint8_t chaneges[];
 
 extern void set_bkg_tile_xy_2(uint8_t x, uint8_t y, uint8_t t) OLDCALL;
 
-void mapIterationC()
+void mapIteration()
 {
 	chanegesPtr = chaneges;
 	for (iterY = changeYstart; iterY < changeYend; iterY++)
 	{
 		doChanege = BETWEEN(iterY, map_pos_y == 0 ? 0 : map_pos_y - 1, map_pos_y + 9);
-		y_next_tilesPtr = y_next_tiles - 1;
+		nextYTilesPtr = nextYTiles - 1;
 		for (iterX = 0; iterX < 16; iterX++)
 		{
-			y_next_tilesPtr++;
+			nextYTilesPtr++;
 			if (*++mapPtr == FIELD_WALL)
 			{
 				continue;
 			}
 			else if (*mapPtr == FIELD_EMPTY)
 			{
-				if (*y_next_tilesPtr != FIELD_NONE)
+				if (*nextYTilesPtr != FIELD_NONE)
 				{
-					*mapPtr = *y_next_tilesPtr;
-					*y_next_tilesPtr = FIELD_NONE;
+					*mapPtr = *nextYTilesPtr;
+					*nextYTilesPtr = FIELD_NONE;
 					if (doChanege)
 					{
 						*chanegesPtr++ = iterX;
@@ -85,14 +57,26 @@ void mapIterationC()
 				if (hi == 0)
 				{
 					uint8_t low = ((uint8_t)function);
-					if (low == 0)
+					switch (low)
 					{
+					case 0:
 						continue;
-					}
-					else if(doChanege)
-					{
-						*chanegesPtr++ = iterX;
-						*chanegesPtr++ = iterY;
+					case 1:
+						if (doChanege)
+						{
+							*chanegesPtr++ = iterX;
+							*chanegesPtr++ = iterY;
+						}
+						break;
+					case 2:
+						if ((animCounter & 1) && doChanege)
+						{
+							*chanegesPtr++ = iterX;
+							*chanegesPtr++ = iterY;
+						}
+						break;
+					default:
+						break;
 					}
 				}
 				else
@@ -225,15 +209,23 @@ void incrementCounter()
 		counter = 0;
 		mapPtr = map - 1;
 
-		anim_counter++;
-		if (anim_counter == 2)
+		animCounter++;
+		if (animCounter == 2)
 		{
 			map_to_tiles = map_to_tiles2;
 		}
-		else  if (anim_counter == 4)
+		else  if (animCounter == 4)
+		{
+			map_to_tiles = map_to_tiles3;
+		}
+		else  if (animCounter == 6)
+		{
+			map_to_tiles = map_to_tiles4;
+		}
+		else  if (animCounter == 8)
 		{
 			map_to_tiles = map_to_tiles1;
-			anim_counter = 0;
+			animCounter = 0;
 		}
 		
 	}
@@ -246,8 +238,8 @@ void main()
 	set_bkg_data(0, 172, map_tiles);
 	set_bkg_data(0xc0, 0xd7 - 0xc0, map_tiles + 0xc0 * 16);
 	memcpy(map, map1, 512);
-	memset(y_next_tiles, FIELD_NONE, 16);
-	anim_counter = 0;
+	memset(nextYTiles, FIELD_NONE, 16);
+	animCounter = 0;
 	map_to_tiles = map_to_tiles1;
 	//map_pos_x = 3;
 	//map_pos_y = 9;
