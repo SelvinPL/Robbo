@@ -67,3 +67,9 @@ extern const uint8_t* const CAPSULE_STATE[2];
 #define tiles_trans_gun_down			0x64
 #define tiles_trans_gun_left			0x68
 #define tiles_trans_gun_up				0x6c
+
+#define tiles_missle_horizontal			0x90
+#define tiles_missle_horizontal2		0x94
+
+#define tiles_missle_vertical			0x98
+#define tiles_missle_vertical2			0x9c

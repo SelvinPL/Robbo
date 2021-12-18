@@ -15,7 +15,7 @@ const uint8_t const map_to_tiles1[] =
 	tiles_trans_empty, tiles_trans_wall1, 
 	tiles_trans_mob_left, tiles_trans_mob_left, tiles_trans_mob_left, tiles_trans_mob_left,
 	tiles_trans_mob_right, tiles_trans_mob_right, tiles_trans_mob_right, tiles_trans_mob_right,
-	tiles_trans_pickable_screw, NULL, NULL
+	tiles_trans_pickable_screw, tiles_missle_horizontal, tiles_missle_horizontal, tiles_missle_horizontal, tiles_trans_gun_right
 };
 
 const uint8_t const map_to_tiles2[] =
@@ -25,13 +25,14 @@ const uint8_t const map_to_tiles2[] =
 	tiles_trans_empty, tiles_trans_wall1, 
 	tiles_trans_mob_left2, tiles_trans_mob_left2, tiles_trans_mob_left2, tiles_trans_mob_left2,
 	tiles_trans_mob_right2, tiles_trans_mob_right2, tiles_trans_mob_right2, tiles_trans_mob_right2,
-	tiles_trans_pickable_screw, NULL, NULL
+	tiles_trans_pickable_screw, tiles_missle_horizontal2, tiles_missle_horizontal2, tiles_missle_horizontal2, tiles_trans_gun_right
 };
 
 extern void mapIterationASM();
 extern void mapIterationC();
 
-#define mapIteration mapIterationASM
+//#define mapIteration mapIterationASM
+#define mapIteration mapIterationC
 
 extern uint8_t chaneges[];
 
@@ -53,7 +54,7 @@ void mapIterationC()
 			{
 				continue;
 			}
-			if (*mapPtr == FIELD_EMPTY)
+			else if (*mapPtr == FIELD_EMPTY)
 			{
 				if (*y_next_tilesPtr != FIELD_NONE)
 				{
@@ -80,7 +81,21 @@ void mapIterationC()
 			else
 			{
 				function function = functions_map[*mapPtr];
-				if (function != NULL)
+				uint8_t hi = (((uint16_t)function) >> 8) && 0xff;
+				if (hi == 0)
+				{
+					uint8_t low = ((uint8_t)function);
+					if (low == 0)
+					{
+						continue;
+					}
+					else if(doChanege)
+					{
+						*chanegesPtr++ = iterX;
+						*chanegesPtr++ = iterY;
+					}
+				}
+				else
 				{
 					function();
 					if (doChanege)
@@ -234,8 +249,10 @@ void main()
 	memset(y_next_tiles, FIELD_NONE, 16);
 	anim_counter = 0;
 	map_to_tiles = map_to_tiles1;
-	map_pos_x = 3;
-	map_pos_y = 9;
+	//map_pos_x = 3;
+	//map_pos_y = 9;
+	map_pos_x = 0;
+	map_pos_y = 22;
 	counter = 255;
 	slideX = 0;
 	slideY = 0;

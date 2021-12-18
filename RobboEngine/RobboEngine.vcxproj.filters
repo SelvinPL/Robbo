@@ -36,12 +36,12 @@
     <ClCompile Include="funtions_map.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="lasers.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <AsmCompile Include="tiles_helper.asm">
-      <Filter>Source Files</Filter>
-    </AsmCompile>
-    <AsmCompile Include="map_iteration.asm">
       <Filter>Source Files</Filter>
     </AsmCompile>
   </ItemGroup>
@@ -62,6 +62,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="hi_ram_globals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lasers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

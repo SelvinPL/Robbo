@@ -36,6 +36,7 @@
   <ItemGroup>
     <ClCompile Include="funtions_map.c" />
     <ClCompile Include="hi_ram_globals.c" />
+    <ClCompile Include="lasers.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="map.c" />
     <ClCompile Include="monsters.c" />
@@ -43,13 +44,13 @@
     <ClCompile Include="tiles_data.c" />
   </ItemGroup>
   <ItemGroup>
-    <AsmCompile Include="map_iteration.asm" />
     <AsmCompile Include="tiles_helper.asm" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="fields.h" />
     <ClInclude Include="functions_map.h" />
     <ClInclude Include="hi_ram_globals.h" />
+    <ClInclude Include="lasers.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="monsters.h" />
     <ClInclude Include="tiles.h" />
