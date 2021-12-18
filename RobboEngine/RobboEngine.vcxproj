@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\SDCC\SDCC.Common.props" />
+  <Import Project="$(MSBuildExtensionsPath)\SDCC\SDCC.Common.targets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{3A64F37A-08ED-4F29-9EFD-D765B3A1D29C}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>RobboEngine</RootNamespace>
+    <ProjectName>RobboEngine</ProjectName>
+    <PortType>gbz80</PortType>
+    <BuildFormat>Binary</BuildFormat>
+    <CustomCrt>$(GBDKLibPath)/small/asxxxx/gb/crt0.o</CustomCrt>
+    <GlobalSymbols>_shadow_OAM=0xC3a0;.STACK=0xDEFF;.refresh_OAM=0xFF80;_map=0xC000;_chaneges=0xC200</GlobalSymbols>
+    <DataLocation>0xc300</DataLocation>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <SDCCPreprocessorDefinitions>$(SDCCPreprocessorDefinitions);__PORT_gbz80;__TARGET_gb;</SDCCPreprocessorDefinitions>
+      <PeepAsm Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</PeepAsm>
+      <PeepReturn Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</PeepReturn>
+      <OptimizeCode Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CodeSpeed</OptimizeCode>
+      <MaxAllocsPerNode Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">1000000</MaxAllocsPerNode>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="funtions_map.c" />
+    <ClCompile Include="hi_ram_globals.c" />
+    <ClCompile Include="main.c" />
+    <ClCompile Include="map.c" />
+    <ClCompile Include="monsters.c" />
+    <ClCompile Include="tiles.c" />
+    <ClCompile Include="tiles_data.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <AsmCompile Include="map_iteration.asm" />
+    <AsmCompile Include="tiles_helper.asm" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="fields.h" />
+    <ClInclude Include="functions_map.h" />
+    <ClInclude Include="hi_ram_globals.h" />
+    <ClInclude Include="map.h" />
+    <ClInclude Include="monsters.h" />
+    <ClInclude Include="tiles.h" />
+  </ItemGroup>
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
