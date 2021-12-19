@@ -28,7 +28,7 @@ extern const uint8_t* const CAPSULE_STATE[2];
 #define tiles_trans_bomb				0x7c
 #define tiles_trans_pickable_key		0x20
 #define tiles_trans_pickable_screw		0x24
-#define tiles_trans_pickable_bullet		0x28
+#define tiles_trans_pickable_ammo		0x28
 #define tiles_trans_pickable_extra_life	0x2c
 #define tiles_trans_questionmark		0x30
 #define tiles_trans_door				0x34
@@ -37,8 +37,8 @@ extern const uint8_t* const CAPSULE_STATE[2];
 
 #define tiles_trans_mob_bird			0x40
 #define tiles_trans_mob_bird_shooting	0x44
-#define tiles_trans_mob_right			0x4c
-#define tiles_trans_mob_left			0x48
+#define tiles_trans_mob_right			0x48
+#define tiles_trans_mob_left			0x4c
 #define tiles_trans_mob_eyes			0x50
 #define tiles_trans_capsule				0x54
 #define tiles_trans_teleport			0x58
@@ -46,8 +46,8 @@ extern const uint8_t* const CAPSULE_STATE[2];
 
 #define tiles_trans_mob_bird2			0xc0
 #define tiles_trans_mob_bird_shooting2	0xc4
-#define tiles_trans_mob_right2			0xcc
-#define tiles_trans_mob_left2			0xc8
+#define tiles_trans_mob_right2			0xc8
+#define tiles_trans_mob_left2			0xcc
 #define tiles_trans_mob_eyes2			0xd0
 #define tiles_trans_capsule2			0xd4
 #define tiles_trans_teleport2			0xd8
@@ -68,8 +68,8 @@ extern const uint8_t* const CAPSULE_STATE[2];
 #define tiles_trans_gun_left			0x68
 #define tiles_trans_gun_up				0x6c
 
-#define tiles_missle_horizontal			0x90
-#define tiles_missle_horizontal2		0x94
+#define tiles_projectile_horizontal		0x90
+#define tiles_projectile_horizontal2	0x94
 
 #define tiles_missle_vertical			0x98
 #define tiles_missle_vertical2			0x9c

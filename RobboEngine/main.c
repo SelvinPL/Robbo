@@ -5,6 +5,9 @@
 #include "functions_map.h"
 #include "map.h"
 #include "hi_ram_globals.h"
+#include "levels_data.h"
+#include <gb/gbdecompress.h>
+#include "tiles.h"
 
 extern uint8_t chaneges[];
 
@@ -17,12 +20,12 @@ void mapIteration()
 	chanegesPtr = chaneges;
 	for (iterY = changeYstart; iterY < changeYend; iterY++)
 	{
-		doChanege = BETWEEN(iterY, map_pos_y == 0 ? 0 : map_pos_y - 1, map_pos_y + 9);
+		doChanege = BETWEEN(iterY, map_pos_y == 0 ? 0 : map_pos_y - 1,  map_pos_y + 9);
 		nextYTilesPtr = nextYTiles - 1;
 		for (iterX = 0; iterX < 16; iterX++)
 		{
 			nextYTilesPtr++;
-			if (*++mapPtr == FIELD_WALL)
+			if (*++mapPtr == FIELD_WALL || *mapPtr == FIELD_BLACK_WALL)
 			{
 				continue;
 			}
@@ -69,7 +72,7 @@ void mapIteration()
 						}
 						break;
 					case 2:
-						if ((animCounter & 1) && doChanege)
+						if (!(animCounter & 1) && doChanege)
 						{
 							*chanegesPtr++ = iterX;
 							*chanegesPtr++ = iterY;
@@ -140,7 +143,7 @@ void incrementCounter()
 			map_pos_y--;
 
 		}
-		else if (pad == J_DOWN && map_pos_y < (31 - 9))
+		else if (pad == J_DOWN && map_pos_y < (32 - 9))
 		{
 			slideY = 4;
 			SCY_REG += 4;
@@ -159,12 +162,15 @@ void incrementCounter()
 			if (slideY > 0)
 			{
 				uint8_t y = map_pos_y + 9;
-				for (uint8_t x = 0; x < 16; x++)
+				if (y < 32)
 				{
-					*chanegesPtr++ = x;
-					*chanegesPtr++ = y;
+					for (uint8_t x = 0; x < 16; x++)
+					{
+						*chanegesPtr++ = x;
+						*chanegesPtr++ = y;
+					}
+					*chanegesPtr = 0xff;
 				}
-				*chanegesPtr = 0xff;
 			}
 			else if (map_pos_y != 0)
 			{
@@ -190,7 +196,7 @@ void incrementCounter()
 	else if (counter == 4)
 	{
 		changeYstart = 24;
-		changeYend = 32;
+		changeYend = 31;
 		if (slideX)
 		{
 			SCX_REG += slideX;
@@ -234,10 +240,21 @@ void incrementCounter()
 void main()
 {
 	DISPLAY_OFF;
+
+	
+	uint8_t current = _current_bank;
+	SWITCH_ROM_MBC1((uint8_t)&__bank_levels_data);
+	gb_decompress(levels[10], map);
+	SWITCH_ROM_MBC1(current);
+
+	uint8_t* mapee = map + 496;
+	for (uint8_t i = 0; i < 16; i++)
+		*mapee++ = FIELD_BLACK_WALL;
+
 	SHOW_BKG;
 	set_bkg_data(0, 172, map_tiles);
-	set_bkg_data(0xc0, 0xd7 - 0xc0, map_tiles + 0xc0 * 16);
-	memcpy(map, map1, 512);
+	set_bkg_data(tiles_trans_mob_bird2, 32, map_tiles + tiles_trans_mob_bird2 * 16);
+
 	memset(nextYTiles, FIELD_NONE, 16);
 	animCounter = 0;
 	map_to_tiles = map_to_tiles1;
@@ -263,11 +280,12 @@ void main()
 		}
 	}
 	DISPLAY_ON;
+	wait_vbl_done();
 	while (TRUE)
 	{
+		mapIteration();
 		wait_vbl_done();
 		incrementCounter();
 		repaint();
-		mapIteration();
 	}
 }

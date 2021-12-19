@@ -7,7 +7,6 @@
 #define MAP_DOWN(map)		((map)+16)
 
 extern uint8_t map[];
-extern const uint8_t map1[];
 extern const uint8_t const map_tiles[];
 
 extern const uint8_t const map_to_tiles1[];

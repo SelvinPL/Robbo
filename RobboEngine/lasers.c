@@ -3,15 +3,16 @@
 #include "map.h"
 #include "fields.h"
 #include "hi_ram_globals.h"
+#include <rand.h>
 
-void missleHL()
+void projectileL()
 {
 	if (animCounter & 1)
 	{
 		uint8_t* newMap = MAP_LEFT(mapPtr);
-		if (*newMap == FIELD_EMPTY  || *newMap == LASER_HORIZONTAL_RAY)
+		if (*newMap == FIELD_EMPTY  || *newMap == FIELD_LASER_HORIZONTAL_RAY)
 		{
-			*newMap = HORIZONTAL_MISSLE_LEFT;
+			*newMap = FIELD_PROJECTILE_L;
 			*mapPtr = FIELD_EMPTY;
 			if (doChanege)
 			{
@@ -21,7 +22,7 @@ void missleHL()
 		}
 		else if (*newMap != FIELD_EMPTY)
 		{
-			*mapPtr = FIELD_EXPLOSION3;
+			*mapPtr = FIELD_EXPLOSION6;
 		}
 		else
 		{
@@ -30,53 +31,51 @@ void missleHL()
 	}
 }
 
-void laserHeadRR()
+void laserBeamR()
 {
 	if (animCounter & 1)
 	{
 		uint8_t* newMap = MAP_RIGHT(mapPtr);
 		if (*newMap == FIELD_EMPTY && *(nextYTilesPtr + 1) == FIELD_NONE)
 		{
-			x_next_tile = LASER_HORIZONTAL_HEAD_RIGHT_RIGHT;
-			*mapPtr = LASER_HORIZONTAL_RAY;
+			x_next_tile = FIELD_LASER_BEAM_R;
+			*mapPtr = FIELD_LASER_HORIZONTAL_RAY;
 		}
 		else
 		{
-			*mapPtr = HORIZONTAL_MISSLE_LEFT;
+			*mapPtr = FIELD_PROJECTILE_L;
 		}
 	}
 }
 
-void expolosion3()
+void expolosion()
 {
 	if (animCounter & 1)
-		*mapPtr = FIELD_EXPLOSION4;
+	{
+		if (*mapPtr == FIELD_EXPLOSION7)
+			*mapPtr = FIELD_EMPTY;
+		else
+			(*mapPtr)++;
+	}
 }
 
-void expolosion4()
-{
-	if (animCounter & 1)
-		*mapPtr = FIELD_EMPTY;
-}
+#define RND() (((uint8_t)rand()) < 18)
 
 void laserR()
 {
-	//if (animCounter & 1)
+	uint8_t* newMap = MAP_RIGHT(mapPtr);
+	if (*newMap == FIELD_EMPTY && RND())
 	{
-		uint8_t* newMap = MAP_RIGHT(mapPtr);
-		if (*newMap == FIELD_EMPTY && (DIV_REG < 18))
-		{
-			x_next_tile = LASER_HORIZONTAL_HEAD_RIGHT_RIGHT;
-		}
+		x_next_tile = FIELD_LASER_BEAM_R;
 	}
 }
 
 void gunL()
 {
 	uint8_t* newMap = MAP_LEFT(mapPtr);
-	if (*newMap == FIELD_EMPTY && (DIV_REG < 18))
+	if (*newMap == FIELD_EMPTY && RND())
 	{
-		*newMap = HORIZONTAL_MISSLE_LEFT;
+		*newMap = FIELD_PROJECTILE_L;
 		if (doChanege)
 		{
 			*chanegesPtr++ = iterX - 1;

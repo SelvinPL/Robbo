@@ -13,6 +13,18 @@
   <Import Project="$(MSBuildExtensionsPath)\SDCC\SDCC.Common.props" />
   <Import Project="$(MSBuildExtensionsPath)\SDCC\SDCC.Common.targets" />
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <GameBoyRomBankCount>4</GameBoyRomBankCount>
+    <GameBoyMemoryBankController>17</GameBoyMemoryBankController>
+    <GameBoyColor>
+    </GameBoyColor>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <GameBoyRomBankCount>4</GameBoyRomBankCount>
+    <GameBoyMemoryBankController>17</GameBoyMemoryBankController>
+    <GameBoyColor>
+    </GameBoyColor>
+  </PropertyGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3A64F37A-08ED-4F29-9EFD-D765B3A1D29C}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -39,6 +51,7 @@
     <ClCompile Include="lasers.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="map.c" />
+    <ClCompile Include="levels_data.c" />
     <ClCompile Include="monsters.c" />
     <ClCompile Include="tiles.c" />
     <ClCompile Include="tiles_data.c" />
@@ -51,6 +64,7 @@
     <ClInclude Include="functions_map.h" />
     <ClInclude Include="hi_ram_globals.h" />
     <ClInclude Include="lasers.h" />
+    <ClInclude Include="levels_data.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="monsters.h" />
     <ClInclude Include="tiles.h" />

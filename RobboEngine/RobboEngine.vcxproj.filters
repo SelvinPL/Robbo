@@ -39,6 +39,9 @@
     <ClCompile Include="lasers.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="levels_data.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <AsmCompile Include="tiles_helper.asm">
@@ -65,6 +68,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="lasers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="levels_data.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

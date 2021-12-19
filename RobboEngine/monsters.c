@@ -11,7 +11,7 @@ void monsterRL()
 	uint8_t* newMap = MAP_LEFT(mapPtr);
 	if (*newMap == FIELD_EMPTY)
 	{
-		*newMap = MOB_R_UP;
+		*newMap = FIELD_MONSTER_RIGHT_U;
 		*mapPtr = FIELD_EMPTY;
 		if (doChanege)
 		{
@@ -21,7 +21,7 @@ void monsterRL()
 	}
 	else
 	{
-		*mapPtr = MOB_R_DOWN;
+		*mapPtr = FIELD_MONSTER_RIGHT_D;
 	}
 }
 
@@ -32,11 +32,11 @@ void monsterRR()
 	if (*newMap == FIELD_EMPTY && *(nextYTilesPtr+1) == FIELD_NONE)
 	{
 		*mapPtr = FIELD_EMPTY;
-		x_next_tile = MOB_R_DOWN;
+		x_next_tile = FIELD_MONSTER_RIGHT_D;
 	}
 	else
 	{
-		*mapPtr = MOB_R_UP;
+		*mapPtr = FIELD_MONSTER_RIGHT_U;
 	}
 }
 
@@ -47,11 +47,11 @@ void monsterRD()
 	if (*newMap == FIELD_EMPTY)
 	{
 		*mapPtr = FIELD_EMPTY;
-		*nextYTilesPtr = MOB_R_LEFT;
+		*nextYTilesPtr = FIELD_MONSTER_RIGHT_L;
 	}
 	else
 	{
-		*mapPtr = MOB_R_RIGHT;
+		*mapPtr = FIELD_MONSTER_RIGHT_R;
 	}
 }
 
@@ -60,7 +60,7 @@ void monsterRU()
 	uint8_t* newMap = MAP_UP(mapPtr);
 	if (*newMap == FIELD_EMPTY)
 	{
-		*newMap = MOB_R_RIGHT;
+		*newMap = FIELD_MONSTER_RIGHT_R;
 		*mapPtr = FIELD_EMPTY;
 		if (doChanege)
 		{
@@ -70,7 +70,7 @@ void monsterRU()
 	}
 	else
 	{
-		*mapPtr = MOB_R_LEFT;
+		*mapPtr = FIELD_MONSTER_RIGHT_L;
 	}
 }
 
@@ -79,7 +79,7 @@ void monsterLL()
 	uint8_t* newMap = MAP_LEFT(mapPtr);
 	if (*newMap == FIELD_EMPTY)
 	{
-		*newMap = MOB_L_DOWN;
+		*newMap = FIELD_MONSTER_LEFT_D;
 		*mapPtr = FIELD_EMPTY;
 		if (doChanege)
 		{
@@ -89,7 +89,7 @@ void monsterLL()
 	}
 	else
 	{
-		*mapPtr = MOB_L_UP;
+		*mapPtr = FIELD_MONSTER_LEFT_U;
 	}
 }
 
@@ -99,11 +99,11 @@ void monsterLR()
 	if (*newMap == FIELD_EMPTY && *(nextYTilesPtr+1) == FIELD_NONE)
 	{
 		*mapPtr = FIELD_EMPTY;
-		x_next_tile = MOB_L_UP;
+		x_next_tile = FIELD_MONSTER_LEFT_U;
 	}
 	else
 	{
-		*mapPtr = MOB_L_DOWN;
+		*mapPtr = FIELD_MONSTER_LEFT_D;
 	}
 }
 
@@ -113,11 +113,11 @@ void monsterLD()
 	if (*newMap == FIELD_EMPTY)
 	{
 		*mapPtr = FIELD_EMPTY;
-		*nextYTilesPtr = MOB_L_RIGHT;
+		*nextYTilesPtr = FIELD_MONSTER_LEFT_R;
 	}
 	else
 	{
-		*mapPtr = MOB_L_LEFT;
+		*mapPtr = FIELD_MONSTER_LEFT_L;
 	}
 }
 
@@ -126,7 +126,7 @@ void monsterLU()
 	uint8_t* newMap = MAP_UP(mapPtr);
 	if (*newMap == FIELD_EMPTY)
 	{
-		*newMap = MOB_L_LEFT;
+		*newMap = FIELD_MONSTER_LEFT_L;
 		*mapPtr = FIELD_EMPTY;
 		if (doChanege)
 		{
@@ -136,6 +136,6 @@ void monsterLU()
 	}
 	else
 	{
-		*mapPtr = MOB_L_RIGHT;
+		*mapPtr = FIELD_MONSTER_LEFT_R;
 	}
 }

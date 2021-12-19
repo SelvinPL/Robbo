@@ -1,9 +1,8 @@
 #pragma once
 
 
-void laserHeadRR();
-void missleHL();
-void expolosion3();
-void expolosion4();
+void laserBeamR();
+void projectileL();
+void expolosion();
 void laserR();
 void gunL();

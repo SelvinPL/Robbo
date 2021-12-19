@@ -3,7 +3,7 @@
 const uint8_t const empty_group[1] = { tiles_trans_empty };
 const uint8_t const wall_group[15] = { tiles_trans_wall1, tiles_trans_wall2, tiles_trans_black_wall, tiles_trans_wall1, tiles_trans_wall1, tiles_trans_wall1 ,tiles_trans_wall1 ,tiles_trans_wall1 ,tiles_trans_wall1 ,tiles_trans_wall1 ,tiles_trans_wall1 ,tiles_trans_wall1 ,tiles_trans_wall1 ,tiles_trans_wall1 ,tiles_trans_wall1 };
 const uint8_t const teleport_group[10] = { tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport };
-const uint8_t const pickable_group[4] = { tiles_trans_pickable_screw, tiles_trans_pickable_bullet, tiles_trans_pickable_key, tiles_trans_pickable_extra_life };
+const uint8_t const pickable_group[4] = { tiles_trans_pickable_screw, tiles_trans_pickable_ammo, tiles_trans_pickable_key, tiles_trans_pickable_extra_life };
 const uint8_t const robbo_group[2] = { tiles_trans_robbo, tiles_trans_capsule };
 const uint8_t const shootable_group[3] = { tiles_trans_questionmark, tiles_trans_bomb, tiles_trans_ground };
 const uint8_t const box_group[5] = { tiles_trans_box_normal, tiles_trans_empty, tiles_trans_empty, tiles_trans_empty, tiles_trans_box_push };
