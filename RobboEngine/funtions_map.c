@@ -13,7 +13,7 @@ const function functions_map[] =
 	NULL, NULL, monsterRL, monsterRR, monsterRD, monsterRU,
 	monsterLL, monsterLR, monsterLD, monsterLU,
 	NULL, 
-	laserHeadRR, REFRESH2_ONLY, laserHeadRL, laserR, expolosion3, expolosion4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+	laserHeadRR, REFRESH2_ONLY, missleHL, laserR, expolosion3, expolosion4, gunL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
 	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
 	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
 	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,

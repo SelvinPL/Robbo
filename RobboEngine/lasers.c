@@ -4,14 +4,14 @@
 #include "fields.h"
 #include "hi_ram_globals.h"
 
-void laserHeadRL()
+void missleHL()
 {
 	if (animCounter & 1)
 	{
 		uint8_t* newMap = MAP_LEFT(mapPtr);
-		if (*newMap == LASER_HORIZONTAL_RAY)
+		if (*newMap == FIELD_EMPTY  || *newMap == LASER_HORIZONTAL_RAY)
 		{
-			*newMap = LASER_HORIZONTAL_HEAD_RIGHT_LEFT;
+			*newMap = HORIZONTAL_MISSLE_LEFT;
 			*mapPtr = FIELD_EMPTY;
 			if (doChanege)
 			{
@@ -35,14 +35,14 @@ void laserHeadRR()
 	if (animCounter & 1)
 	{
 		uint8_t* newMap = MAP_RIGHT(mapPtr);
-		if (*newMap == FIELD_EMPTY)
+		if (*newMap == FIELD_EMPTY && *(nextYTilesPtr + 1) == FIELD_NONE)
 		{
 			x_next_tile = LASER_HORIZONTAL_HEAD_RIGHT_RIGHT;
 			*mapPtr = LASER_HORIZONTAL_RAY;
 		}
 		else
 		{
-			*mapPtr = LASER_HORIZONTAL_HEAD_RIGHT_LEFT;
+			*mapPtr = HORIZONTAL_MISSLE_LEFT;
 		}
 	}
 }
@@ -61,9 +61,26 @@ void expolosion4()
 
 void laserR()
 {
-	uint8_t* newMap = MAP_RIGHT(mapPtr);
-	if (*newMap == FIELD_EMPTY && DIV_REG < 0x06)
+	//if (animCounter & 1)
 	{
-		x_next_tile = LASER_HORIZONTAL_HEAD_RIGHT_RIGHT;
+		uint8_t* newMap = MAP_RIGHT(mapPtr);
+		if (*newMap == FIELD_EMPTY && (DIV_REG < 18))
+		{
+			x_next_tile = LASER_HORIZONTAL_HEAD_RIGHT_RIGHT;
+		}
+	}
+}
+
+void gunL()
+{
+	uint8_t* newMap = MAP_LEFT(mapPtr);
+	if (*newMap == FIELD_EMPTY && (DIV_REG < 18))
+	{
+		*newMap = HORIZONTAL_MISSLE_LEFT;
+		if (doChanege)
+		{
+			*chanegesPtr++ = iterX - 1;
+			*chanegesPtr++ = iterY;
+		}
 	}
 }
