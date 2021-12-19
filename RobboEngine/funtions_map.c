@@ -1,7 +1,7 @@
 #include <types.h>
 #include "functions_map.h"
 #include "monsters.h"
-#include "lasers.h"
+#include "guns.h"
 
 #define REFRESH1_ONLY ((function)(0x0001))
 #define REFRESH2_ONLY ((function)(0x0002))

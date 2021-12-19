@@ -36,10 +36,10 @@
     <ClCompile Include="funtions_map.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="lasers.c">
+    <ClCompile Include="levels_data.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="levels_data.c">
+    <ClCompile Include="guns.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -67,10 +67,10 @@
     <ClInclude Include="hi_ram_globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="lasers.h">
+    <ClInclude Include="levels_data.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="levels_data.h">
+    <ClInclude Include="guns.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
