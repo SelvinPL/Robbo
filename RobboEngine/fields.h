@@ -68,6 +68,10 @@
 #define	FIELD_LASER_BEAM_R			0x54 //T
 #define	FIELD_LASER_BEAM_U			0x55 //U
 #define	FIELD_LASER_BEAM_D			0x56 //V
+#define	FIELD_BLASTER_HEAD_L		0x57 //W
+#define	FIELD_BLASTER_HEAD_R		0x58 //X
+#define	FIELD_BLASTER_HEAD_U		0x59 //Y
+#define	FIELD_BLASTER_HEAD_D		0x5a //Z
 
 #define	FIELD_LASER_VERTICAL_RAY	0x5b
 #define	FIELD_WALL2					0x5c
@@ -84,6 +88,3 @@
 
 #define	FIELD_DOOR2					0x7c
 #define	FIELD_WALL					0xa0
-
-#define AA ']'
-#define BB '['

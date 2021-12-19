@@ -22,13 +22,9 @@ void projectileL()
 				*chanegesPtr++ = iterY;
 			}
 		}
-		else if (*newMap != FIELD_EMPTY)
-		{
-			*mapPtr = FIELD_EXPLOSION6;
-		}
 		else
 		{
-			*mapPtr = FIELD_EMPTY;
+			*mapPtr = FIELD_EXPLOSION6;
 		}
 	}
 }
@@ -43,13 +39,9 @@ void projectileR()
 			nextXTile = FIELD_PROJECTILE_R;
 			*mapPtr = FIELD_EMPTY;
 		}
-		else if (*newMap != FIELD_EMPTY)
-		{
-			*mapPtr = FIELD_EXPLOSION6;
-		}
 		else
 		{
-			*mapPtr = FIELD_EMPTY;
+			*mapPtr = FIELD_EXPLOSION6;
 		}
 	}
 }
@@ -147,5 +139,67 @@ void gunR()
 	if (*newMap == FIELD_EMPTY && *(nextYTilesPtr + 1) == FIELD_NONE && RND())
 	{
 		nextXTile = FIELD_PROJECTILE_R;
+	}
+}
+
+void blasterHeadL()
+{
+	if (animCounter & 1)
+	{
+		uint8_t* newMap = MAP_LEFT(mapPtr);
+		if (*newMap == FIELD_EMPTY)
+		{
+			*newMap = FIELD_BLASTER_HEAD_L;
+			*mapPtr = FIELD_EXPLOSION2;
+			if (doChanege)
+			{
+				*chanegesPtr++ = iterX - 1;
+				*chanegesPtr++ = iterY;
+			}
+		}
+		else
+		{
+			*mapPtr = FIELD_EXPLOSION2;
+		}
+	}
+}
+
+void blasterHeadR()
+{
+	if (animCounter & 1)
+	{
+		uint8_t* newMap = MAP_RIGHT(mapPtr);
+		if (*newMap == FIELD_EMPTY && *(nextYTilesPtr + 1) == FIELD_NONE)
+		{
+			nextXTile = FIELD_BLASTER_HEAD_R;
+			*mapPtr = FIELD_EXPLOSION2;
+		}
+		else
+		{
+			*mapPtr = FIELD_EXPLOSION2;
+		}
+	}
+}
+
+void blasterL()
+{
+	uint8_t* newMap = MAP_LEFT(mapPtr);
+	if (*newMap == FIELD_EMPTY && RND())
+	{
+		*newMap = FIELD_BLASTER_HEAD_L;
+		if (doChanege)
+		{
+			*chanegesPtr++ = iterX - 1;
+			*chanegesPtr++ = iterY;
+		}
+	}
+}
+
+void blasterR()
+{
+	uint8_t* newMap = MAP_RIGHT(mapPtr);
+	if (*newMap == FIELD_EMPTY && *(nextYTilesPtr + 1) == FIELD_NONE && RND())
+	{
+		nextXTile = FIELD_BLASTER_HEAD_R;
 	}
 }

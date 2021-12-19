@@ -244,7 +244,7 @@ void main()
 	
 	uint8_t current = _current_bank;
 	SWITCH_ROM_MBC1((uint8_t)&__bank_levels_data);
-	gb_decompress(levels[18-1], map);
+	gb_decompress(levels[49-1], map);
 	SWITCH_ROM_MBC1(current);
 
 	uint8_t* mapee = map + 496;

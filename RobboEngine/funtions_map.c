@@ -8,7 +8,7 @@
 
 const function functions_map[] =
 {
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, //0
+	NULL, blasterR, NULL, NULL, blasterL, NULL, NULL, NULL, //0
 	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
 
 	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, //1
@@ -23,8 +23,8 @@ const function functions_map[] =
 	NULL, monsterLL, monsterLR, monsterLU, monsterLD, monsterRL, monsterRR, monsterRU, //4
 	monsterRD, NULL, NULL, NULL, NULL, NULL, NULL, projectileL,
 
-	projectileR, NULL, NULL, laserBeamL, laserBeamR, NULL, NULL, NULL, //5
-	NULL, NULL, NULL, NULL, NULL, REFRESH2_ONLY, NULL, NULL,
+	projectileR, NULL, NULL, laserBeamL, laserBeamR, NULL, NULL, blasterHeadL, //5
+	blasterHeadR, NULL, NULL, NULL, NULL, REFRESH2_ONLY, NULL, NULL,
 
 	NULL, expolosion, expolosion, expolosion, expolosion, expolosion, expolosion, expolosion,
 	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,

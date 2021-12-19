@@ -10,3 +10,7 @@ void laserL();
 void laserR();
 void gunL();
 void gunR();
+void blasterHeadL();
+void blasterL();
+void blasterHeadR();
+void blasterR();
