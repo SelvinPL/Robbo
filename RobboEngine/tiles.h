@@ -44,14 +44,14 @@ extern const uint8_t* const CAPSULE_STATE[2];
 #define tiles_trans_teleport			0x58
 #define tiles_trans_force_field			0x5c
 
-#define tiles_trans_mob_bird2			0xc0
-#define tiles_trans_mob_bird_shooting2	0xc4
-#define tiles_trans_mob_right2			0xc8
-#define tiles_trans_mob_left2			0xcc
-#define tiles_trans_mob_eyes2			0xd0
-#define tiles_trans_capsule2			0xd4
-#define tiles_trans_teleport2			0xd8
-#define tiles_trans_force_field2		0xdc
+#define tiles_trans_mob_bird2			0xb0
+#define tiles_trans_mob_bird_shooting2	0xb4
+#define tiles_trans_mob_right2			0xb8
+#define tiles_trans_mob_left2			0xbc
+#define tiles_trans_mob_eyes2			0xc0
+#define tiles_trans_capsule2			0xc4
+#define tiles_trans_teleport2			0xc8
+#define tiles_trans_force_field2		0xcc
 
 #define tiles_trans_robbo				0xac
 #define tiles_trans_robbo_r				0xe0

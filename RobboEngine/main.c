@@ -29,28 +29,28 @@ void mapIteration()
 			{
 				continue;
 			}
+			else  if (*nextYTilesPtr != FIELD_NONE)
+			{
+				*mapPtr = *nextYTilesPtr;
+				*nextYTilesPtr = FIELD_NONE;
+				if (doChanege)
+				{
+					*chanegesPtr++ = iterX;
+					*chanegesPtr++ = iterY;
+				}
+			}
+			else if (nextXTile != FIELD_NONE)
+			{
+				*mapPtr = nextXTile;
+				nextXTile = FIELD_NONE;
+				if (doChanege)
+				{
+					*chanegesPtr++ = iterX;
+					*chanegesPtr++ = iterY;
+				}
+			}
 			else if (*mapPtr == FIELD_EMPTY)
 			{
-				if (*nextYTilesPtr != FIELD_NONE)
-				{
-					*mapPtr = *nextYTilesPtr;
-					*nextYTilesPtr = FIELD_NONE;
-					if (doChanege)
-					{
-						*chanegesPtr++ = iterX;
-						*chanegesPtr++ = iterY;
-					}
-				}
-				else if (x_next_tile != FIELD_NONE)
-				{
-					*mapPtr = x_next_tile;
-					x_next_tile = FIELD_NONE;
-					if (doChanege)
-					{
-						*chanegesPtr++ = iterX;
-						*chanegesPtr++ = iterY;
-					}
-				}
 				continue;
 			}
 			else
@@ -244,7 +244,7 @@ void main()
 	
 	uint8_t current = _current_bank;
 	SWITCH_ROM_MBC1((uint8_t)&__bank_levels_data);
-	gb_decompress(levels[10], map);
+	gb_decompress(levels[18-1], map);
 	SWITCH_ROM_MBC1(current);
 
 	uint8_t* mapee = map + 496;
@@ -253,21 +253,22 @@ void main()
 
 	SHOW_BKG;
 	set_bkg_data(0, 172, map_tiles);
-	set_bkg_data(tiles_trans_mob_bird2, 32, map_tiles + tiles_trans_mob_bird2 * 16);
-
+	set_bkg_data(tiles_trans_mob_bird2, 32, map_tiles + (tiles_trans_mob_bird2 + 0x10) * 0x10 );
+	set_bkg_data(tiles_trans_robbo, 4u, &map_tiles[tiles_trans_robbo_d * 0x10]);
 	memset(nextYTiles, FIELD_NONE, 16);
 	animCounter = 0;
 	map_to_tiles = map_to_tiles1;
 	//map_pos_x = 3;
 	//map_pos_y = 9;
 	map_pos_x = 0;
-	map_pos_y = 22;
+	//map_pos_y = 22;
+	map_pos_y = 8;
 	counter = 255;
 	slideX = 0;
 	slideY = 0;
 	changeYstart = 0;
 	changeYend = 6;
-	x_next_tile = FIELD_NONE;
+	nextXTile = FIELD_NONE;
 	mapPtr = map - 1;
 	*chaneges = 0xff;
 	SCX_REG = map_pos_x * 16;

@@ -32,7 +32,7 @@ void monsterRR()
 	if (*newMap == FIELD_EMPTY && *(nextYTilesPtr+1) == FIELD_NONE)
 	{
 		*mapPtr = FIELD_EMPTY;
-		x_next_tile = FIELD_MONSTER_RIGHT_D;
+		nextXTile = FIELD_MONSTER_RIGHT_D;
 	}
 	else
 	{
@@ -99,7 +99,7 @@ void monsterLR()
 	if (*newMap == FIELD_EMPTY && *(nextYTilesPtr+1) == FIELD_NONE)
 	{
 		*mapPtr = FIELD_EMPTY;
-		x_next_tile = FIELD_MONSTER_LEFT_U;
+		nextXTile = FIELD_MONSTER_LEFT_U;
 	}
 	else
 	{
