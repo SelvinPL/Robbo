@@ -1,10 +1,17 @@
 #pragma once
 
-extern void monsterRL();
-extern void monsterRR();
-extern void monsterRD();
-extern void monsterRU();
-extern void monsterLL();
-extern void monsterLR();
-extern void monsterLD();
-extern void monsterLU();
+void monsterLL();
+void monsterLR();
+void monsterLU();
+void monsterLD();
+void monsterRL();
+void monsterRR();
+void monsterRU();
+void monsterRD();
+void birdL();
+void birdR();
+void birdU();
+void birdD();
+void shootingL();
+void shootingR();
+void eyes();

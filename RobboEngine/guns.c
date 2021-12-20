@@ -4,6 +4,7 @@
 #include "fields.h"
 #include "hi_ram_globals.h"
 #include <rand.h>
+#include "iteration.h"
 
 #define RND() (((uint8_t)rand()) < 18)
 
@@ -16,11 +17,7 @@ void projectileL()
 		{
 			*newMap = FIELD_PROJECTILE_L;
 			*mapPtr = FIELD_EMPTY;
-			if (doChanege)
-			{
-				*chanegesPtr++ = iterX - 1;
-				*chanegesPtr++ = iterY;
-			}
+			changeLeft();
 		}
 		else
 		{
@@ -46,6 +43,41 @@ void projectileR()
 	}
 }
 
+void projectileU()
+{
+	if (animCounter & 1)
+	{
+		uint8_t* newMap = MAP_UP(mapPtr);
+		if (*newMap == FIELD_EMPTY || *newMap == FIELD_LASER_VERTICAL_RAY)
+		{
+			*newMap = FIELD_PROJECTILE_U;
+			*mapPtr = FIELD_EMPTY;
+			changeUp();
+		}
+		else
+		{
+			*mapPtr = FIELD_EXPLOSION6;
+		}
+	}
+}
+
+void projectileD()
+{
+	if (animCounter & 1)
+	{
+		uint8_t* newMap = MAP_DOWN(mapPtr);
+		if (*newMap == FIELD_EMPTY || *newMap == FIELD_LASER_VERTICAL_RAY)
+		{
+			*nextYTilesPtr = FIELD_PROJECTILE_D;
+			*mapPtr = FIELD_EMPTY;
+		}
+		else
+		{
+			*mapPtr = FIELD_EXPLOSION6;
+		}
+	}
+}
+
 void laserBeamL()
 {
 	if (animCounter & 1)
@@ -55,11 +87,7 @@ void laserBeamL()
 		{
 			*newMap = FIELD_LASER_BEAM_L;
 			*mapPtr = FIELD_LASER_HORIZONTAL_RAY;
-			if (doChanege)
-			{
-				*chanegesPtr++ = iterX - 1;
-				*chanegesPtr++ = iterY;
-			}
+			changeLeft();
 		}
 		else
 		{
@@ -85,6 +113,41 @@ void laserBeamR()
 	}
 }
 
+void laserBeamU()
+{
+	if (animCounter & 1)
+	{
+		uint8_t* newMap = MAP_UP(mapPtr);
+		if (*newMap == FIELD_EMPTY)
+		{
+			*newMap = FIELD_LASER_BEAM_U;
+			*mapPtr = FIELD_LASER_VERTICAL_RAY;
+			changeUp();
+		}
+		else
+		{
+			*mapPtr = FIELD_PROJECTILE_D;
+		}
+	}
+}
+
+void laserBeamD()
+{
+	if (animCounter & 1)
+	{
+		uint8_t* newMap = MAP_DOWN(mapPtr);
+		if (*newMap == FIELD_EMPTY)
+		{
+			*nextYTilesPtr = FIELD_LASER_BEAM_D;
+			*mapPtr = FIELD_LASER_VERTICAL_RAY;
+		}
+		else
+		{
+			*mapPtr = FIELD_PROJECTILE_U;
+		}
+	}
+}
+
 void expolosion()
 {
 	if (animCounter & 1)
@@ -102,11 +165,7 @@ void laserL()
 	if (*newMap == FIELD_EMPTY && RND())
 	{
 		*newMap = FIELD_LASER_BEAM_L;
-		if (doChanege)
-		{
-			*chanegesPtr++ = iterX - 1;
-			*chanegesPtr++ = iterY;
-		}
+		changeLeft();
 	}
 }
 
@@ -119,17 +178,32 @@ void laserR()
 	}
 }
 
+void laserU()
+{
+	uint8_t* newMap = MAP_LEFT(mapPtr);
+	if (*newMap == FIELD_EMPTY && RND())
+	{
+		*newMap = FIELD_LASER_BEAM_U;
+		changeUp();
+	}
+}
+
+void laserD()
+{
+	uint8_t* newMap = MAP_RIGHT(mapPtr);
+	if (*newMap == FIELD_EMPTY && RND())
+	{
+		*nextYTilesPtr = FIELD_LASER_BEAM_D;
+	}
+}
+
 void gunL()
 {
 	uint8_t* newMap = MAP_LEFT(mapPtr);
 	if (*newMap == FIELD_EMPTY && RND())
 	{
 		*newMap = FIELD_PROJECTILE_L;
-		if (doChanege)
-		{
-			*chanegesPtr++ = iterX - 1;
-			*chanegesPtr++ = iterY;
-		}
+		changeLeft();
 	}
 }
 
@@ -142,6 +216,25 @@ void gunR()
 	}
 }
 
+void gunU()
+{
+	uint8_t* newMap = MAP_UP(mapPtr);
+	if (*newMap == FIELD_EMPTY && RND())
+	{
+		*newMap = FIELD_PROJECTILE_U;
+		changeUp();
+	}
+}
+
+void gunD()
+{
+	uint8_t* newMap = MAP_DOWN(mapPtr);
+	if (*newMap == FIELD_EMPTY && RND())
+	{
+		*nextYTilesPtr = FIELD_PROJECTILE_D;
+	}
+}
+
 void blasterHeadL()
 {
 	if (animCounter & 1)
@@ -151,11 +244,7 @@ void blasterHeadL()
 		{
 			*newMap = FIELD_BLASTER_HEAD_L;
 			*mapPtr = FIELD_EXPLOSION2;
-			if (doChanege)
-			{
-				*chanegesPtr++ = iterX - 1;
-				*chanegesPtr++ = iterY;
-			}
+			changeLeft();
 		}
 		else
 		{
@@ -181,17 +270,49 @@ void blasterHeadR()
 	}
 }
 
+void blasterHeadU()
+{
+	if (animCounter & 1)
+	{
+		uint8_t* newMap = MAP_UP(mapPtr);
+		if (*newMap == FIELD_EMPTY)
+		{
+			*newMap = FIELD_BLASTER_HEAD_U;
+			*mapPtr = FIELD_EXPLOSION2;
+			changeUp();
+		}
+		else
+		{
+			*mapPtr = FIELD_EXPLOSION2;
+		}
+	}
+}
+
+void blasterHeadD()
+{
+	if (animCounter & 1)
+	{
+		uint8_t* newMap = MAP_DOWN(mapPtr);
+		if (*newMap == FIELD_EMPTY)
+		{
+			*nextYTilesPtr = FIELD_BLASTER_HEAD_D;
+			*mapPtr = FIELD_EXPLOSION2;
+		}
+		else
+		{
+			*mapPtr = FIELD_EXPLOSION2;
+		}
+	}
+}
+
+
 void blasterL()
 {
 	uint8_t* newMap = MAP_LEFT(mapPtr);
 	if (*newMap == FIELD_EMPTY && RND())
 	{
 		*newMap = FIELD_BLASTER_HEAD_L;
-		if (doChanege)
-		{
-			*chanegesPtr++ = iterX - 1;
-			*chanegesPtr++ = iterY;
-		}
+		changeLeft();
 	}
 }
 
@@ -201,5 +322,24 @@ void blasterR()
 	if (*newMap == FIELD_EMPTY && *(nextYTilesPtr + 1) == FIELD_NONE && RND())
 	{
 		nextXTile = FIELD_BLASTER_HEAD_R;
+	}
+}
+
+void blasterU()
+{
+	uint8_t* newMap = MAP_UP(mapPtr);
+	if (*newMap == FIELD_EMPTY && RND())
+	{
+		*newMap = FIELD_BLASTER_HEAD_U;
+		changeUp();
+	}
+}
+
+void blasterD()
+{
+	uint8_t* newMap = MAP_DOWN(mapPtr);
+	if (*newMap == FIELD_EMPTY && RND())
+	{
+		*nextYTilesPtr = FIELD_BLASTER_HEAD_D;
 	}
 }

@@ -64,6 +64,7 @@
     <ClInclude Include="functions_map.h" />
     <ClInclude Include="guns.h" />
     <ClInclude Include="hi_ram_globals.h" />
+    <ClInclude Include="iteration.h" />
     <ClInclude Include="levels_data.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="monsters.h" />

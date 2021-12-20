@@ -11,7 +11,7 @@
 
 extern uint8_t chaneges[];
 
-#define BETWEEN(n, start, end) (((n)>=((uint8_t)(start))) && ((n)<=((uint8_t)(end))))
+#define BETWEEN(n, start, end) (((n)>=((uint8_t)(start))) && ((n)<((uint8_t)(end))))
 
 extern void set_bkg_tile_xy_2(uint8_t x, uint8_t y, uint8_t t) OLDCALL;
 
@@ -20,7 +20,7 @@ void mapIteration()
 	chanegesPtr = chaneges;
 	for (iterY = changeYstart; iterY < changeYend; iterY++)
 	{
-		doChanege = BETWEEN(iterY, map_pos_y == 0 ? 0 : map_pos_y - 1,  map_pos_y + 9);
+		doChanege = BETWEEN(iterY, map_pos_y == 0 ? 0 : map_pos_y - 1,  map_pos_y + 10);
 		nextYTilesPtr = nextYTiles - 1;
 		for (iterX = 0; iterX < 16; iterX++)
 		{
@@ -79,7 +79,7 @@ void mapIteration()
 						}
 						break;
 					default:
-						break;
+						continue;
 					}
 				}
 				else
@@ -196,7 +196,7 @@ void incrementCounter()
 	else if (counter == 4)
 	{
 		changeYstart = 24;
-		changeYend = 31;
+		changeYend = 32;
 		if (slideX)
 		{
 			SCX_REG += slideX;
@@ -244,7 +244,7 @@ void main()
 	
 	uint8_t current = _current_bank;
 	SWITCH_ROM_MBC1((uint8_t)&__bank_levels_data);
-	gb_decompress(levels[49-1], map);
+	gb_decompress(levels[34-1], map);
 	SWITCH_ROM_MBC1(current);
 
 	uint8_t* mapee = map + 496;
@@ -256,7 +256,7 @@ void main()
 	set_bkg_data(tiles_trans_mob_bird2, 32, map_tiles + (tiles_trans_mob_bird2 + 0x10) * 0x10 );
 	set_bkg_data(tiles_trans_robbo, 4u, &map_tiles[tiles_trans_robbo_d * 0x10]);
 	memset(nextYTiles, FIELD_NONE, 16);
-	animCounter = 0;
+	animCounter = 7;
 	map_to_tiles = map_to_tiles1;
 	//map_pos_x = 3;
 	//map_pos_y = 9;

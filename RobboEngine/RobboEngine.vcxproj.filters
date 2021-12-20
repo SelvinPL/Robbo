@@ -73,5 +73,8 @@
     <ClInclude Include="guns.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="iteration.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
