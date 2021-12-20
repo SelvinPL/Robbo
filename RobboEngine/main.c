@@ -1,12 +1,13 @@
 ﻿#include <gb/gb.h>
 #include <string.h>
 #include <gb/cgb.h>
+#include <stdbool.h>
+#include <gb/gbdecompress.h>
 #include "fields.h"
 #include "functions_map.h"
 #include "map.h"
 #include "globals.h"
 #include "levels_data.h"
-#include <gb/gbdecompress.h>
 #include "tiles.h"
 
 extern uint8_t chaneges[];
@@ -56,6 +57,7 @@ void mapIteration()
 			else
 			{
 				function function = functions_map[*mapPtr];
+				//uint8_t hi = (((uint16_t)function) >> 8) && 0xff;
 				uint8_t hi = (((uint16_t)function) >> 8) && 0xff;
 				if (hi == 0)
 				{
@@ -84,8 +86,7 @@ void mapIteration()
 				}
 				else
 				{
-					function();
-					if (doChanege)
+					if (function() && doChanege)
 					{
 						*chanegesPtr++ = iterX;
 						*chanegesPtr++ = iterY;
@@ -138,31 +139,10 @@ void incrementCounter()
 	{
 		changeYstart = 6;
 		changeYend = 12;
-		if ((padState & J_LEFT) && map_pos_x > 0)
-		{
-			map_pos_x--;
-			slideX = -4;
-			SCX_REG -= 4;
-		}
-		else if ((padState & J_RIGHT) && map_pos_x < 6)
-		{
-			map_pos_x++;
-			slideX = 4;
-			SCX_REG += 4;
-		} 
-		else if ((padState & J_UP) && map_pos_y > 0)
-		{
-			slideY = -4;
-			SCY_REG -= 4;
-			map_pos_y--;
-
-		}
-		else if ((padState & J_DOWN) && map_pos_y < (32 - 9))
-		{
-			slideY = 4;
-			SCY_REG += 4;
-			map_pos_y++;
-		}
+		if (slideX)
+			SCX_REG += slideX;
+		if (slideY)
+			SCY_REG += slideY;
 	}
 	else if (counter == 2)
 	{
@@ -203,9 +183,15 @@ void incrementCounter()
 		changeYstart = 18;
 		changeYend = 24;
 		if (slideX)
+		{
 			SCX_REG += slideX;
+			slideX = (int8_t)((((uint8_t)slideX) + 1) & 0b11111100); //works only fo 3 to 4 and -3 to - 4
+		}
 		if (slideY)
+		{
 			SCY_REG += slideY;
+			slideY = (int8_t)((((uint8_t)slideY) + 1) & 0b11111100);
+		}
 	}
 	else if (counter == 4)
 	{
@@ -247,6 +233,31 @@ void incrementCounter()
 			map_to_tiles = map_to_tiles1;
 			animCounter = 0;
 		}
+		if ((padState & J_LEFT) && map_pos_x > 0)
+		{
+			map_pos_x--;
+			slideX = -3;
+			SCX_REG -= 3;
+		}
+		else if ((padState & J_RIGHT) && map_pos_x < 6)
+		{
+			map_pos_x++;
+			slideX = 3;
+			SCX_REG += 3;
+		}
+		else if ((padState & J_UP) && map_pos_y > 0)
+		{
+			slideY = -3;
+			SCY_REG -= 3;
+			map_pos_y--;
+
+		}
+		else if ((padState & J_DOWN) && map_pos_y < (32 - 9))
+		{
+			slideY = 3;
+			SCY_REG += 3;
+			map_pos_y++;
+		}
 		if (padState & J_B)
 		{
 			uint8_t newLevel = lvl - 1;
@@ -280,7 +291,7 @@ void main()
 	map_pos_x = 0;
 	map_pos_y = 8;
 
-	lvl = 34;
+	lvl = 1;
 	setupLevel();
 	SHOW_BKG;
 	animCounter = 7;
@@ -296,7 +307,7 @@ void main()
 	SCY_REG = map_pos_y * 16;
 	DISPLAY_ON;
 	wait_vbl_done();
-	while (TRUE)
+	while (true)
 	{
 		padState = joypad();
 		mapIteration();

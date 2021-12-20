@@ -1,10 +1,10 @@
 #include <types.h>
+#include <stdbool.h>
+#include "globals.h"
 #include "functions_map.h"
 #include "monsters.h"
 #include "guns.h"
 
-#define REFRESH1_ONLY ((function)(0x0001))
-#define REFRESH2_ONLY ((function)(0x0002))
 
 const function functions_map[] =
 {
@@ -17,14 +17,14 @@ const function functions_map[] =
 	NULL, NULL, NULL, NULL, NULL, NULL, eyes, laserD, //2
 	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
 
-	REFRESH2_ONLY, REFRESH2_ONLY, REFRESH2_ONLY, REFRESH2_ONLY, REFRESH2_ONLY, REFRESH2_ONLY, REFRESH2_ONLY, REFRESH2_ONLY, //3
-	REFRESH2_ONLY, REFRESH2_ONLY, NULL, NULL, laserL, NULL, laserR, NULL,
+	refreshEvery2, refreshEvery2, refreshEvery2, refreshEvery2, refreshEvery2, refreshEvery2, refreshEvery2, refreshEvery2, //3
+	refreshEvery2, refreshEvery2, NULL, NULL, laserL, NULL, laserR, NULL,
 
 	NULL, monsterLL, monsterLR, monsterLU, monsterLD, monsterRL, monsterRR, monsterRU, //4
 	monsterRD, birdL, birdR, birdU, birdD, shootingL, shootingR, projectileL,
 
 	projectileR, projectileU, projectileD, laserBeamL, laserBeamR, laserBeamU, laserBeamD, blasterHeadL, //5
-	blasterHeadR, blasterHeadU, blasterHeadD, REFRESH2_ONLY, NULL, REFRESH2_ONLY, laserU, NULL,
+	blasterHeadR, blasterHeadU, blasterHeadD, refreshEvery2, NULL, refreshEvery2, laserU, NULL,
 
 	NULL, expolosion, expolosion, expolosion, expolosion, expolosion, expolosion, expolosion,
 	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
@@ -41,3 +41,8 @@ const function functions_map[] =
 	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
 	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
 };
+
+bool refreshEvery2()
+{
+	return animCounter & 1;
+}

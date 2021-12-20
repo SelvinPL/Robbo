@@ -1,14 +1,16 @@
 #include <stdint.h>
+#include <stdbool.h>
 #include <gb/gb.h>
+#include <rand.h>
 #include "map.h"
 #include "fields.h"
 #include "globals.h"
-#include <rand.h>
 #include "iteration.h"
+
 
 #define RND() (((uint8_t)rand()) < 18)
 
-void projectileL()
+bool projectileL()
 {
 	if (animCounter & 1)
 	{
@@ -23,10 +25,12 @@ void projectileL()
 		{
 			*mapPtr = FIELD_EXPLOSION6;
 		}
+		return true;
 	}
+	return false;
 }
 
-void projectileR()
+bool projectileR()
 {
 	if (animCounter & 1)
 	{
@@ -40,10 +44,12 @@ void projectileR()
 		{
 			*mapPtr = FIELD_EXPLOSION6;
 		}
+		return true;
 	}
+	return false;
 }
 
-void projectileU()
+bool projectileU()
 {
 	if (animCounter & 1)
 	{
@@ -58,10 +64,12 @@ void projectileU()
 		{
 			*mapPtr = FIELD_EXPLOSION6;
 		}
+		return true;
 	}
+	return false;
 }
 
-void projectileD()
+bool projectileD()
 {
 	if (animCounter & 1)
 	{
@@ -75,10 +83,12 @@ void projectileD()
 		{
 			*mapPtr = FIELD_EXPLOSION6;
 		}
+		return true;
 	}
+	return false;
 }
 
-void laserBeamL()
+bool laserBeamL()
 {
 	if (animCounter & 1)
 	{
@@ -93,10 +103,12 @@ void laserBeamL()
 		{
 			*mapPtr = FIELD_PROJECTILE_R;
 		}
+		return true;
 	}
+	return false;
 }
 
-void laserBeamR()
+bool laserBeamR()
 {
 	if (animCounter & 1)
 	{
@@ -110,10 +122,12 @@ void laserBeamR()
 		{
 			*mapPtr = FIELD_PROJECTILE_L;
 		}
+		return true;
 	}
+	return false;
 }
 
-void laserBeamU()
+bool laserBeamU()
 {
 	if (animCounter & 1)
 	{
@@ -128,10 +142,12 @@ void laserBeamU()
 		{
 			*mapPtr = FIELD_PROJECTILE_D;
 		}
+		return true;
 	}
+	return false;
 }
 
-void laserBeamD()
+bool laserBeamD()
 {
 	if (animCounter & 1)
 	{
@@ -145,10 +161,12 @@ void laserBeamD()
 		{
 			*mapPtr = FIELD_PROJECTILE_U;
 		}
+		return true;
 	}
+	return false;
 }
 
-void expolosion()
+bool expolosion()
 {
 	if (animCounter & 1)
 	{
@@ -156,10 +174,12 @@ void expolosion()
 			*mapPtr = FIELD_EMPTY;
 		else
 			(*mapPtr)++;
+		return true;
 	}
+	return false;
 }
 
-void laserL()
+bool laserL()
 {
 	uint8_t* newMap = MAP_LEFT(mapPtr);
 	if (*newMap == FIELD_EMPTY && RND())
@@ -167,18 +187,20 @@ void laserL()
 		*newMap = FIELD_LASER_BEAM_L;
 		changeLeft();
 	}
+	return false;
 }
 
-void laserR()
+bool laserR()
 {
 	uint8_t* newMap = MAP_RIGHT(mapPtr);
 	if (*newMap == FIELD_EMPTY && *(nextYTilesPtr + 1) == FIELD_NONE && RND())
 	{
 		nextXTile = FIELD_LASER_BEAM_R;
 	}
+	return false;
 }
 
-void laserU()
+bool laserU()
 {
 	uint8_t* newMap = MAP_UP(mapPtr);
 	if (*newMap == FIELD_EMPTY && RND())
@@ -186,18 +208,20 @@ void laserU()
 		*newMap = FIELD_LASER_BEAM_U;
 		changeUp();
 	}
+	return false;
 }
 
-void laserD()
+bool laserD()
 {
 	uint8_t* newMap = MAP_DOWN(mapPtr);
 	if (*newMap == FIELD_EMPTY && RND())
 	{
 		*nextYTilesPtr = FIELD_LASER_BEAM_D;
 	}
+	return false;
 }
 
-void gunL()
+bool gunL()
 {
 	uint8_t* newMap = MAP_LEFT(mapPtr);
 	if (*newMap == FIELD_EMPTY && RND())
@@ -205,18 +229,20 @@ void gunL()
 		*newMap = FIELD_PROJECTILE_L;
 		changeLeft();
 	}
+	return false;
 }
 
-void gunR()
+bool gunR()
 {
 	uint8_t* newMap = MAP_RIGHT(mapPtr);
 	if (*newMap == FIELD_EMPTY && *(nextYTilesPtr + 1) == FIELD_NONE && RND())
 	{
 		nextXTile = FIELD_PROJECTILE_R;
 	}
+	return false;
 }
 
-void gunU()
+bool gunU()
 {
 	uint8_t* newMap = MAP_UP(mapPtr);
 	if (*newMap == FIELD_EMPTY && RND())
@@ -224,18 +250,20 @@ void gunU()
 		*newMap = FIELD_PROJECTILE_U;
 		changeUp();
 	}
+	return false;
 }
 
-void gunD()
+bool gunD()
 {
 	uint8_t* newMap = MAP_DOWN(mapPtr);
 	if (*newMap == FIELD_EMPTY && RND())
 	{
 		*nextYTilesPtr = FIELD_PROJECTILE_D;
 	}
+	return false;
 }
 
-void blasterHeadL()
+bool blasterHeadL()
 {
 	if (animCounter & 1)
 	{
@@ -250,10 +278,12 @@ void blasterHeadL()
 		{
 			*mapPtr = FIELD_EXPLOSION2;
 		}
+		return true;
 	}
+	return false;
 }
 
-void blasterHeadR()
+bool blasterHeadR()
 {
 	if (animCounter & 1)
 	{
@@ -267,10 +297,12 @@ void blasterHeadR()
 		{
 			*mapPtr = FIELD_EXPLOSION2;
 		}
+		return true;
 	}
+	return false;
 }
 
-void blasterHeadU()
+bool blasterHeadU()
 {
 	if (animCounter & 1)
 	{
@@ -285,10 +317,12 @@ void blasterHeadU()
 		{
 			*mapPtr = FIELD_EXPLOSION2;
 		}
+		return true;
 	}
+	return false;
 }
 
-void blasterHeadD()
+bool blasterHeadD()
 {
 	if (animCounter & 1)
 	{
@@ -302,11 +336,13 @@ void blasterHeadD()
 		{
 			*mapPtr = FIELD_EXPLOSION2;
 		}
+		return true;
 	}
+	return false;
 }
 
 
-void blasterL()
+bool blasterL()
 {
 	uint8_t* newMap = MAP_LEFT(mapPtr);
 	if (*newMap == FIELD_EMPTY && RND())
@@ -314,18 +350,20 @@ void blasterL()
 		*newMap = FIELD_BLASTER_HEAD_L;
 		changeLeft();
 	}
+	return false;
 }
 
-void blasterR()
+bool blasterR()
 {
 	uint8_t* newMap = MAP_RIGHT(mapPtr);
 	if (*newMap == FIELD_EMPTY && *(nextYTilesPtr + 1) == FIELD_NONE && RND())
 	{
 		nextXTile = FIELD_BLASTER_HEAD_R;
 	}
+	return false;
 }
 
-void blasterU()
+bool blasterU()
 {
 	uint8_t* newMap = MAP_UP(mapPtr);
 	if (*newMap == FIELD_EMPTY && RND())
@@ -333,13 +371,15 @@ void blasterU()
 		*newMap = FIELD_BLASTER_HEAD_U;
 		changeUp();
 	}
+	return false;
 }
 
-void blasterD()
+bool blasterD()
 {
 	uint8_t* newMap = MAP_DOWN(mapPtr);
 	if (*newMap == FIELD_EMPTY && RND())
 	{
 		*nextYTilesPtr = FIELD_BLASTER_HEAD_D;
 	}
+	return false;
 }

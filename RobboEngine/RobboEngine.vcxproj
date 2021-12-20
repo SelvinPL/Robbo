@@ -14,13 +14,13 @@
   <Import Project="$(MSBuildExtensionsPath)\SDCC\SDCC.Common.targets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <GameBoyRomBankCount>4</GameBoyRomBankCount>
+    <GameBoyRomBankCount>3</GameBoyRomBankCount>
     <GameBoyMemoryBankController>17</GameBoyMemoryBankController>
     <GameBoyColor>
     </GameBoyColor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <GameBoyRomBankCount>4</GameBoyRomBankCount>
+    <GameBoyRomBankCount>3</GameBoyRomBankCount>
     <GameBoyMemoryBankController>17</GameBoyMemoryBankController>
     <GameBoyColor>
     </GameBoyColor>

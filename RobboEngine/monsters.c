@@ -1,13 +1,14 @@
 #include <stdint.h>
+#include <stdbool.h>
+#include <rand.h>
 #include "map.h"
 #include "fields.h"
 #include "globals.h"
-#include <rand.h>
 #include "iteration.h"
 
 #define RND() (((uint8_t)rand()) < 18)
 
-void monsterLL()
+bool monsterLL()
 {
 	uint8_t* newMap = MAP_LEFT(mapPtr);
 	if (*newMap == FIELD_EMPTY)
@@ -20,9 +21,10 @@ void monsterLL()
 	{
 		*mapPtr = FIELD_MONSTER_LEFT_U;
 	}
+	return true;
 }
 
-void monsterLR()
+bool monsterLR()
 {
 	uint8_t* newMap = MAP_RIGHT(mapPtr);
 	if (*newMap == FIELD_EMPTY && *(nextYTilesPtr + 1) == FIELD_NONE)
@@ -34,9 +36,10 @@ void monsterLR()
 	{
 		*mapPtr = FIELD_MONSTER_LEFT_D;
 	}
+	return true;
 }
 
-void monsterLU()
+bool monsterLU()
 {
 	uint8_t* newMap = MAP_UP(mapPtr);
 	if (*newMap == FIELD_EMPTY)
@@ -49,9 +52,10 @@ void monsterLU()
 	{
 		*mapPtr = FIELD_MONSTER_LEFT_R;
 	}
+	return true;
 }
 
-void monsterLD()
+bool monsterLD()
 {
 	uint8_t* newMap = MAP_DOWN(mapPtr);
 	if (*newMap == FIELD_EMPTY)
@@ -63,9 +67,10 @@ void monsterLD()
 	{
 		*mapPtr = FIELD_MONSTER_LEFT_L;
 	}
+	return true;
 }
 
-void monsterRL()
+bool monsterRL()
 {
 	uint8_t* newMap = MAP_LEFT(mapPtr);
 	if (*newMap == FIELD_EMPTY)
@@ -78,9 +83,10 @@ void monsterRL()
 	{
 		*mapPtr = FIELD_MONSTER_RIGHT_D;
 	}
+	return true;
 }
 
-void monsterRR()
+bool monsterRR()
 {
 
 	uint8_t* newMap = MAP_RIGHT(mapPtr);
@@ -93,9 +99,10 @@ void monsterRR()
 	{
 		*mapPtr = FIELD_MONSTER_RIGHT_U;
 	}
+	return true;
 }
 
-void monsterRU()
+bool monsterRU()
 {
 	uint8_t* newMap = MAP_UP(mapPtr);
 	if (*newMap == FIELD_EMPTY)
@@ -108,9 +115,10 @@ void monsterRU()
 	{
 		*mapPtr = FIELD_MONSTER_RIGHT_L;
 	}
+	return true;
 }
 
-void monsterRD()
+bool monsterRD()
 {
 	uint8_t* newMap = MAP_DOWN(mapPtr);
 	if (*newMap == FIELD_EMPTY)
@@ -122,9 +130,10 @@ void monsterRD()
 	{
 		*mapPtr = FIELD_MONSTER_RIGHT_R;
 	}
+	return true;
 }
 
-void birdL()
+bool birdL()
 {
 	if (!(animCounter & 1))
 	{
@@ -139,10 +148,12 @@ void birdL()
 		{
 			*mapPtr = FIELD_MONSTER_BIRD_R;
 		}
+		return true;
 	}
+	return false;
 }
 
-void birdR()
+bool birdR()
 {
 	if (!(animCounter & 1))
 	{
@@ -156,10 +167,12 @@ void birdR()
 		{
 			*mapPtr = FIELD_MONSTER_BIRD_L;
 		}
+		return true;
 	}
+	return false;
 }
 
-void birdU()
+bool birdU()
 {
 	if (!(animCounter & 1))
 	{
@@ -174,10 +187,12 @@ void birdU()
 		{
 			*mapPtr = FIELD_MONSTER_BIRD_D;
 		}
+		return true;
 	}
+	return false;
 }
 
-void birdD()
+bool birdD()
 {
 	if (!(animCounter & 1))
 	{
@@ -191,10 +206,12 @@ void birdD()
 		{
 			*mapPtr = FIELD_MONSTER_BIRD_U;
 		}
+		return true;
 	}
+	return false;
 }
 
-void shootingL()
+bool shootingL()
 {
 	if (!(animCounter & 1))
 	{
@@ -214,9 +231,10 @@ void shootingL()
 	{
 		*nextYTilesPtr = FIELD_PROJECTILE_D;
 	}
+	return true;
 }
 
-void shootingR()
+bool shootingR()
 {
 	if (!(animCounter & 1))
 	{
@@ -235,9 +253,10 @@ void shootingR()
 	{
 		*nextYTilesPtr = FIELD_PROJECTILE_D;
 	}
+	return true;
 }
 
-void eyes()
+bool eyes()
 {
-
+	return true;
 }

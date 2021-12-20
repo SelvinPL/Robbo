@@ -1,6 +1,9 @@
 #pragma once
 
+#include <stdbool.h>
 
-typedef void (* const  function)();
+typedef bool (* const  function)();
 
 extern const function functions_map[];
+
+bool refreshEvery2();

@@ -1,17 +1,19 @@
 #pragma once
 
-void monsterLL();
-void monsterLR();
-void monsterLU();
-void monsterLD();
-void monsterRL();
-void monsterRR();
-void monsterRU();
-void monsterRD();
-void birdL();
-void birdR();
-void birdU();
-void birdD();
-void shootingL();
-void shootingR();
-void eyes();
+#include <stdbool.h>
+
+bool monsterLL();
+bool monsterLR();
+bool monsterLU();
+bool monsterLD();
+bool monsterRL();
+bool monsterRR();
+bool monsterRU();
+bool monsterRD();
+bool birdL();
+bool birdR();
+bool birdU();
+bool birdD();
+bool shootingL();
+bool shootingR();
+bool eyes();
