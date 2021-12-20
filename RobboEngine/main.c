@@ -1,7 +1,7 @@
-﻿#include <gb/gb.h>
+﻿#include "stdbool.h"
+#include <gb/gb.h>
 #include <string.h>
 #include <gb/cgb.h>
-#include <stdbool.h>
 #include <gb/gbdecompress.h>
 #include "fields.h"
 #include "functions_map.h"
@@ -57,31 +57,29 @@ void mapIteration()
 			else
 			{
 				function function = functions_map[*mapPtr];
-				//uint8_t hi = (((uint16_t)function) >> 8) && 0xff;
 				uint8_t hi = (((uint16_t)function) >> 8) && 0xff;
 				if (hi == 0)
 				{
 					uint8_t low = ((uint8_t)function);
-					switch (low)
+					if (low == 0)
 					{
-					case 0:
 						continue;
-					case 1:
-						if (doChanege)
-						{
-							*chanegesPtr++ = iterX;
-							*chanegesPtr++ = iterY;
-						}
-						break;
-					case 2:
+					}
+					else if (low == 2)
+					{
 						if (!(animCounter & 1) && doChanege)
 						{
 							*chanegesPtr++ = iterX;
 							*chanegesPtr++ = iterY;
 						}
-						break;
-					default:
-						continue;
+					}
+					else
+					{
+						if (doChanege)
+						{
+							*chanegesPtr++ = iterX;
+							*chanegesPtr++ = iterY;
+						}
 					}
 				}
 				else

@@ -53,7 +53,6 @@
     <ClCompile Include="map.c" />
     <ClCompile Include="levels_data.c" />
     <ClCompile Include="monsters.c" />
-    <ClCompile Include="tiles.c" />
     <ClCompile Include="tiles_data.c" />
   </ItemGroup>
   <ItemGroup>
@@ -68,6 +67,7 @@
     <ClInclude Include="levels_data.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="monsters.h" />
+    <ClInclude Include="stdbool.h" />
     <ClInclude Include="tiles.h" />
   </ItemGroup>
   <ImportGroup Label="ExtensionTargets">

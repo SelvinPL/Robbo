@@ -1,5 +1,5 @@
+#include "stdbool.h"
 #include <stdint.h>
-#include <stdbool.h>
 #include <gb/gb.h>
 #include <rand.h>
 #include "map.h"

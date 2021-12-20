@@ -21,9 +21,6 @@
     <ClCompile Include="tiles_data.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tiles.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="monsters.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -74,6 +71,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="globals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdbool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

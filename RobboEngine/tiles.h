@@ -5,17 +5,6 @@
 extern const void* __bank_tiles_data;
 
 extern const uint8_t const map_tiles[];
-extern const uint8_t* const tiles_trans[16];
-
-extern const uint8_t* const ROBBO_STATE[8];
-extern const uint8_t* const ROBBO_TELEPORTING_STATE[4];
-extern const uint8_t* const ROBBO_DYING_STATE[7];
-extern const uint8_t* const TELEPORT_STATE[2];
-extern const uint8_t* const MOBS_STATE[2];
-extern const uint8_t* const MOBS_STATE2[2];
-extern const uint8_t* const MOBS_STATE3[2];
-extern const uint8_t* const FORCEFIELD_STATE[2];
-extern const uint8_t* const CAPSULE_STATE[2];
 
 #define tiles_trans_empty				0x00
 #define tiles_trans_black_wall			0x04
