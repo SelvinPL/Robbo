@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include "map.h"
 #include "fields.h"
-#include "hi_ram_globals.h"
+#include "globals.h"
 #include <rand.h>
 #include "iteration.h"
 

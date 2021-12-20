@@ -1,5 +1,5 @@
 #pragma once
-#include "hi_ram_globals.h"
+#include "globals.h"
 
 inline void changeLeft()
 {

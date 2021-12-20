@@ -4,7 +4,7 @@
 #include "fields.h"
 #include "functions_map.h"
 #include "map.h"
-#include "hi_ram_globals.h"
+#include "globals.h"
 #include "levels_data.h"
 #include <gb/gbdecompress.h>
 #include "tiles.h"

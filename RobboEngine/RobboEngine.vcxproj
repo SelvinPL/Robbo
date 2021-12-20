@@ -47,8 +47,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="funtions_map.c" />
+    <ClCompile Include="globals.c" />
     <ClCompile Include="guns.c" />
-    <ClCompile Include="hi_ram_globals.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="map.c" />
     <ClCompile Include="levels_data.c" />
@@ -62,8 +62,8 @@
   <ItemGroup>
     <ClInclude Include="fields.h" />
     <ClInclude Include="functions_map.h" />
+    <ClInclude Include="globals.h" />
     <ClInclude Include="guns.h" />
-    <ClInclude Include="hi_ram_globals.h" />
     <ClInclude Include="iteration.h" />
     <ClInclude Include="levels_data.h" />
     <ClInclude Include="map.h" />

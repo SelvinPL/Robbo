@@ -30,9 +30,6 @@
     <ClCompile Include="map.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="hi_ram_globals.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="funtions_map.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -40,6 +37,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="guns.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="globals.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -64,9 +64,6 @@
     <ClInclude Include="functions_map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hi_ram_globals.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="levels_data.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -74,6 +71,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="iteration.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
