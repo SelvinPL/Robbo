@@ -1,5 +1,5 @@
 ﻿#include "stdbool.h"
-#include <gb/gb.h>
+#include "gb/gb.h"
 #include <string.h>
 #include <gb/cgb.h>
 #include <gb/gbdecompress.h>
@@ -9,6 +9,7 @@
 #include "globals.h"
 #include "levels_data.h"
 #include "tiles.h"
+#include "win_slide.h"
 
 extern uint8_t chaneges[];
 
@@ -16,12 +17,32 @@ extern uint8_t chaneges[];
 
 extern void set_bkg_tile_xy_2(uint8_t x, uint8_t y, uint8_t t) OLDCALL;
 
+inline uint8_t bcdIncerement(uint8_t i)
+{
+	uint8_t ni = i + 1;
+	if ((ni & 0xf) == 0xa)
+	{
+		ni += 6;
+	}
+	return ni;
+}
+
+inline uint8_t bcdDecerement(uint8_t i)
+{
+	uint8_t ni = i - 1;
+	if ((ni & 0xf) == 0xf)
+	{
+		ni -= 6;
+	}
+	return ni;
+}
+
 void mapIteration()
 {
 	chanegesPtr = chaneges;
 	for (iterY = changeYstart; iterY < changeYend; iterY++)
 	{
-		doChanege = BETWEEN(iterY, map_pos_y == 0 ? 0 : map_pos_y - 1,  map_pos_y + 10);
+		doChanege = BETWEEN(iterY, map_pos_y == 0 ? 0 : map_pos_y - 1,  map_pos_y + 9);
 		nextYTilesPtr = nextYTiles - 1;
 		for (iterX = 0; iterX < 16; iterX++)
 		{
@@ -96,13 +117,6 @@ void mapIteration()
 	*chanegesPtr = 0xff;
 }
 
-const __at(0x40) uint8_t vblank_isr[] = { 0xd9, 0, 0, 0, 0, 0, 0, 0 };
-
-#define wait_vbl_done()	\
-	__asm__("	halt");	\
-	__asm__("	nop");
-
-
 void repaint()
 {
 	uint8_t* change = chaneges;
@@ -112,14 +126,42 @@ void repaint()
 		uint8_t uy = *change++;
 		set_bkg_tile_xy_2(ux, uy, map_to_tiles[map[ux + uy * 16]]);
 	}
-
 }
 
-void setupLevel()
+bool setupLevelFinished()
+{
+	padEnabled = true;
+	move_win(7, 128);
+	return true;
+}
+
+const uint8_t numbersTiles[10][2] =
+{
+	{ 0x10, 0x11 }, //0
+	{ 0x12, 0x13 }, //1
+	{ 0x1b, 0x15 }, //2
+	{ 0x1b, 0x16 }, //3
+	{ 0x17, 0x18 }, //4
+	{ 0x19, 0x16 }, //5
+	{ 0x19, 0x1a }, //6
+	{ 0x14, 0x13 }, //7
+	{ 0x1c, 0x1a }, //8
+	{ 0x1c, 0x16 }, //9
+};
+
+void drawNumber(uint8_t x, uint8_t y, uint8_t number)
+{
+	set_win_tiles(x, y, 1, 2, numbersTiles[(number >> 4) & 0xf]);
+	set_win_tiles(x + 1, y, 1, 2, numbersTiles[number & 0xf]);
+}
+
+
+bool setupLevel()
 {
 	uint8_t current = _current_bank;
 	SWITCH_ROM_MBC1((uint8_t)&__bank_levels_data);
-	gb_decompress(levels[lvl - 1], map);
+	const uint8_t lvl = (0xf & level) + (level >> 4 & 0xf) * 10 - 1;
+	gb_decompress(levels[lvl], map);
 	SWITCH_ROM_MBC1(current);
 	for (uint8_t y = map_pos_y == 0 ? 0 : map_pos_y - 1; y < map_pos_y + 10; y++)
 	{
@@ -128,6 +170,12 @@ void setupLevel()
 			set_bkg_tile_xy_2(x, y, map_to_tiles[map[x + y * 16]]);
 		}
 	}
+	uint8_t wait = 40;
+	while (wait--)
+		wait_vbl_done();
+	nextFunction = &setupLevelFinished;
+	startSlideOut();
+	return true;
 }
 
 void incrementCounter()
@@ -153,7 +201,7 @@ void incrementCounter()
 			SCY_REG += slideY;
 			if (slideY > 0)
 			{
-				uint8_t y = map_pos_y + 9;
+				uint8_t y = map_pos_y + 8;
 				if (y < 32)
 				{
 					for (uint8_t x = 0; x < 16; x++)
@@ -231,53 +279,71 @@ void incrementCounter()
 			map_to_tiles = map_to_tiles1;
 			animCounter = 0;
 		}
-		if ((padState & J_LEFT) && map_pos_x > 0)
+		if (padEnabled)
 		{
-			map_pos_x--;
-			slideX = -3;
-			SCX_REG -= 3;
-		}
-		else if ((padState & J_RIGHT) && map_pos_x < 6)
-		{
-			map_pos_x++;
-			slideX = 3;
-			SCX_REG += 3;
-		}
-		else if ((padState & J_UP) && map_pos_y > 0)
-		{
-			slideY = -3;
-			SCY_REG -= 3;
-			map_pos_y--;
+			if ((padState & J_LEFT) && map_pos_x > 0)
+			{
+				map_pos_x--;
+				slideX = -3;
+				SCX_REG -= 3;
+			}
+			else if ((padState & J_RIGHT) && map_pos_x < 6)
+			{
+				map_pos_x++;
+				slideX = 3;
+				SCX_REG += 3;
+			}
+			else if ((padState & J_UP) && map_pos_y > 0)
+			{
+				slideY = -3;
+				SCY_REG -= 3;
+				map_pos_y--;
 
-		}
-		else if ((padState & J_DOWN) && map_pos_y < (32 - 9))
-		{
-			slideY = 3;
-			SCY_REG += 3;
-			map_pos_y++;
-		}
-		if (padState & J_B)
-		{
-			uint8_t newLevel = lvl - 1;
-			if (newLevel == 0)
-				newLevel = 56;
-			lvl = newLevel;
-			setupLevel();
-		}
-		else if (padState & J_A)
-		{
-			uint8_t newLevel = lvl + 1;
-			if (newLevel == 57)
-				newLevel = 1;
-			lvl = newLevel;
-			setupLevel();
+			}
+			else if ((padState & J_DOWN) && map_pos_y < (32 - 9))
+			{
+				slideY = 3;
+				SCY_REG += 3;
+				map_pos_y++;
+			}
+			if (padState & J_B)
+			{
+				uint8_t newLevel = bcdDecerement(level);
+				if (newLevel == 0)
+					newLevel = 86;
+				level = newLevel;
+				nextFunction = &setupLevel;
+				padEnabled = false;
+				drawNumber(9, 8, level);
+				startSlideIn();
+			}
+			else if (padState & J_A)
+			{
+				uint8_t newLevel = bcdIncerement(level);
+				if (newLevel == 87)
+					newLevel = 1;
+				level = newLevel;
+				nextFunction = &setupLevel;
+				padEnabled = false;
+				drawNumber(9, 8, level);
+				startSlideIn();
+			}
 		}
 	}
+	slideStep();
 }
 
 void main()
 {
 	DISPLAY_OFF;
+	winSlideX = 0;
+	winSlideToX = 0;
+	padEnabled = false;
+	init_win(tiles_trans_black_wall);
+	WX_REG = 7;
+	WY_REG = 0;
+	nextFunction = &setupLevel;
+	SHOW_WIN;
 	set_bkg_data(0, 172, map_tiles);
 	set_bkg_data(tiles_trans_mob_bird2, 32, map_tiles + (tiles_trans_mob_bird2 + 0x10) * 0x10);
 	set_bkg_data(tiles_trans_robbo, 4u, &map_tiles[tiles_trans_robbo_d * 0x10]);
@@ -287,11 +353,11 @@ void main()
 		*mapee++ = FIELD_BLACK_WALL;
 	map_to_tiles = map_to_tiles1;
 	map_pos_x = 0;
-	map_pos_y = 8;
-
-	lvl = 1;
-	setupLevel();
-	SHOW_BKG;
+	map_pos_y = 0;
+	level = 1;
+	drawNumber(9, 8, level);
+	
+	
 	animCounter = 7;
 	counter = 255;
 	slideX = 0;
@@ -303,7 +369,9 @@ void main()
 	*chaneges = 0xff;
 	SCX_REG = map_pos_x * 16;
 	SCY_REG = map_pos_y * 16;
+	SHOW_BKG;
 	DISPLAY_ON;
+	setupLevel();
 	wait_vbl_done();
 	while (true)
 	{

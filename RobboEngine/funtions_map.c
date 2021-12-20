@@ -8,7 +8,7 @@
 #define REFRESH1_ONLY ((function)(0x0001))
 #define REFRESH2_ONLY ((function)(0x0002))
 
-const function functions_map[] =
+const function const functions_map[] =
 {
 	NULL, blasterR, NULL, NULL, blasterL, NULL, NULL, NULL, //0
 	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,

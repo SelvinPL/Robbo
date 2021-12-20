@@ -39,6 +39,9 @@
     <ClCompile Include="globals.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="win_slide.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <AsmCompile Include="tiles_helper.asm">
@@ -74,6 +77,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="stdbool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="win_slide.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gb\gb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

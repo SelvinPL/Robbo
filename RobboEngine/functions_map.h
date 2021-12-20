@@ -2,6 +2,6 @@
 
 #include "stdbool.h"
 
-typedef bool (* const  function)();
+typedef bool (*function)();
 
-extern const function functions_map[];
+extern const function const functions_map[];

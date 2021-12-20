@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include "functions_map.h"
 
 extern uint8_t iterX;
 extern uint8_t iterY;
@@ -23,6 +24,8 @@ extern uint8_t animCounter;
 extern int8_t slideX;
 extern int8_t slideY;
 
-__sfr __at(0xa0) padState;
+extern __sfr padState;
+extern bool padEnabled;
+extern function nextFunction;
 
-extern uint8_t lvl;
+extern uint8_t level;

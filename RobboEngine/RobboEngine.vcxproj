@@ -14,13 +14,13 @@
   <Import Project="$(MSBuildExtensionsPath)\SDCC\SDCC.Common.targets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <GameBoyRomBankCount>3</GameBoyRomBankCount>
+    <GameBoyRomBankCount>4</GameBoyRomBankCount>
     <GameBoyMemoryBankController>17</GameBoyMemoryBankController>
     <GameBoyColor>
     </GameBoyColor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <GameBoyRomBankCount>3</GameBoyRomBankCount>
+    <GameBoyRomBankCount>4</GameBoyRomBankCount>
     <GameBoyMemoryBankController>17</GameBoyMemoryBankController>
     <GameBoyColor>
     </GameBoyColor>
@@ -54,6 +54,7 @@
     <ClCompile Include="levels_data.c" />
     <ClCompile Include="monsters.c" />
     <ClCompile Include="tiles_data.c" />
+    <ClCompile Include="win_slide.c" />
   </ItemGroup>
   <ItemGroup>
     <AsmCompile Include="tiles_helper.asm" />
@@ -61,6 +62,7 @@
   <ItemGroup>
     <ClInclude Include="fields.h" />
     <ClInclude Include="functions_map.h" />
+    <ClInclude Include="gb\gb.h" />
     <ClInclude Include="globals.h" />
     <ClInclude Include="guns.h" />
     <ClInclude Include="iteration.h" />
@@ -69,6 +71,7 @@
     <ClInclude Include="monsters.h" />
     <ClInclude Include="stdbool.h" />
     <ClInclude Include="tiles.h" />
+    <ClInclude Include="win_slide.h" />
   </ItemGroup>
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

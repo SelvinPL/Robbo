@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include "functions_map.h"
 
 
 uint8_t iterX;
@@ -21,4 +22,10 @@ const uint8_t* map_to_tiles;
 uint8_t* nextYTilesPtr;
 
 uint8_t nextYTiles[16];
-uint8_t lvl;
+uint8_t level;
+
+
+__at(0xa0) uint8_t padState;
+
+function nextFunction;
+bool padEnabled;
