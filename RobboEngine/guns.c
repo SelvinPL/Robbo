@@ -180,7 +180,7 @@ void laserR()
 
 void laserU()
 {
-	uint8_t* newMap = MAP_LEFT(mapPtr);
+	uint8_t* newMap = MAP_UP(mapPtr);
 	if (*newMap == FIELD_EMPTY && RND())
 	{
 		*newMap = FIELD_LASER_BEAM_U;
@@ -190,7 +190,7 @@ void laserU()
 
 void laserD()
 {
-	uint8_t* newMap = MAP_RIGHT(mapPtr);
+	uint8_t* newMap = MAP_DOWN(mapPtr);
 	if (*newMap == FIELD_EMPTY && RND())
 	{
 		*nextYTilesPtr = FIELD_LASER_BEAM_D;

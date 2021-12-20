@@ -116,6 +116,21 @@ void repaint()
 
 }
 
+void setupLevel()
+{
+	uint8_t current = _current_bank;
+	SWITCH_ROM_MBC1((uint8_t)&__bank_levels_data);
+	gb_decompress(levels[lvl - 1], map);
+	SWITCH_ROM_MBC1(current);
+	for (uint8_t y = map_pos_y == 0 ? 0 : map_pos_y - 1; y < map_pos_y + 10; y++)
+	{
+		for (uint8_t x = 0; x < 16; x++)
+		{
+			set_bkg_tile_xy_2(x, y, map_to_tiles[map[x + y * 16]]);
+		}
+	}
+}
+
 void incrementCounter()
 {
 	counter++;
@@ -123,27 +138,26 @@ void incrementCounter()
 	{
 		changeYstart = 6;
 		changeYend = 12;
-		uint8_t pad = joypad();
-		if (pad == J_LEFT && map_pos_x > 0)
+		if ((padState & J_LEFT) && map_pos_x > 0)
 		{
 			map_pos_x--;
 			slideX = -4;
 			SCX_REG -= 4;
 		}
-		else if (pad == J_RIGHT && map_pos_x < 6)
+		else if ((padState & J_RIGHT) && map_pos_x < 6)
 		{
 			map_pos_x++;
 			slideX = 4;
 			SCX_REG += 4;
 		} 
-		else if (pad == J_UP && map_pos_y > 0)
+		else if ((padState & J_UP) && map_pos_y > 0)
 		{
 			slideY = -4;
 			SCY_REG -= 4;
 			map_pos_y--;
 
 		}
-		else if (pad == J_DOWN && map_pos_y < (32 - 9))
+		else if ((padState & J_DOWN) && map_pos_y < (32 - 9))
 		{
 			slideY = 4;
 			SCY_REG += 4;
@@ -233,36 +247,43 @@ void incrementCounter()
 			map_to_tiles = map_to_tiles1;
 			animCounter = 0;
 		}
-		
+		if (padState & J_B)
+		{
+			uint8_t newLevel = lvl - 1;
+			if (newLevel == 0)
+				newLevel = 56;
+			lvl = newLevel;
+			setupLevel();
+		}
+		else if (padState & J_A)
+		{
+			uint8_t newLevel = lvl + 1;
+			if (newLevel == 57)
+				newLevel = 1;
+			lvl = newLevel;
+			setupLevel();
+		}
 	}
 }
 
 void main()
 {
 	DISPLAY_OFF;
-
-	
-	uint8_t current = _current_bank;
-	SWITCH_ROM_MBC1((uint8_t)&__bank_levels_data);
-	gb_decompress(levels[34-1], map);
-	SWITCH_ROM_MBC1(current);
-
+	set_bkg_data(0, 172, map_tiles);
+	set_bkg_data(tiles_trans_mob_bird2, 32, map_tiles + (tiles_trans_mob_bird2 + 0x10) * 0x10);
+	set_bkg_data(tiles_trans_robbo, 4u, &map_tiles[tiles_trans_robbo_d * 0x10]);
+	memset(nextYTiles, FIELD_NONE, 16);
 	uint8_t* mapee = map + 496;
 	for (uint8_t i = 0; i < 16; i++)
 		*mapee++ = FIELD_BLACK_WALL;
-
-	SHOW_BKG;
-	set_bkg_data(0, 172, map_tiles);
-	set_bkg_data(tiles_trans_mob_bird2, 32, map_tiles + (tiles_trans_mob_bird2 + 0x10) * 0x10 );
-	set_bkg_data(tiles_trans_robbo, 4u, &map_tiles[tiles_trans_robbo_d * 0x10]);
-	memset(nextYTiles, FIELD_NONE, 16);
-	animCounter = 7;
 	map_to_tiles = map_to_tiles1;
-	//map_pos_x = 3;
-	//map_pos_y = 9;
 	map_pos_x = 0;
-	//map_pos_y = 22;
 	map_pos_y = 8;
+
+	lvl = 34;
+	setupLevel();
+	SHOW_BKG;
+	animCounter = 7;
 	counter = 255;
 	slideX = 0;
 	slideY = 0;
@@ -273,17 +294,11 @@ void main()
 	*chaneges = 0xff;
 	SCX_REG = map_pos_x * 16;
 	SCY_REG = map_pos_y * 16;
-	for (uint8_t y = map_pos_y == 0 ? 0 : map_pos_y - 1; y < map_pos_y + 10; y++)
-	{
-		for (uint8_t x = 0; x < 16; x++)
-		{
-			set_bkg_tile_xy_2(x, y, map_to_tiles[map[x + y * 16]]);
-		}
-	}
 	DISPLAY_ON;
 	wait_vbl_done();
 	while (TRUE)
 	{
+		padState = joypad();
 		mapIteration();
 		wait_vbl_done();
 		incrementCounter();

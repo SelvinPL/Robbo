@@ -23,6 +23,6 @@ extern uint8_t animCounter;
 extern int8_t slideX;
 extern int8_t slideY;
 
-extern uint8_t ux;
-extern uint8_t uy;
-extern uint8_t* change;
+__sfr __at(0xa0) padState;
+
+extern uint8_t lvl;

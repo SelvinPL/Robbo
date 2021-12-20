@@ -21,3 +21,4 @@ const uint8_t* map_to_tiles;
 uint8_t* nextYTilesPtr;
 
 uint8_t nextYTiles[16];
+uint8_t lvl;
