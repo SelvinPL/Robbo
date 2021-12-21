@@ -1,6 +1,5 @@
 		.title  "TILES HELPERS ASM"
 		.module tiles_helpers_asm
-
 		.area _CODE
 		;.globl _tiles_trans
 

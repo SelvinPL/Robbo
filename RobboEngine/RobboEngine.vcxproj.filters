@@ -44,11 +44,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <AsmCompile Include="tiles_helper.asm">
-      <Filter>Source Files</Filter>
-    </AsmCompile>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="tiles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -82,8 +77,13 @@
     <ClInclude Include="win_slide.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="gb\gb.h">
+    <ClInclude Include="platform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <AsmCompile Include="tiles_helper.asm">
+      <Filter>Source Files</Filter>
+    </AsmCompile>
   </ItemGroup>
 </Project>

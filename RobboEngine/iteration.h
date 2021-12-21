@@ -5,8 +5,8 @@ inline void changeLeft()
 {
 	if (doChanege)
 	{
-		*chanegesPtr++ = iterX - 1;
-		*chanegesPtr++ = iterY;
+		*changesPtr++ = iterX - 1;
+		*changesPtr++ = iterY;
 	}
 }
 
@@ -14,7 +14,7 @@ inline void changeUp()
 {
 	if (doChanege)
 	{
-		*chanegesPtr++ = iterX;
-		*chanegesPtr++ = iterY - 1;
+		*changesPtr++ = iterX;
+		*changesPtr++ = iterY - 1;
 	}
 }

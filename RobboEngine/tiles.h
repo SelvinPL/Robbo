@@ -1,9 +1,10 @@
 #pragma once
-
+#include "platform.h"
 #include <stdint.h>
 
-extern const void* __bank_tiles_data;
-
+#ifdef GAMEBOY
+BANKREF_EXTERN(tiles_data)
+#endif
 extern const uint8_t const map_tiles[];
 
 #define tiles_trans_empty				0x00

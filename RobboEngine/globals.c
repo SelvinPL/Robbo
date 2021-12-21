@@ -10,7 +10,7 @@ uint8_t doChanege;
 uint8_t nextXTile;
 uint8_t animCounter;
 uint8_t* mapPtr;
-uint8_t* chanegesPtr;
+uint8_t* changesPtr;
 
 
 uint8_t counter;
@@ -25,7 +25,7 @@ uint8_t nextYTiles[16];
 uint8_t level;
 
 
-__at(0xa0) uint8_t padState;
+uint8_t padState;
 
 function nextFunction;
 bool padEnabled;

@@ -1,8 +1,10 @@
+#include "platform.h"
 #include <stdint.h>
 
+#ifdef GAMEBOY
 #pragma bank 1
-
-const void* __at(1) __bank_tiles_data;
+BANKREF(tiles_data)
+#endif
 
  const uint8_t const fonts[] =
 {

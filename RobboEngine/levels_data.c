@@ -1,8 +1,10 @@
+#include "platform.h"
 #include <stdint.h>
 
+#ifdef GAMEBOY
 #pragma bank 2
-
-const void* __at(2) __bank_levels_data;
+BANKREF(levels_data)
+#endif
 
 /*
   level           1
@@ -1670,3 +1672,4 @@ const uint8_t* const levels[56] =
     level41, level42, level43, level44, level45, level46, level47, level48,
     level49, level50, level51, level52, level53, level54, level55, level56,
 };
+

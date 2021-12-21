@@ -1,6 +1,6 @@
+#include "platform.h"
 #include "stdbool.h"
 #include <stdint.h>
-#include "gb/gb.h"
 #include <rand.h>
 #include "map.h"
 #include "fields.h"
