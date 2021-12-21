@@ -163,7 +163,7 @@ bool setupLevel()
 	const uint8_t lvl = (0xf & level) + (level >> 4 & 0xf) * 10 - 1;
 	gb_decompress(levels[lvl], map);
 	SWITCH_ROM_MBC1(current);
-	for (uint8_t y = map_pos_y == 0 ? 0 : map_pos_y - 1; y < map_pos_y + 10; y++)
+	for (uint8_t y = map_pos_y == 0 ? 0 : map_pos_y - 1; y < map_pos_y + 9; y++)
 	{
 		for (uint8_t x = 0; x < 16; x++)
 		{
@@ -308,24 +308,24 @@ void incrementCounter()
 			}
 			if (padState & J_B)
 			{
+				padEnabled = false;
 				uint8_t newLevel = bcdDecerement(level);
 				if (newLevel == 0)
 					newLevel = 86;
 				level = newLevel;
+				drawNumber(9, 8, newLevel);
 				nextFunction = &setupLevel;
-				padEnabled = false;
-				drawNumber(9, 8, level);
 				startSlideIn();
 			}
 			else if (padState & J_A)
 			{
+				padEnabled = false;
 				uint8_t newLevel = bcdIncerement(level);
 				if (newLevel == 87)
 					newLevel = 1;
 				level = newLevel;
+				drawNumber(9, 8, newLevel);
 				nextFunction = &setupLevel;
-				padEnabled = false;
-				drawNumber(9, 8, level);
 				startSlideIn();
 			}
 		}
