@@ -16,14 +16,26 @@ extern uint8_t changes[];
 #define maxPosX 6
 #define maxPosY 23
 #define visibleY 8
+#define fixX 0
+#define fixY 0
+#define fixTileX 0
+#define fixTileY 0
 #elif defined(GAMEGEAR)
 #define maxPosX 6
 #define maxPosY 22
 #define visibleY 9
+#define fixX 48
+#define fixY 56
+#define fixTileX 6
+#define fixTileY 3
 #else
 #define maxPosX 0
 #define maxPosY 19
 #define visibleY 12
+#define fixX 0
+#define fixY 0
+#define fixTileX 0
+#define fixTileY 0
 #endif 
 
 
@@ -35,7 +47,7 @@ extern void set_bkg_tile_xy_2(uint8_t x, uint8_t y, uint8_t t) OLDCALL;
 inline void set_bkg_tile_xy_2(uint8_t x, uint8_t y, uint8_t t)
 {
 	uint8_t tiles[] = { t, t + 1, t + 2, t + 3 };
-	set_bkg_tiles(2 * x, 2 * y, 2, 2, tiles);
+	set_bkg_tiles(2 * x - fixTileX, 2 * y - fixTileY, 2, 2, tiles);
 }
 #endif
 
@@ -197,9 +209,11 @@ bool setupLevel()
 			set_bkg_tile_xy_2(x, y, map_to_tiles[map[x + y * 16]]);
 		}
 	}
+#ifdef GAMEBOY
 	uint8_t wait = 40;
 	while (wait--)
 		wait_vbl_done();
+#endif
 	nextFunction = &setupLevelFinished;
 	startSlideOut();
 	return true;
@@ -364,10 +378,17 @@ void incrementCounter()
 	slideStep();
 }
 
+#ifdef GAMEBOY
 #define palette1c1 RGBHTML(0xa8a8a8)
 #define palette1c2 RGBHTML(0xBF7A19)
 #define palette1c3 RGBHTML(0x1E7400)
 #define palette1c4 RGBHTML(0x000000)
+#else
+#define palette1c1 RGBHTML(0xe8e8e8)
+#define palette1c2 RGBHTML(0xefaa49)
+#define palette1c3 RGBHTML(0x4ea430)
+#define palette1c4 RGBHTML(0x000000)
+#endif
 
 const palette_color_t cgb_palettes[] =
 {
@@ -380,7 +401,6 @@ void main()
 	winSlideX = 0;
 	winSlideToX = 0;
 	padEnabled = false;
-	HIDE_SPRITES;
 	set_bkg_palette(0, 1, cgb_palettes);
 	//set_2bpp_palette(COMPAT_PALETTE(1, 2, 3, 4));
 #ifdef GAMEBOY
@@ -417,7 +437,7 @@ void main()
 	nextXTile = FIELD_NONE;
 	mapPtr = map - 1;
 	*changes = 0xff;
-	move_bkg(map_pos_x * 16, map_pos_y * 16);
+	move_bkg(map_pos_x * 16 - fixX, map_pos_y * 16 - fixY);
 	SHOW_BKG;
 	nextFunction = &setupLevel;
 	DISPLAY_ON;
