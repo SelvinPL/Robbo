@@ -24,7 +24,7 @@
 #define maxPosY 22
 #define visibleY 9
 #define fixX 48
-#define fixY 56
+#define fixY 24
 #define fixTileX 6
 #define fixTileY 3
 #else
@@ -37,6 +37,8 @@
 #define fixTileY 0
 #endif 
 
+uint8_t cameraPosX;
+uint8_t cameraPosY;
 
 #define BETWEEN(n, start, end) (((n)>=((uint8_t)(start))) && ((n)<((uint8_t)(end))))
 
@@ -49,6 +51,17 @@ inline void set_bkg_tile_xy_2(uint8_t x, uint8_t y, uint8_t t)
 	set_bkg_tiles(2 * x - fixTileX, 2 * y - fixTileY, 2, 2, tiles);
 }
 #endif
+
+void repaint()
+{
+	uint8_t* change = changes;
+	while (*change != CHANGES_TERMINATOR)
+	{
+		uint8_t ux = *change++;
+		uint8_t uy = *change++;
+		set_bkg_tile_xy_2(ux, uy, map_to_tiles[map[ux + uy * 16]]);
+	}
+}
 
 inline uint8_t bcdIncerement(uint8_t i)
 {
@@ -145,17 +158,6 @@ void mapIteration()
 	PUT_CHANGES_TERMINATOR();
 }
 
-void repaint()
-{
-	uint8_t* change = changes;
-	while (*change != CHANGES_TERMINATOR)
-	{
-		uint8_t ux = *change++;
-		uint8_t uy = *change++;
-		set_bkg_tile_xy_2(ux, uy, map_to_tiles[map[ux + uy * 16]]);
-	}
-}
-
 bool setupLevelFinished()
 {
 	padEnabled = true;
@@ -213,6 +215,45 @@ bool setupLevel()
 	return true;
 }
 
+inline uint8_t incrementCameraX()
+{
+	return cameraPosX += slideX;
+}
+
+#ifdef GAMEBOY
+inline uint8_t incrementCameraY()
+{
+	return cameraPosY += slideY;
+}
+inline void slide_bkg_x()
+{
+	SCX_REG = incrementCameraX();
+}
+inline void slide_bkg_y()
+{
+	SCY_REG = incrementCameraY();
+}
+#else
+inline uint8_t incrementCameraY()
+{
+	uint8_t ret = cameraPosY + slideY;
+	if (ret > 240)
+		ret -= 32;
+	else if (ret >= 224)
+		ret -= 224;
+	return cameraPosY = ret;
+}
+
+inline void slide_bkg_x()
+{
+	__WRITE_VDP_REG(VDP_RSCX, - incrementCameraX());
+}
+inline void slide_bkg_y()
+{
+	__WRITE_VDP_REG(VDP_RSCY, incrementCameraY());
+}
+#endif 
+
 void incrementCounter()
 {
 	counter++;
@@ -221,19 +262,19 @@ void incrementCounter()
 		changeYstart = 6;
 		changeYend = 12;
 		if (slideX)
-			scroll_bkg(slideX, 0);
+			slide_bkg_x();
 		if (slideY)
-			scroll_bkg(0, slideY);
+			slide_bkg_y();
 	}
 	else if (counter == 2)
 	{
 		changeYstart = 12;
 		changeYend = 18;
 		if(slideX)
-			scroll_bkg(slideX, 0);
+			slide_bkg_x();
 		if (slideY)
 		{
-			scroll_bkg(0, slideY);
+			slide_bkg_y();
 			if (slideY > 0)
 			{
 				uint8_t y = map_pos_y + visibleY;
@@ -263,12 +304,12 @@ void incrementCounter()
 		changeYend = 24;
 		if (slideX)
 		{
-			scroll_bkg(slideX, 0);
+			slide_bkg_x();
 			slideX = (int8_t)((((uint8_t)slideX) + 1) & 0b11111100); //works only fo 3 to 4 and -3 to - 4
 		}
 		if (slideY)
 		{
-			scroll_bkg(0, slideY);
+			slide_bkg_y();
 			slideY = (int8_t)((((uint8_t)slideY) + 1) & 0b11111100);
 		}
 	}
@@ -278,12 +319,12 @@ void incrementCounter()
 		changeYend = 32;
 		if (slideX)
 		{
-			scroll_bkg(slideX, 0);
+			slide_bkg_x();
 			slideX = 0;
 		}
 		if (slideY)
 		{
-			scroll_bkg(0, slideY);
+			slide_bkg_y();
 			slideY = 0;
 		}
 	}
@@ -318,25 +359,25 @@ void incrementCounter()
 			{
 				map_pos_x--;
 				slideX = -3;
-				scroll_bkg(slideX, 0);
+				slide_bkg_x();
 			}
 			else if ((padState & J_RIGHT) && map_pos_x < maxPosX)
 			{
 				map_pos_x++;
 				slideX = 3;
-				scroll_bkg(slideX, 0);
+				slide_bkg_x();
 			}
 			else if ((padState & J_UP) && map_pos_y > 0)
 			{
 				slideY = -3;
-				scroll_bkg(0, slideY);
+				slide_bkg_y();
 				map_pos_y--;
 
 			}
 			else if ((padState & J_DOWN) && map_pos_y < maxPosY)
 			{
 				slideY = 3;
-				scroll_bkg(0, slideY);
+				slide_bkg_y();
 				map_pos_y++;
 			}
 			if (padState & J_B)
@@ -386,14 +427,10 @@ const palette_color_t cgb_palettes[] =
 {
 	palette1c1, palette1c2, palette1c3, palette1c4,
 };
+
 void main()
 {
 	DISABLE_VBL_TRANSFER;
-#ifdef GAMEBOY
-	DISABLE_OAM_DMA;
-#else
-	_shadow_OAM_base = 0;
-#endif
 	DISPLAY_OFF;
 	level = 1;
 	winSlideX = 0;
@@ -435,7 +472,13 @@ void main()
 	nextXTile = FIELD_NONE;
 	mapPtr = map - 1;
 	*changes = 0xff;
-	move_bkg(map_pos_x * 16 - fixX, map_pos_y * 16 - fixY);
+	cameraPosX = -fixX;
+#ifdef GAMEGEAR
+	cameraPosY = 224 - fixY;
+#else
+	cameraPosY = 0;
+#endif
+	move_bkg(cameraPosX, cameraPosY);
 	SHOW_BKG;
 	nextFunction = &setupLevel;
 	DISPLAY_ON;

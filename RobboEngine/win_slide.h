@@ -10,7 +10,7 @@ extern uint8_t winSlideToX;
 
 inline void startSlideIn()
 {
-#ifdef __TARGET_gb
+#ifdef GAMEBOY
 	move_win(167, 0);
 	winSlideToX = 7;
 	winSlideX = -4;
@@ -22,7 +22,7 @@ inline void startSlideIn()
 
 inline void startSlideOut()
 {
-#ifdef __TARGET_gb
+#ifdef GAMEBOY
 	move_win(7, 0);
 	winSlideToX = 167;
 	winSlideX = 4;
@@ -32,7 +32,7 @@ inline void startSlideOut()
 
 inline void slideStep()
 {
-#ifdef __TARGET_gb
+#ifdef GAMEBOY
 	if (winSlide)
 	{
 		if (winSlideToX != WX_REG)
@@ -45,7 +45,7 @@ inline void slideStep()
 			winSlide = false;
 			if(nextFunction)
 				nextFunction();
-#ifdef __TARGET_gb
+#ifdef GAMEBOY
 		}
 	}
 #endif
