@@ -9,8 +9,7 @@
 #include "levels_data.h"
 #include "tiles.h"
 #include "win_slide.h"
-
-extern uint8_t changes[];
+#include "changes.h"
 
 #if defined(GAMEBOY)
 #define maxPosX 6
@@ -91,8 +90,7 @@ void mapIteration()
 				*nextYTilesPtr = FIELD_NONE;
 				if (doChanege)
 				{
-					*changesPtr++ = iterX;
-					*changesPtr++ = iterY;
+					PUT_CHANGES(iterX, iterY);
 				}
 			}
 			else if (nextXTile != FIELD_NONE)
@@ -101,8 +99,7 @@ void mapIteration()
 				nextXTile = FIELD_NONE;
 				if (doChanege)
 				{
-					*changesPtr++ = iterX;
-					*changesPtr++ = iterY;
+					PUT_CHANGES(iterX, iterY);
 				}
 			}
 			else if (*mapPtr == FIELD_EMPTY)
@@ -124,16 +121,14 @@ void mapIteration()
 					{
 						if (!(animCounter & 1) && doChanege)
 						{
-							*changesPtr++ = iterX;
-							*changesPtr++ = iterY;
+							PUT_CHANGES(iterX, iterY);
 						}
 					}
 					else
 					{
 						if (doChanege)
 						{
-							*changesPtr++ = iterX;
-							*changesPtr++ = iterY;
+							PUT_CHANGES(iterX, iterY);
 						}
 					}
 				}
@@ -141,20 +136,19 @@ void mapIteration()
 				{
 					if (function() && doChanege)
 					{
-						*changesPtr++ = iterX;
-						*changesPtr++ = iterY;
+						PUT_CHANGES(iterX, iterY);
 					}
 				}
 			}
 		}
 	}
-	*changesPtr = 0xff;
+	PUT_CHANGES_TERMINATOR();
 }
 
 void repaint()
 {
 	uint8_t* change = changes;
-	while (*change != 0xff)
+	while (*change != CHANGES_TERMINATOR)
 	{
 		uint8_t ux = *change++;
 		uint8_t uy = *change++;
@@ -247,10 +241,9 @@ void incrementCounter()
 				{
 					for (uint8_t x = 0; x < 16; x++)
 					{
-						*changesPtr++ = x;
-						*changesPtr++ = y;
+						PUT_CHANGES(x, y);
 					}
-					*changesPtr = 0xff;
+					PUT_CHANGES_TERMINATOR();
 				}
 			}
 			else if (map_pos_y != 0)
@@ -258,10 +251,9 @@ void incrementCounter()
 				uint8_t y = map_pos_y - 1;
 				for (uint8_t x = 0; x < 16; x++)
 				{
-					*changesPtr++ = x;
-					*changesPtr++ = y;
+					PUT_CHANGES(x, y);
 				}
-				*changesPtr = 0xff;
+				PUT_CHANGES_TERMINATOR();
 			}
 		}
 	}
@@ -396,8 +388,14 @@ const palette_color_t cgb_palettes[] =
 };
 void main()
 {
-	level = 1;
+	DISABLE_VBL_TRANSFER;
+#ifdef GAMEBOY
+	DISABLE_OAM_DMA;
+#else
+	_shadow_OAM_base = 0;
+#endif
 	DISPLAY_OFF;
+	level = 1;
 	winSlideX = 0;
 	winSlideToX = 0;
 	padEnabled = false;

@@ -65,9 +65,6 @@
     <ClInclude Include="guns.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="iteration.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -80,10 +77,8 @@
     <ClInclude Include="platform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <AsmCompile Include="tiles_helper.asm">
-      <Filter>Source Files</Filter>
-    </AsmCompile>
+    <ClInclude Include="changes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
