@@ -15,7 +15,7 @@ bool monsterLL()
 	{
 		*newMap = FIELD_MONSTER_LEFT_D;
 		*mapPtr = FIELD_EMPTY;
-		changeLeft();
+		changeLeft(newMap);
 	}
 	else
 	{
@@ -46,7 +46,7 @@ bool monsterLU()
 	{
 		*newMap = FIELD_MONSTER_LEFT_L;
 		*mapPtr = FIELD_EMPTY;
-		changeUp();
+		changeUp(newMap);
 	}
 	else
 	{
@@ -77,7 +77,7 @@ bool monsterRL()
 	{
 		*newMap = FIELD_MONSTER_RIGHT_U;
 		*mapPtr = FIELD_EMPTY;
-		changeLeft();
+		changeLeft(newMap);
 	}
 	else
 	{
@@ -109,7 +109,7 @@ bool monsterRU()
 	{
 		*newMap = FIELD_MONSTER_RIGHT_R;
 		*mapPtr = FIELD_EMPTY;
-		changeUp();
+		changeUp(newMap);
 	}
 	else
 	{
@@ -142,7 +142,7 @@ bool birdL()
 		{
 			*newMap = FIELD_MONSTER_BIRD_L;
 			*mapPtr = FIELD_EMPTY;
-			changeLeft();
+			changeLeft(newMap);
 		}
 		else
 		{
@@ -181,7 +181,7 @@ bool birdU()
 		{
 			*newMap = FIELD_MONSTER_BIRD_U;
 			*mapPtr = FIELD_EMPTY;
-			changeUp();
+			changeUp(newMap);
 		}
 		else
 		{
@@ -213,21 +213,26 @@ bool birdD()
 
 bool shootingL()
 {
+	uint8_t* newMap;
 	if (!(animCounter & 1))
 	{
-		uint8_t* newMap = MAP_LEFT(mapPtr);
+		newMap = MAP_LEFT(mapPtr);
 		if (*newMap == FIELD_EMPTY)
 		{
 			*newMap = FIELD_MONSTER_SHOOTING_L;
 			*mapPtr = FIELD_EMPTY;
-			changeLeft();
+			changeLeft(newMap);
 		}
 		else
 		{
 			*mapPtr = FIELD_MONSTER_SHOOTING_R;
 		}
 	}
-	if (*MAP_DOWN(mapPtr) == FIELD_EMPTY && RND())
+	else
+	{
+		newMap = mapPtr;
+	}
+	if (*MAP_DOWN(newMap) == FIELD_EMPTY && RND())
 	{
 		*nextYTilesPtr = FIELD_PROJECTILE_D;
 	}
@@ -236,9 +241,10 @@ bool shootingL()
 
 bool shootingR()
 {
+	uint8_t* newMap;
 	if (!(animCounter & 1))
 	{
-		uint8_t* newMap = MAP_RIGHT(mapPtr);
+		newMap = MAP_RIGHT(mapPtr);
 		if (*newMap == FIELD_EMPTY && *(nextYTilesPtr + 1) == FIELD_NONE)
 		{
 			*mapPtr = FIELD_EMPTY;
@@ -249,7 +255,11 @@ bool shootingR()
 			*mapPtr = FIELD_MONSTER_SHOOTING_L;
 		}
 	}
-	if (*MAP_DOWN(mapPtr) == FIELD_EMPTY && RND())
+	else
+	{ 
+		newMap = mapPtr;
+	}
+	if (*MAP_DOWN(newMap) == FIELD_EMPTY && RND())
 	{
 		*nextYTilesPtr = FIELD_PROJECTILE_D;
 	}

@@ -19,7 +19,7 @@ bool projectileL()
 		{
 			*newMap = FIELD_PROJECTILE_L;
 			*mapPtr = FIELD_EMPTY;
-			changeLeft();
+			changeLeft(newMap);
 		}
 		else
 		{
@@ -58,7 +58,7 @@ bool projectileU()
 		{
 			*newMap = FIELD_PROJECTILE_U;
 			*mapPtr = FIELD_EMPTY;
-			changeUp();
+			changeUp(newMap);
 		}
 		else
 		{
@@ -97,7 +97,7 @@ bool laserBeamL()
 		{
 			*newMap = FIELD_LASER_BEAM_L;
 			*mapPtr = FIELD_LASER_HORIZONTAL_RAY;
-			changeLeft();
+			changeLeft(newMap);
 		}
 		else
 		{
@@ -136,7 +136,7 @@ bool laserBeamU()
 		{
 			*newMap = FIELD_LASER_BEAM_U;
 			*mapPtr = FIELD_LASER_VERTICAL_RAY;
-			changeUp();
+			changeUp(newMap);
 		}
 		else
 		{
@@ -185,7 +185,7 @@ bool laserL()
 	if (*newMap == FIELD_EMPTY && RND())
 	{
 		*newMap = FIELD_LASER_BEAM_L;
-		changeLeft();
+		changeLeft(newMap);
 	}
 	return false;
 }
@@ -206,7 +206,7 @@ bool laserU()
 	if (*newMap == FIELD_EMPTY && RND())
 	{
 		*newMap = FIELD_LASER_BEAM_U;
-		changeUp();
+		changeUp(newMap);
 	}
 	return false;
 }
@@ -227,7 +227,7 @@ bool gunL()
 	if (*newMap == FIELD_EMPTY && RND())
 	{
 		*newMap = FIELD_PROJECTILE_L;
-		changeLeft();
+		changeLeft(newMap);
 	}
 	return false;
 }
@@ -248,7 +248,7 @@ bool gunU()
 	if (*newMap == FIELD_EMPTY && RND())
 	{
 		*newMap = FIELD_PROJECTILE_U;
-		changeUp();
+		changeUp(newMap);
 	}
 	return false;
 }
@@ -272,7 +272,7 @@ bool blasterHeadL()
 		{
 			*newMap = FIELD_BLASTER_HEAD_L;
 			*mapPtr = FIELD_EXPLOSION2;
-			changeLeft();
+			changeLeft(newMap);
 		}
 		else
 		{
@@ -311,7 +311,7 @@ bool blasterHeadU()
 		{
 			*newMap = FIELD_BLASTER_HEAD_U;
 			*mapPtr = FIELD_EXPLOSION2;
-			changeUp();
+			changeUp(newMap);
 		}
 		else
 		{
@@ -348,7 +348,7 @@ bool blasterL()
 	if (*newMap == FIELD_EMPTY && RND())
 	{
 		*newMap = FIELD_BLASTER_HEAD_L;
-		changeLeft();
+		changeLeft(newMap);
 	}
 	return false;
 }
@@ -369,7 +369,7 @@ bool blasterU()
 	if (*newMap == FIELD_EMPTY && RND())
 	{
 		*newMap = FIELD_BLASTER_HEAD_U;
-		changeUp();
+		changeUp(newMap);
 	}
 	return false;
 }

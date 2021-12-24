@@ -44,6 +44,7 @@ uint8_t cameraPosY;
 
 #ifdef GAMEBOY
 extern void set_bkg_tile_xy_2(uint8_t x, uint8_t y, uint8_t t) OLDCALL;
+extern void set_bkg_tile_xy_2_map_to_tiles_with_translation(uint8_t* map) OLDCALL;
 #else
 inline void set_bkg_tile_xy_2(uint8_t x, uint8_t y, uint8_t t)
 {
@@ -52,16 +53,29 @@ inline void set_bkg_tile_xy_2(uint8_t x, uint8_t y, uint8_t t)
 }
 #endif
 
+#ifdef GAMEBOY
 void repaint()
 {
-	uint8_t* change = changes;
-	while (*change != CHANGES_TERMINATOR)
+	uint8_t** change = changes - 1;
+	while (*++change != CHANGES_TERMINATOR)
 	{
-		uint8_t ux = *change++;
-		uint8_t uy = *change++;
-		set_bkg_tile_xy_2(ux, uy, map_to_tiles[map[ux + uy * 16]]);
+		set_bkg_tile_xy_2_map_to_tiles_with_translation(*change);
 	}
 }
+#else
+void repaint()
+{
+	uint8_t** change = changes;
+	while (*change != CHANGES_TERMINATOR)
+	{
+		uint8_t low = (uint8_t)(*change);
+		uint8_t ux = low & 0xf;
+		uint8_t uy = (low >> 4) | ((uint8_t)(((uint16_t)(*change)) >> 8) << 4);
+		set_bkg_tile_xy_2(ux, uy, *((uint8_t*)((map_to_tiles_hi << 8) | **change)));
+		change++;
+	}
+}
+#endif
 
 inline uint8_t bcdIncerement(uint8_t i)
 {
@@ -103,7 +117,7 @@ void mapIteration()
 				*nextYTilesPtr = FIELD_NONE;
 				if (doChanege)
 				{
-					PUT_CHANGES(iterX, iterY);
+					PUT_CHANGES(mapPtr);
 				}
 			}
 			else if (nextXTile != FIELD_NONE)
@@ -112,7 +126,7 @@ void mapIteration()
 				nextXTile = FIELD_NONE;
 				if (doChanege)
 				{
-					PUT_CHANGES(iterX, iterY);
+					PUT_CHANGES(mapPtr);
 				}
 			}
 			else if (*mapPtr == FIELD_EMPTY)
@@ -134,14 +148,14 @@ void mapIteration()
 					{
 						if (!(animCounter & 1) && doChanege)
 						{
-							PUT_CHANGES(iterX, iterY);
+							PUT_CHANGES(mapPtr);
 						}
 					}
 					else
 					{
 						if (doChanege)
 						{
-							PUT_CHANGES(iterX, iterY);
+							PUT_CHANGES(mapPtr);
 						}
 					}
 				}
@@ -149,7 +163,7 @@ void mapIteration()
 				{
 					if (function() && doChanege)
 					{
-						PUT_CHANGES(iterX, iterY);
+						PUT_CHANGES(mapPtr);
 					}
 				}
 			}
@@ -198,11 +212,21 @@ bool setupLevel()
 #ifdef GAMEBOY
 	SWITCH_ROM(current);
 #endif
-	for (uint8_t y = map_pos_y == 0 ? 0 : map_pos_y - 1; y < map_pos_y + visibleY + 1; y++)
+	uint8_t startY = map_pos_y == 0 ? 0 : map_pos_y - 1;
+	uint8_t* mapIterator = map + 16 * startY;
+#ifdef GAMEBOY
+	for (uint8_t y = 0; y < visibleY + 2; y++)
+#else
+	for (uint8_t y = startY; y < map_pos_y + visibleY + 1; y++)
+#endif
 	{
-		for (uint8_t x = 0; x < 16; x++)
+		for (uint8_t x = 0; x < 16; x++, mapIterator++)
 		{
-			set_bkg_tile_xy_2(x, y, map_to_tiles[map[x + y * 16]]);
+#ifdef GAMEBOY
+			set_bkg_tile_xy_2_map_to_tiles_with_translation(mapIterator);
+#else
+			set_bkg_tile_xy_2(x, y, map_to_tiles[*mapIterator]);
+#endif
 		}
 	}
 #ifdef GAMEBOY
@@ -280,19 +304,20 @@ void incrementCounter()
 				uint8_t y = map_pos_y + visibleY;
 				if (y < 32)
 				{
-					for (uint8_t x = 0; x < 16; x++)
+					uint8_t* map1 = map + 16 * (map_pos_y + visibleY);
+					for (uint8_t x = 0; x < 16; x++, map1++)
 					{
-						PUT_CHANGES(x, y);
+						PUT_CHANGES(map1);
 					}
 					PUT_CHANGES_TERMINATOR();
 				}
 			}
 			else if (map_pos_y != 0)
 			{
-				uint8_t y = map_pos_y - 1;
-				for (uint8_t x = 0; x < 16; x++)
+				uint8_t* map1 = map + 16 * (map_pos_y - 1);
+				for (uint8_t x = 0; x < 16; x++, map1++)
 				{
-					PUT_CHANGES(x, y);
+					PUT_CHANGES(map1);
 				}
 				PUT_CHANGES_TERMINATOR();
 			}
@@ -339,18 +364,22 @@ void incrementCounter()
 		if (animCounter == 2)
 		{
 			map_to_tiles = map_to_tiles2;
+			map_to_tiles_hi = 0x3;
 		}
 		else  if (animCounter == 4)
 		{
 			map_to_tiles = map_to_tiles3;
+			map_to_tiles_hi = 0x4;
 		}
 		else  if (animCounter == 6)
 		{
 			map_to_tiles = map_to_tiles4;
+			map_to_tiles_hi = 0x5;
 		}
 		else  if (animCounter == 8)
 		{
 			map_to_tiles = map_to_tiles1;
+			map_to_tiles_hi = 0x2;
 			animCounter = 0;
 		}
 		if (padEnabled)
@@ -457,6 +486,7 @@ void main()
 	for (uint8_t i = 0; i < 16; i++)
 		*mapLastRow++ = FIELD_BLACK_WALL;
 	map_to_tiles = map_to_tiles1;
+	map_to_tiles_hi = 0x2;
 	map_pos_x = 0;
 	map_pos_y = 0;
 	
@@ -471,7 +501,7 @@ void main()
 	changeYend = 6;
 	nextXTile = FIELD_NONE;
 	mapPtr = map - 1;
-	*changes = 0xff;
+	*changes = CHANGES_TERMINATOR;
 	cameraPosX = -fixX;
 #ifdef GAMEGEAR
 	cameraPosY = 224 - fixY;

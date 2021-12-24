@@ -16,6 +16,7 @@ extern uint8_t* nextYTilesPtr;
 
 extern uint8_t counter;
 extern const uint8_t* map_to_tiles;
+extern uint8_t map_to_tiles_hi;
 extern uint8_t map_pos_x;
 extern uint8_t map_pos_y;
 

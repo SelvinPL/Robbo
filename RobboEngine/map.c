@@ -4,7 +4,7 @@
 
 #define NONE 0
 
-const uint8_t const map_to_tiles1[] =
+__at(0x200) const uint8_t const map_to_tiles1[] =
 {
 	NONE, tiles_trans_gun_right, NONE, NONE, tiles_trans_gun_left, tiles_trans_wall1, tiles_trans_box_push, NONE, //0
 	NONE, NONE, NONE, NONE, NONE, tiles_trans_gun_up, tiles_trans_gun_up, tiles_trans_force_field,
@@ -42,7 +42,7 @@ const uint8_t const map_to_tiles1[] =
 	tiles_trans_wall1, //a
 };
 
-const uint8_t const map_to_tiles2[] =
+__at(0x300) const uint8_t const map_to_tiles2[] =
 {
 	NONE, tiles_trans_gun_right, NONE, NONE, tiles_trans_gun_left, tiles_trans_wall1, tiles_trans_box_push, NONE, //0
 	NONE, NONE, NONE, NONE, NONE, tiles_trans_gun_up, tiles_trans_gun_up, tiles_trans_force_field,
@@ -80,7 +80,7 @@ const uint8_t const map_to_tiles2[] =
 	tiles_trans_wall1, //a
 };
 
-const uint8_t const map_to_tiles3[] =
+__at(0x400) const uint8_t const map_to_tiles3[] =
 {
 	NONE, tiles_trans_gun_right, NONE, NONE, tiles_trans_gun_left, tiles_trans_wall1, tiles_trans_box_push, NONE, //0
 	NONE, NONE, NONE, NONE, NONE, tiles_trans_gun_up, tiles_trans_gun_up, tiles_trans_force_field,
@@ -118,7 +118,7 @@ const uint8_t const map_to_tiles3[] =
 	tiles_trans_wall1, //a
 };
 
-const uint8_t const map_to_tiles4[] =
+__at(0x500) const uint8_t const map_to_tiles4[] =
 {
 	NONE, tiles_trans_gun_right, NULL, NULL, tiles_trans_gun_left, tiles_trans_wall1, tiles_trans_box_push, NONE, //0
 	NONE, NONE, NONE, NONE, NONE, tiles_trans_gun_up, tiles_trans_gun_up, tiles_trans_force_field,

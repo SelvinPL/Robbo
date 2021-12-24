@@ -1,10 +1,11 @@
 		.title  "TILES HELPERS ASM"
 		.module tiles_helpers_asm
 		.area _CODE
-		;.globl _tiles_trans
 
 		STATF_BUSY      = 0b00000010 ; When set, VRAM access is unsafe
 		.STAT           = 0x41  ; LCD status
+		.SCRN0          = 0x9800
+		.globl			_map_to_tiles_hi
 
 .macro WAIT_STAT ?lbl
 lbl:
@@ -14,81 +15,73 @@ lbl:
 	jr		NZ,		lbl
 .endm
 
-	; TILE_TYPE(t)		((t) & 0xf)
-	; TILE_SUB_TYPE(t)	((t) >> 0x4)
-	; load t and translate  - tiles_trans[TILE_TYPE(t)][TILE_SUB_TYPE(t)]
-_set_bkg_tile_xy_2_with_translation::
-	ldhl	sp,		#4
-	ld		a,		(hl)
-	and		#0x0f
-	ld		l,		a
-	ld		h,		#0
-	add		hl,		hl
-	;ld		bc,		#_tiles_trans
-	add		hl,		bc
-	ld		a,		(hl+)
-	ld		c,		a
-	ld		b,		(hl)
-	ldhl	sp,		#4
-	ld		a,		(hl)
-	swap	a
-	and		#0x0f
-	ld		h,		#0
-	ld		l,		a
-	add		hl,		bc
-	ld		a,		(hl)
-	ld		b,		a
-	
-	ldhl	sp,		#2
-	; load x
-	ld		a,		(hl+)
-	; x*=2
-	add		a
-	ld		d,		a
-	; load y
-	ld		a,		(hl)
-	; y*=2
-	add		a
-	ld		e,		#0x98 ;#0x98
-	swap	a
-	rlca
-	ld		c,		a
-	and		#3
-	add		e
-	ld		h,		a
-	ld		a,		#0xe0
-	and		c
-	add		d
-	ld		l,		a
-	add		a,		#32
-	ld		e,		a
-	ld		d,		h
-
+.macro put_2_on_2_tile ;b - tile, hl addres, de addres + 32
 	WAIT_STAT
 	ld		a,		b
-	; load translated + 0
 	ld		(hl+),	a
-	; x++
 	inc		a
-	; load translated + 1
 	ld		(hl),	a
-	; x-- y+=32
-	ld		h,		d
+	ld		h,		d		;we could use ld (de), a [8]  and inc de [8] ... but i love hl+ 
 	ld		l,		e
-	inc		a 
-	; load translated + 2
-	ld		(hl+),	a         
-	; x++
 	inc		a
-	; load translated + 3
+	ld		(hl+),	a		
+	inc		a
 	ld		(hl),	a
+.endm
+
+.macro set_bkg_tile_xy_2_map_to_tiles ;e - low, a - hi, b - tile
+	ld		c,		#0xf		;in fact x is in firs 4 bits of low and y is (hi & 0x1) << 4 | low >> 4 but since it's page aligned we can do hi & 0xf
+	and		c					;_______y yyyyxxxx
+	ld		h,		a
+	ld		a,		e
+	and		#0xf0
+	ld		l,		a
+	add		hl,		hl			;y =* 4 but still at _____?y?yy yyyy0000
+	add		hl,		hl
+	ld		a,		e
+	and		c					;
+	add		a					;x *= 2
+	ld		e,		a
+	ld		d,		#0
+	add		hl,		de			;
+	ld		a,		h			
+	and		#3					;we need to get rid of eventually 3 bit of hi
+	add		#>.SCRN0			;and add to hi of tiles address 
+	ld		h,		a			
+	ld		d,		a			;doing copy +32 of hi to omit WAIT_STAT between 2 and 2 operation
+	ld		a,		#32
+	add		l
+	ld		e,		a
+	put_2_on_2_tile
+.endm
+
+_set_bkg_tile_xy_2_map_to_tiles:: 
+	ldhl	sp,		#2
+	ld		a,		(hl+)
+	ld		e,		a
+	ld		a,		(hl+)
+	ld		b,		(hl)
+	set_bkg_tile_xy_2_map_to_tiles
+	ret
+
+_set_bkg_tile_xy_2_map_to_tiles_with_translation:: 
+	ldhl	sp,		#2
+	
+	ld		a,		(hl+)
+	ld		e,		a
+	ld		h,		(hl)
+	ld		d,		h
+	ld		l,		e
+
+	ld		l,		(hl)
+	ld		a,		(_map_to_tiles_hi)		;efectivly in map_to_tiles_hi is hi part of address of current map_to_tiles and since it's size is 256 we can add l
+	ld		h,		a						;to get what we want which is map_to_tiles[l]
+	ld		b,		(hl)		;b - tile hl - addres
+	ld		a,		d
+	set_bkg_tile_xy_2_map_to_tiles
 	ret
 
 _set_bkg_tile_xy_2::
-	ldhl	sp,		#4
-	ld		a,		(hl)
-	ld		b,		a
-	
 	ldhl	sp,		#2
 	; load x
 	ld		a,		(hl+)
@@ -96,10 +89,11 @@ _set_bkg_tile_xy_2::
 	add		a
 	ld		d,		a
 	; load y
-	ld		a,		(hl)
+	ld		a,		(hl+)
+	ld		b,		(hl)
 	; y*=2
 	add		a
-	ld		e,		#0x98 ;#0x98
+	ld		e,		#>.SCRN0
 	swap	a
 	rlca
 	ld		c,		a
@@ -113,23 +107,5 @@ _set_bkg_tile_xy_2::
 	add		a,		#32
 	ld		e,		a
 	ld		d,		h
-
-	WAIT_STAT
-	ld		a,		b
-	; load translated + 0
-	ld		(hl+),	a
-	; x++
-	inc		a
-	; load translated + 1
-	ld		(hl),	a
-	; x-- y+=32
-	ld		h,		d
-	ld		l,		e
-	inc		a 
-	; load translated + 2
-	ld		(hl+),	a         
-	; x++
-	inc		a
-	; load translated + 3
-	ld		(hl),	a
+	put_2_on_2_tile
 	ret

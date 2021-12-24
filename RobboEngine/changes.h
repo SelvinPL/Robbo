@@ -2,29 +2,28 @@
 
 #include <stdint.h>
 
-extern uint8_t changes[];
-extern uint8_t* changesPtr;
+extern uint8_t* changes[];
+extern uint8_t** changesPtr;
 
-#define CHANGES_TERMINATOR 0xff
-#define PUT_CHANGES(x, y)	\
-	*changesPtr++ = (x);	\
-	*changesPtr++ = (y)
+#define CHANGES_TERMINATOR NULL
+#define PUT_CHANGES(map)	\
+	*changesPtr++ = (map);
 
-#define PUT_CHANGES_TERMINATOR()	*changesPtr=0xff
+#define PUT_CHANGES_TERMINATOR()	*changesPtr=CHANGES_TERMINATOR
 
 
-inline void changeLeft()
+inline void changeLeft(uint8_t* map)
 {
 	if (doChanege)
 	{
-		PUT_CHANGES(iterX - 1, iterY);
+		PUT_CHANGES(map);
 	}
 }
 
-inline void changeUp()
+inline void changeUp(uint8_t* map)
 {
 	if (doChanege)
 	{
-		PUT_CHANGES(iterX, iterY - 1);
+		PUT_CHANGES(map);
 	}
 }
