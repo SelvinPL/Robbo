@@ -13,7 +13,7 @@ __at(0x200) const uint8_t const map_to_tiles1[] =
 	tiles_trans_gun_up, NONE, NONE, NONE, tiles_trans_gun_up, tiles_trans_gun_down, tiles_trans_gun_left, tiles_trans_gun_right,
 
 	tiles_trans_empty, tiles_trans_pickable_ammo, NONE, tiles_trans_box_normal, tiles_trans_pickable_screw, tiles_trans_ground, tiles_trans_mob_eyes, tiles_trans_gun_down, //2
-	tiles_trans_magnet_right, tiles_trans_magnet_left, tiles_trans_robbo, tiles_trans_pickable_extra_life, tiles_trans_gun_right, tiles_trans_gun_left, NONE, NONE,
+	tiles_trans_magnet_right, tiles_trans_magnet_left, tiles_trans_robbo, tiles_trans_pickable_extra_life, tiles_trans_gun_left, tiles_trans_gun_right, tiles_trans_gun_up, tiles_trans_gun_down,
 
 	tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport, //3
 	tiles_trans_teleport, tiles_trans_teleport, NONE, NONE, tiles_trans_gun_left, tiles_trans_pickable_key, tiles_trans_gun_right, tiles_trans_questionmark,
@@ -51,7 +51,7 @@ __at(0x300) const uint8_t const map_to_tiles2[] =
 	tiles_trans_gun_up, NONE, NONE, NONE, tiles_trans_gun_up, tiles_trans_gun_down, tiles_trans_gun_left, tiles_trans_gun_right,
 
 	tiles_trans_empty, tiles_trans_pickable_ammo, NONE, tiles_trans_box_normal, tiles_trans_pickable_screw, tiles_trans_ground, tiles_trans_mob_eyes, tiles_trans_gun_down, //2
-	tiles_trans_magnet_right, tiles_trans_magnet_left, tiles_trans_robbo, tiles_trans_pickable_extra_life, tiles_trans_gun_right, tiles_trans_gun_left, NONE, NONE,
+	tiles_trans_magnet_right, tiles_trans_magnet_left, tiles_trans_robbo, tiles_trans_pickable_extra_life, tiles_trans_gun_left, tiles_trans_gun_right, tiles_trans_gun_up, tiles_trans_gun_down,
 
 	tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport, //3
 	tiles_trans_teleport, tiles_trans_teleport, NONE, NONE, tiles_trans_gun_left, tiles_trans_pickable_key, tiles_trans_gun_right, tiles_trans_questionmark,
@@ -89,7 +89,7 @@ __at(0x400) const uint8_t const map_to_tiles3[] =
 	tiles_trans_gun_up, NONE, NONE, NONE, tiles_trans_gun_up, tiles_trans_gun_down, tiles_trans_gun_left, tiles_trans_gun_right,
 
 	tiles_trans_empty, tiles_trans_pickable_ammo, NONE, tiles_trans_box_normal, tiles_trans_pickable_screw, tiles_trans_ground, tiles_trans_mob_eyes2, tiles_trans_gun_down, //2
-	tiles_trans_magnet_right, tiles_trans_magnet_left, tiles_trans_robbo, tiles_trans_pickable_extra_life, tiles_trans_gun_right, tiles_trans_gun_left, NONE, NONE,
+	tiles_trans_magnet_right, tiles_trans_magnet_left, tiles_trans_robbo, tiles_trans_pickable_extra_life, tiles_trans_gun_left, tiles_trans_gun_right, tiles_trans_gun_up, tiles_trans_gun_down,
 
 	tiles_trans_teleport2, tiles_trans_teleport2, tiles_trans_teleport2, tiles_trans_teleport2, tiles_trans_teleport2, tiles_trans_teleport2, tiles_trans_teleport2, tiles_trans_teleport2, //3
 	tiles_trans_teleport2, tiles_trans_teleport2, NONE, NONE, tiles_trans_gun_left, tiles_trans_pickable_key, tiles_trans_gun_right, tiles_trans_questionmark,
@@ -127,7 +127,7 @@ __at(0x500) const uint8_t const map_to_tiles4[] =
 	tiles_trans_gun_up, NULL, NULL, NULL, tiles_trans_gun_up, tiles_trans_gun_down, tiles_trans_gun_left, tiles_trans_gun_right,
 
 	tiles_trans_empty, tiles_trans_pickable_ammo, NONE, tiles_trans_box_normal, tiles_trans_pickable_screw, tiles_trans_ground, tiles_trans_mob_eyes2, tiles_trans_gun_down, //2
-	tiles_trans_magnet_right, tiles_trans_magnet_left, tiles_trans_robbo, tiles_trans_pickable_extra_life, tiles_trans_gun_right, tiles_trans_gun_left, NONE, NONE,
+	tiles_trans_magnet_right, tiles_trans_magnet_left, tiles_trans_robbo, tiles_trans_pickable_extra_life, tiles_trans_gun_left, tiles_trans_gun_right, tiles_trans_gun_up, tiles_trans_gun_down,
 
 	tiles_trans_teleport2, tiles_trans_teleport2, tiles_trans_teleport2, tiles_trans_teleport2, tiles_trans_teleport2, tiles_trans_teleport2, tiles_trans_teleport2, tiles_trans_teleport2, //3
 	tiles_trans_teleport2, tiles_trans_teleport2, NONE, NONE, tiles_trans_gun_left, tiles_trans_pickable_key, tiles_trans_gun_right, tiles_trans_questionmark,

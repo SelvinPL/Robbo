@@ -30,7 +30,7 @@ lbl:
 .endm
 
 .macro set_bkg_tile_xy_2_map_to_tiles ;e - low, a - hi, b - tile
-	ld		c,		#0xf		;in fact x is in firs 4 bits of low and y is (hi & 0x1) << 4 | low >> 4 but since it's page aligned we can do hi & 0xf
+	ld		c,		#0xf		;in fact x is in first 4 bits of low and y is (hi & 0x1) << 4 | low >> 4 but since it's page aligned we can do hi & 0xf
 	and		c					;_______y yyyyxxxx
 	ld		h,		a
 	ld		a,		e
@@ -76,7 +76,7 @@ _set_bkg_tile_xy_2_map_to_tiles_with_translation::
 	ld		l,		(hl)
 	ld		a,		(_map_to_tiles_hi)		;efectivly in map_to_tiles_hi is hi part of address of current map_to_tiles and since it's size is 256 we can add l
 	ld		h,		a						;to get what we want which is map_to_tiles[l]
-	ld		b,		(hl)		;b - tile hl - addres
+	ld		b,		(hl)					;b - tile hl - addres
 	ld		a,		d
 	set_bkg_tile_xy_2_map_to_tiles
 	ret

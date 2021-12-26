@@ -29,8 +29,10 @@
 #define	FIELD_MAGNET_L				0x29
 #define	FIELD_ROBBO					0x2a
 #define	FIELD_LIFE					0x2b
-#define	FIELD_ROTATING_GUN_R		0x2c
-#define	FIELD_ROTATING_GUN_L		0x2d
+#define	FIELD_ROTATING_GUN_L		0x2c
+#define	FIELD_ROTATING_GUN_R		0x2d
+#define	FIELD_ROTATING_GUN_U		0x2e
+#define	FIELD_ROTATING_GUN_D		0x2f
 #define	FIELD_TELEPORT0				0x30
 #define	FIELD_TELEPORT1				0x31
 #define	FIELD_TELEPORT2				0x32

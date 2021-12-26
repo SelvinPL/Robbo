@@ -15,7 +15,7 @@ bool monsterLL()
 	{
 		*newMap = FIELD_MONSTER_LEFT_D;
 		*mapPtr = FIELD_EMPTY;
-		changeLeft(newMap);
+		change(newMap);
 	}
 	else
 	{
@@ -46,7 +46,7 @@ bool monsterLU()
 	{
 		*newMap = FIELD_MONSTER_LEFT_L;
 		*mapPtr = FIELD_EMPTY;
-		changeUp(newMap);
+		change(newMap);
 	}
 	else
 	{
@@ -77,7 +77,7 @@ bool monsterRL()
 	{
 		*newMap = FIELD_MONSTER_RIGHT_U;
 		*mapPtr = FIELD_EMPTY;
-		changeLeft(newMap);
+		change(newMap);
 	}
 	else
 	{
@@ -109,7 +109,7 @@ bool monsterRU()
 	{
 		*newMap = FIELD_MONSTER_RIGHT_R;
 		*mapPtr = FIELD_EMPTY;
-		changeUp(newMap);
+		change(newMap);
 	}
 	else
 	{
@@ -142,7 +142,7 @@ bool birdL()
 		{
 			*newMap = FIELD_MONSTER_BIRD_L;
 			*mapPtr = FIELD_EMPTY;
-			changeLeft(newMap);
+			change(newMap);
 		}
 		else
 		{
@@ -181,7 +181,7 @@ bool birdU()
 		{
 			*newMap = FIELD_MONSTER_BIRD_U;
 			*mapPtr = FIELD_EMPTY;
-			changeUp(newMap);
+			change(newMap);
 		}
 		else
 		{
@@ -221,7 +221,7 @@ bool shootingL()
 		{
 			*newMap = FIELD_MONSTER_SHOOTING_L;
 			*mapPtr = FIELD_EMPTY;
-			changeLeft(newMap);
+			change(newMap);
 		}
 		else
 		{

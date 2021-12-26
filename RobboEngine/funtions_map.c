@@ -11,13 +11,13 @@
 const function const functions_map[] =
 {
 	NULL, blasterR, NULL, NULL, blasterL, NULL, NULL, NULL, //0
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+	NULL, NULL, NULL, NULL, NULL, movableGunL, movableGunR, NULL,
 
 	NULL, NULL, NULL, NULL, NULL, NULL, NULL, blasterD, //1
 	blasterU, NULL, NULL, NULL, gunU, gunD, gunL, gunR,
 	
 	NULL, NULL, NULL, NULL, NULL, NULL, eyes, laserD, //2
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+	NULL, NULL, NULL, NULL, rotatingGunL, rotatingGunR, rotatingGunU, rotatingGunD,
 
 	REFRESH2_ONLY, REFRESH2_ONLY, REFRESH2_ONLY, REFRESH2_ONLY, REFRESH2_ONLY, REFRESH2_ONLY, REFRESH2_ONLY, REFRESH2_ONLY, //3
 	REFRESH2_ONLY, REFRESH2_ONLY, NULL, NULL, laserL, NULL, laserR, NULL,
