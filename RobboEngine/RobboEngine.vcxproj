@@ -26,10 +26,19 @@
 			<Platform>x64</Platform>
 		</ProjectConfiguration>
 	</ItemGroup>
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{3A64F37A-08ED-4F29-9EFD-D765B3A1D29C}</ProjectGuid>
+		<Keyword>Win32Proj</Keyword>
+		<RootNamespace>RobboEngine</RootNamespace>
+		<ProjectName>RobboEngine</ProjectName>
+		<BuildFormat>Binary</BuildFormat>
+		<CodeLocation>0x600</CodeLocation>
+	</PropertyGroup>
+	<PropertyGroup Label="Configuration" />
 	<Import Project="$(MSBuildExtensionsPath)\SDCC\SDCC.Common.props" />
-	<Import Project="$(MSBuildExtensionsPath)\SDCC\SDCC.Common.targets" />
 	<PropertyGroup Label="UserMacros" />
 	<PropertyGroup Condition="'$(Platform)'=='Win32'">
+		<PlatformSpecificAsmPath>gb</PlatformSpecificAsmPath>
 		<GameBoyRomBankCount>4</GameBoyRomBankCount>
 		<GameBoyMemoryBankController>17</GameBoyMemoryBankController>
 		<PortType>gbz80</PortType>
@@ -39,6 +48,7 @@
 		<GameBoyColor>true</GameBoyColor>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Platform)'=='ARM'">
+		<PlatformSpecificAsmPath>sms</PlatformSpecificAsmPath>
 		<PortType>z80</PortType>
 		<CustomCrt>$(GBDKLibPath)/small/asxxxx/sms/crt0.o</CustomCrt>
 		<GlobalSymbols>_shadow_OAM=0xC400;.STACK=0xDEFF;_map=0xC000;_changes=0xC200</GlobalSymbols>
@@ -50,8 +60,9 @@
 		<GameBoyRomBankCount>A</GameBoyRomBankCount>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Platform)'=='x64'">
+		<PlatformSpecificAsmPath>gg</PlatformSpecificAsmPath>
 		<PortType>z80</PortType>
-		<CustomCrt>$(GBDKLibPath)/small/asxxxx/sms/crt0.o</CustomCrt>
+		<CustomCrt>$(GBDKLibPath)/small/asxxxx/gg/crt0.o</CustomCrt>
 		<GlobalSymbols>_shadow_OAM=0xC400;.STACK=0xDEFF;_map=0xC000;_changes=0xC200</GlobalSymbols>
 		<DataLocation>0xc500</DataLocation>
 		<AdditionalLibraryPath>$(GBDKLibPath);$(GBDKLibPath)/small/asxxxx/gg;$(GBDKLibPath)/small/asxxxx/z80</AdditionalLibraryPath>
@@ -60,28 +71,29 @@
 		<GenerateGameBoyBinary>false</GenerateGameBoyBinary>
 		<GameBoyRomBankCount>A</GameBoyRomBankCount>
 	</PropertyGroup>
-	<PropertyGroup Label="Globals">
-		<ProjectGuid>{3A64F37A-08ED-4F29-9EFD-D765B3A1D29C}</ProjectGuid>
-		<Keyword>Win32Proj</Keyword>
-		<RootNamespace>RobboEngine</RootNamespace>
-		<ProjectName>RobboEngine</ProjectName>
-		<BuildFormat>Binary</BuildFormat>
-		<CodeLocation>0x600</CodeLocation>
-	</PropertyGroup>
 	<ItemDefinitionGroup Condition="'$(Platform)'=='Win32'">
 		<ClCompile>
 			<SDCCPreprocessorDefinitions>$(SDCCPreprocessorDefinitions);__PORT_gbz80;__TARGET_gb;</SDCCPreprocessorDefinitions>
 		</ClCompile>
+		<AsmCompile>
+			<AdditionalIncludeDirectories>gb</AdditionalIncludeDirectories>
+		</AsmCompile>
 	</ItemDefinitionGroup>
 	<ItemDefinitionGroup Condition="'$(Platform)'=='ARM'">
 		<ClCompile>
 			<SDCCPreprocessorDefinitions>$(SDCCPreprocessorDefinitions);__PORT_z80;__TARGET_sms;</SDCCPreprocessorDefinitions>
 		</ClCompile>
+		<AsmCompile>
+			<AdditionalIncludeDirectories>sms</AdditionalIncludeDirectories>
+		</AsmCompile>
 	</ItemDefinitionGroup>
 	<ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
 		<ClCompile>
 			<SDCCPreprocessorDefinitions>$(SDCCPreprocessorDefinitions);__PORT_z80;__TARGET_gg;</SDCCPreprocessorDefinitions>
 		</ClCompile>
+		<AsmCompile>
+			<AdditionalIncludeDirectories>gg</AdditionalIncludeDirectories>
+		</AsmCompile>
 	</ItemDefinitionGroup>
 	<ItemDefinitionGroup>
 		<ClCompile>
@@ -117,10 +129,13 @@
 		<ClInclude Include="win_slide.h" />
 	</ItemGroup>
 	<ItemGroup>
-		<AsmCompile Condition="'$(Platform)'=='Win32'" Include="tiles_helper_gb.asm" />
-		<AsmCompile Condition="'$(Platform)'=='ARM1'" Include="tiles_helper_sega.asm" />
-		<AsmCompile Condition="'$(Platform)'=='x641'" Include="tiles_helper_sega.asm" />
+		<AsmCompile Include="tiles_helper_main.asm" />
 	</ItemGroup>
-	<ImportGroup Label="ExtensionTargets">
-	</ImportGroup>
+	<ItemGroup>
+		<Text Include="gb\tiles_helper.asm"/>
+		<Text Include="sms\tiles_helper.asm"/>
+		<Text Include="gg\tiles_helper.asm"/>
+	</ItemGroup>
+	<Import Project="$(MSBuildExtensionsPath)\SDCC\SDCC.Common.targets" />
+	<ImportGroup Label="ExtensionTargets" />
 </Project>

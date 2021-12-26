@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\gb">
+      <UniqueIdentifier>{b7f7fd91-a6eb-4512-b0ae-173b58a5fe97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\sms">
+      <UniqueIdentifier>{5ff1070d-b1c3-468b-942a-223ef5b732f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gg">
+      <UniqueIdentifier>{1d7ee7e7-7829-4aa8-bf5d-74ab139da40a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
@@ -80,5 +89,21 @@
     <ClInclude Include="changes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <AsmCompile Include="tiles_helper_main.asm">
+      <Filter>Source Files</Filter>
+    </AsmCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="gb\tiles_helper.asm">
+      <Filter>Source Files\gb</Filter>
+    </Text>
+    <Text Include="sms\tiles_helper.asm">
+      <Filter>Source Files\sms</Filter>
+    </Text>
+    <Text Include="gg\tiles_helper.asm">
+      <Filter>Source Files\gg</Filter>
+    </Text>
   </ItemGroup>
 </Project>
