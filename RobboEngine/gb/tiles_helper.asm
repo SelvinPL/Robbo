@@ -1,11 +1,6 @@
-		.title  "TILES HELPERS ASM"
-		.module tiles_helpers_asm
-		.area _CODE
-
 		STATF_BUSY      = 0b00000010 ; When set, VRAM access is unsafe
 		.STAT           = 0x41  ; LCD status
 		.SCRN0          = 0x9800
-		.globl			_map_to_tiles_hi
 
 .macro WAIT_STAT ?lbl
 lbl:
