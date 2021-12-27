@@ -121,6 +121,7 @@ _set_bkg_tile_xy_2::
 	xor		a
 	ld		b,	#28
 	FAST_MOD8 d b
+	rrca                    ; rrca(2) == rlca(6)
 	rrca 
 	ld		d,		a
 	and		#0x07
