@@ -96,14 +96,14 @@
     </AsmCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="gb\tiles_helper.asm">
+    <AsmCompile Include="gb\tiles_helper.asm">
       <Filter>Source Files\gb</Filter>
-    </Text>
-    <Text Include="sms\tiles_helper.asm">
+    </AsmCompile>
+    <AsmCompile Include="sms\tiles_helper.asm">
       <Filter>Source Files\sms</Filter>
-    </Text>
-    <Text Include="gg\tiles_helper.asm">
+    </AsmCompile>
+    <AsmCompile Include="gg\tiles_helper.asm">
       <Filter>Source Files\gg</Filter>
-    </Text>
+    </AsmCompile>
   </ItemGroup>
 </Project>

@@ -21,16 +21,16 @@
 #define fixTileY 0
 #elif defined(GAMEGEAR)
 #define maxPosX 6
-#define maxPosY 22
-#define visibleY 9
+#define maxPosY 23
+#define visibleY 8
 #define fixX 48
 #define fixY 24
 #define fixTileX 6
 #define fixTileY 3
 #else
 #define maxPosX 0
-#define maxPosY 19
-#define visibleY 12
+#define maxPosY 20
+#define visibleY 11
 #define fixX 0
 #define fixY 0
 #define fixTileX 0
@@ -46,11 +46,12 @@ uint8_t cameraPosY;
 extern void set_bkg_tile_xy_2(uint8_t x, uint8_t y, uint8_t t) OLDCALL;
 extern void set_bkg_tile_xy_2_map_to_tiles_with_translation(uint8_t* map) OLDCALL;
 #else
-inline void set_bkg_tile_xy_2(uint8_t x, uint8_t y, uint8_t t)
+extern void set_bkg_tile_xy_2(uint8_t x, uint8_t y, uint8_t t)  __z88dk_callee __preserves_regs(iyh, iyl);
+/*inline void set_bkg_tile_xy_2(uint8_t x, uint8_t y, uint8_t t)
 {
 	uint8_t tiles[] = { t, t + 1, t + 2, t + 3 };
 	set_bkg_tiles(2 * x - fixTileX, 2 * y - fixTileY, 2, 2, tiles);
-}
+}*/
 #endif
 
 #ifdef GAMEBOY
@@ -74,6 +75,24 @@ void repaint()
 		set_bkg_tile_xy_2(ux, uy, *((uint8_t*)((map_to_tiles_hi << 8) | **change)));
 		change++;
 	}
+	/*
+	__asm;
+
+		push	bc
+		ld		c, #0xbf
+		ld		b, #0
+		di
+		out(c), b
+		ld		b, #0x78
+		out(c), b
+		ld		c, #0xbe
+		ld		b, #4
+		out(c), b
+		ld		b, #0
+		out(c), b
+		ei
+		pop		bc
+	__endasm;*/
 }
 #endif
 
@@ -278,6 +297,36 @@ inline void slide_bkg_y()
 }
 #endif 
 
+uint8_t* next_line = NULL;
+
+inline void loadNextLine()
+{
+	if (slideY)
+	{
+		if (slideY > 0)
+		{
+			if (map_pos_y + visibleY < 32)
+			{
+				for (uint8_t x = 0; x < 4; x++)
+				{
+					PUT_CHANGES(next_line);
+					next_line++;
+				}
+				PUT_CHANGES_TERMINATOR();
+			}
+		}
+		else if (map_pos_y != 0)
+		{
+			for (uint8_t x = 0; x < 4; x++)
+			{
+				PUT_CHANGES(next_line);
+				next_line++;
+			}
+			PUT_CHANGES_TERMINATOR();
+		}
+	}
+}
+
 void incrementCounter()
 {
 	counter++;
@@ -285,6 +334,7 @@ void incrementCounter()
 	{
 		changeYstart = 6;
 		changeYend = 12;
+		loadNextLine();
 		if (slideX)
 			slide_bkg_x();
 		if (slideY)
@@ -294,33 +344,12 @@ void incrementCounter()
 	{
 		changeYstart = 12;
 		changeYend = 18;
+		loadNextLine();
 		if(slideX)
 			slide_bkg_x();
 		if (slideY)
 		{
 			slide_bkg_y();
-			if (slideY > 0)
-			{
-				uint8_t y = map_pos_y + visibleY;
-				if (y < 32)
-				{
-					uint8_t* map1 = map + 16 * (map_pos_y + visibleY);
-					for (uint8_t x = 0; x < 16; x++, map1++)
-					{
-						PUT_CHANGES(map1);
-					}
-					PUT_CHANGES_TERMINATOR();
-				}
-			}
-			else if (map_pos_y != 0)
-			{
-				uint8_t* map1 = map + 16 * (map_pos_y - 1);
-				for (uint8_t x = 0; x < 16; x++, map1++)
-				{
-					PUT_CHANGES(map1);
-				}
-				PUT_CHANGES_TERMINATOR();
-			}
 		}
 	}
 	else if (counter == 3)
@@ -337,11 +366,13 @@ void incrementCounter()
 			slide_bkg_y();
 			slideY = (int8_t)((((uint8_t)slideY) + 1) & 0b11111100);
 		}
+		loadNextLine();
 	}
 	else if (counter == 4)
 	{
 		changeYstart = 24;
 		changeYend = 32;
+		loadNextLine();
 		if (slideX)
 		{
 			slide_bkg_x();
@@ -401,13 +432,20 @@ void incrementCounter()
 				slideY = -3;
 				slide_bkg_y();
 				map_pos_y--;
-
+				if (map_pos_y != 0)
+				{
+					next_line = map + 16 * (map_pos_y - 1);
+				}
 			}
 			else if ((padState & J_DOWN) && map_pos_y < maxPosY)
 			{
 				slideY = 3;
 				slide_bkg_y();
 				map_pos_y++;
+				if (map_pos_y + visibleY < 32)
+				{
+					next_line = map + 16 * (map_pos_y + visibleY);
+				}
 			}
 			if (padState & J_B)
 			{
@@ -457,6 +495,20 @@ const palette_color_t cgb_palettes[] =
 	palette1c1, palette1c2, palette1c3, palette1c4,
 };
 
+#ifndef GAMEBOY
+const uint8_t tile2_data[] = 
+{ 
+	tiles_trans_black_wall, 0, tiles_trans_black_wall, 0,
+	tiles_trans_black_wall, 0, tiles_trans_black_wall, 0,
+	tiles_trans_black_wall, 0, tiles_trans_black_wall, 0,
+	tiles_trans_black_wall, 0, tiles_trans_black_wall, 0,
+	tiles_trans_black_wall, 0, tiles_trans_black_wall, 0,
+	tiles_trans_black_wall, 0, tiles_trans_black_wall, 0,
+	tiles_trans_black_wall, 0, tiles_trans_black_wall, 0,
+	tiles_trans_black_wall, 0, tiles_trans_black_wall, 0,
+};
+#endif
+
 void main()
 {
 	DISABLE_VBL_TRANSFER;
@@ -465,8 +517,7 @@ void main()
 	winSlideX = 0;
 	winSlideToX = 0;
 	padEnabled = false;
-	set_bkg_palette(0, 1, cgb_palettes);
-	//set_2bpp_palette(COMPAT_PALETTE(1, 2, 3, 4));
+	set_bkg_palette(0, 1, (palette_color_t*)cgb_palettes);
 #ifdef GAMEBOY
 	init_win(tiles_trans_black_wall);
 	WX_REG = 7;
@@ -480,6 +531,20 @@ void main()
 	set_bkg_data(tiles_trans_robbo, 4u, map_tiles + tiles_trans_robbo_d * 0x10);
 #ifdef GAMEBOY
 	SWITCH_ROM(current);
+#else
+	for (uint8_t c = 0; c < 112; c++)
+	{
+
+		vmemcpy(0x7000 + c * 16, tile2_data, 16);
+	}
+	uint8_t state = __READ_VDP_REG(VDP_R0);
+	state |= R0_IE1;
+	__WRITE_VDP_REG(VDP_R0, state);
+#ifdef GAMEGEAR
+	__WRITE_VDP_REG(VDP_R10, 151);
+#else
+	__WRITE_VDP_REG(VDP_R10, 175);
+#endif
 #endif
 	memset(nextYTiles, FIELD_NONE, 16);
 	uint8_t* mapLastRow = map + 496;
@@ -519,6 +584,9 @@ void main()
 		padState = joypad();
 		mapIteration();
 		wait_vbl_done();
+#ifndef GAMEBOY
+		__WRITE_VDP_REG(VDP_R2, R2_MAP_0x3800);
+#endif
 		incrementCounter();
 		repaint();
 	}

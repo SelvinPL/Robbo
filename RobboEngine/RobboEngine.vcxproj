@@ -129,12 +129,9 @@
 		<ClInclude Include="win_slide.h" />
 	</ItemGroup>
 	<ItemGroup>
-		<AsmCompile Include="tiles_helper_main.asm" />
-	</ItemGroup>
-	<ItemGroup>
-		<Text Include="gb\tiles_helper.asm"/>
-		<Text Include="sms\tiles_helper.asm"/>
-		<Text Include="gg\tiles_helper.asm"/>
+		<AsmCompile Include="gb\tiles_helper.asm" Condition="'$(Platform)'=='Win32'"/>
+		<AsmCompile Include="sms\tiles_helper.asm" Condition="'$(Platform)'=='ARM'"/>
+		<AsmCompile Include="gg\tiles_helper.asm" Condition="'$(Platform)'=='x64'"/>
 	</ItemGroup>
 	<Import Project="$(MSBuildExtensionsPath)\SDCC\SDCC.Common.targets" />
 	<ImportGroup Label="ExtensionTargets" />
