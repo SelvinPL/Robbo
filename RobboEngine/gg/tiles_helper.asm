@@ -52,6 +52,12 @@ wait$:
 		jr z, wait$
 		ret
 
+.macro wait_read_write n
+	.rept n
+		nop
+	.endm
+.endm
+
 .macro put_2_on_2_tile ;a - tile, hl addres, de addres + 64
 	ld		c,		#VDP_CMD
 	di
@@ -100,6 +106,7 @@ modcheck$:
 	and		#0x07
 
 	ld		bc,		#VDP_TILEMAP
+
 	add		b
 	ld		b,		a
 	ld		a,		#0xC0
