@@ -47,11 +47,6 @@ extern void set_bkg_tile_xy_2(uint8_t x, uint8_t y, uint8_t t) OLDCALL;
 extern void set_bkg_tile_xy_2_map_to_tiles_with_translation(uint8_t* map) OLDCALL;
 #else
 extern void set_bkg_tile_xy_2(uint8_t x, uint8_t y, uint8_t t)  __z88dk_callee __preserves_regs(iyh, iyl);
-/*inline void set_bkg_tile_xy_2(uint8_t x, uint8_t y, uint8_t t)
-{
-	uint8_t tiles[] = { t, t + 1, t + 2, t + 3 };
-	set_bkg_tiles(2 * x - fixTileX, 2 * y - fixTileY, 2, 2, tiles);
-}*/
 #endif
 
 #ifdef GAMEBOY
@@ -75,24 +70,6 @@ void repaint()
 		set_bkg_tile_xy_2(ux, uy, *((uint8_t*)((map_to_tiles_hi << 8) | **change)));
 		change++;
 	}
-	/*
-	__asm;
-
-		push	bc
-		ld		c, #0xbf
-		ld		b, #0
-		di
-		out(c), b
-		ld		b, #0x78
-		out(c), b
-		ld		c, #0xbe
-		ld		b, #4
-		out(c), b
-		ld		b, #0
-		out(c), b
-		ei
-		pop		bc
-	__endasm;*/
 }
 #endif
 

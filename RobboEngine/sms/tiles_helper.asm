@@ -52,29 +52,6 @@ wait$:
 		jr z, wait$
 		ret
 
-.macro DIV_PART divident divisor ?lbl
-		rl divident
-		rla
-		sub divisor
-		jr  nc, lbl
-		add divisor
-lbl:
-.endm
-.macro FAST_DIV8 divident divisor
-		; returns modulus in A
-		.rept 8
-				DIV_PART divident divisor
-		.endm
-		ld a, divident
-		cpl
-.endm
-.macro FAST_MOD8 divident divisor
-		; returns modulus in A
-		.rept 8
-				DIV_PART divident divisor
-		.endm
-.endm
-
 .macro wait_read_write n
 	.rept n
 		nop
@@ -117,10 +94,12 @@ _set_bkg_tile_xy_2::
 	ex		de,		hl
 	add		hl,		hl
 	ex		de,		hl
-
-	xor		a
-	ld		b,	#28
-	FAST_MOD8 d b
+	ld		a,		d
+	ld		b,		#28
+modcheck$:
+	sub		b
+	jr		NC,		modcheck$
+	add		b
 	rrca                    ; rrca(2) == rlca(6)
 	rrca 
 	ld		d,		a
