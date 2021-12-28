@@ -42,14 +42,14 @@ uint8_t cameraPosY;
 
 #define BETWEEN(n, start, end) (((n)>=((uint8_t)(start))) && ((n)<((uint8_t)(end))))
 
+#define ASM_TILES
+
+#ifdef ASM_TILES
 #ifdef GAMEBOY
-extern void set_bkg_tile_xy_2(uint8_t x, uint8_t y, uint8_t t) OLDCALL;
 extern void set_bkg_tile_xy_2_map_to_tiles_with_translation(uint8_t* map) OLDCALL;
 #else
-extern void set_bkg_tile_xy_2(uint8_t x, uint8_t y, uint8_t t)  __z88dk_callee __preserves_regs(iyh, iyl);
+extern void set_bkg_tile_xy_2_map_to_tiles_with_translation(uint8_t* map) __z88dk_callee __preserves_regs(iyh, iyl);
 #endif
-
-#ifdef GAMEBOY
 void repaint()
 {
 	uint8_t** change = changes - 1;
@@ -59,16 +59,20 @@ void repaint()
 	}
 }
 #else
+inline void set_bkg_tile_xy_2(uint8_t x, uint8_t y, uint8_t t)
+{
+	uint8_t tiles[] = { t, t + 1, t + 2, t + 3 };
+	set_bkg_tiles(2 * x - fixTileX, 2 * y - fixTileY, 2, 2, tiles);
+}
 void repaint()
 {
-	uint8_t** change = changes;
-	while (*change != CHANGES_TERMINATOR)
+	uint8_t** change = changes - 1;
+	while (*++change != CHANGES_TERMINATOR)
 	{
 		uint8_t low = (uint8_t)(*change);
 		uint8_t ux = low & 0xf;
 		uint8_t uy = (low >> 4) | ((uint8_t)(((uint16_t)(*change)) >> 8) << 4);
 		set_bkg_tile_xy_2(ux, uy, *((uint8_t*)((map_to_tiles_hi << 8) | **change)));
-		change++;
 	}
 }
 #endif
@@ -210,7 +214,7 @@ bool setupLevel()
 #endif
 	uint8_t startY = map_pos_y == 0 ? 0 : map_pos_y - 1;
 	uint8_t* mapIterator = map + 16 * startY;
-#ifdef GAMEBOY
+#ifdef ASM_TILES
 	for (uint8_t y = 0; y < visibleY + 2; y++)
 #else
 	for (uint8_t y = startY; y < map_pos_y + visibleY + 1; y++)
@@ -218,7 +222,7 @@ bool setupLevel()
 	{
 		for (uint8_t x = 0; x < 16; x++, mapIterator++)
 		{
-#ifdef GAMEBOY
+#ifdef ASM_TILES
 			set_bkg_tile_xy_2_map_to_tiles_with_translation(mapIterator);
 #else
 			set_bkg_tile_xy_2(x, y, map_to_tiles[*mapIterator]);

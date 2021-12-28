@@ -58,7 +58,7 @@ wait$:
 	.endm
 .endm
 
-.macro put_2_on_2_tile ;a - tile, hl addres, de addres + 64
+.macro put_2_on_2_tile ;a - tile, hl addres, de address + 64
 	ld		c,		#VDP_CMD
 	di
 	out		(c),	l
@@ -85,20 +85,12 @@ wait$:
 	ei
 .endm
 
-
-_set_bkg_tile_xy_2::
-	pop		hl          ; HL = ret
-	pop		de          ; DE = YX
-	dec		sp
-	ex		(sp),	hl     ; HL = data
-	ex		de,		hl
-	add		hl,		hl
-	ex		de,		hl
+.macro set_bkg_tile_xy_2 ?modcheck ;DE = YX, H  = data
 	ld		a,		d
 	ld		b,		#28
-modcheck$:
+modcheck:
 	sub		b
-	jr		NC,		modcheck$
+	jr		NC,		modcheck
 	add		b
 	rrca                    ; rrca(2) == rlca(6)
 	rrca 
@@ -120,4 +112,48 @@ modcheck$:
 	ld		a,		h
 	ld		h,		d
 	put_2_on_2_tile
+.endm
+
+_set_bkg_tile_xy_2::
+	pop		hl          ; HL = ret
+	pop		de          ; DE = YX
+	dec		sp
+	ex		(sp),	hl     ; HL = data
+	ex		de,		hl
+	add		hl,		hl
+	ex		de,		hl
+	set_bkg_tile_xy_2
+	ret
+
+_set_bkg_tile_xy_2_map_to_tiles_with_translation::
+	pop		hl          ; HL = ret
+	ex		(sp),	hl     ; HL = address
+	ld		e,		l
+	ld		d,		h
+	ld		l,		(hl)
+	ld		a,		(_map_to_tiles_hi)
+	ld		h,		a
+	ld		h,		(hl)
+	ld		l,		e
+	ex		de,		hl
+
+	ld		a,		l
+	and		#0xf0
+	ld		c,		a
+	ld		a,		h
+	and		#1
+	add		a,		c
+
+	rrca
+	rrca
+	rrca
+	rrca
+
+	ld		h,		a
+	ld		a,		l
+	and		#0xf
+	ld		l,		a
+	add		hl,		hl
+	ex		de,		hl
+	set_bkg_tile_xy_2 ;DE = YX, H  = data
 	ret
