@@ -5,48 +5,65 @@
 
 extern bool winSlide;
 extern int8_t winSlideX;
+extern uint8_t winPositionX;
 extern uint8_t winSlideToX;
-
 
 inline void startSlideIn()
 {
 #ifdef GAMEBOY
 	move_win(167, 0);
 	winSlideToX = 7;
-	winSlideX = -4;
+#else
+	winPositionX = 172 - fixY;
+	winSlideToX = 0;
+	__WRITE_VDP_REG(VDP_R10, winPositionX);
 #endif 
+	winSlideX = -4;
 	winSlide = true;
 }
-
-
 
 inline void startSlideOut()
 {
 #ifdef GAMEBOY
 	move_win(7, 0);
 	winSlideToX = 167;
+#else
+	winPositionX = 0;
+	winSlideToX = 172 - fixY;
+	__WRITE_VDP_REG(VDP_R10, winPositionX);
+#endif 
 	winSlideX = 4;
-#endif
 	winSlide = true;
 }
 
 inline void slideStep()
 {
-#ifdef GAMEBOY
 	if (winSlide)
 	{
+#ifdef GAMEBOY
 		if (winSlideToX != WX_REG)
 		{
 			WX_REG += winSlideX;
 		}
 		else
+		{ 
+#else
+		if (winSlideToX != winPositionX)
 		{
+			winPositionX += winSlideX;
+			__WRITE_VDP_REG(VDP_R10, winPositionX);
+
+		}
+		else
+		{
+			if (winPositionX == (172 - fixY))
+			{
+				__WRITE_VDP_REG(VDP_R10, 175 - fixY);
+			}
 #endif
 			winSlide = false;
 			if(nextFunction)
 				nextFunction();
-#ifdef GAMEBOY
 		}
 	}
-#endif
 }

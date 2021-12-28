@@ -51,6 +51,9 @@
     <ClCompile Include="win_slide.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="changes.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tiles.h">
@@ -91,19 +94,8 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <AsmCompile Include="tiles_helper_main.asm">
-      <Filter>Source Files</Filter>
-    </AsmCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <AsmCompile Include="gb\tiles_helper.asm">
-      <Filter>Source Files\gb</Filter>
-    </AsmCompile>
     <AsmCompile Include="sms\tiles_helper.asm">
       <Filter>Source Files\sms</Filter>
-    </AsmCompile>
-    <AsmCompile Include="gg\tiles_helper.asm">
-      <Filter>Source Files\gg</Filter>
     </AsmCompile>
   </ItemGroup>
 </Project>

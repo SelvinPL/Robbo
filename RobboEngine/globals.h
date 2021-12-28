@@ -8,11 +8,11 @@ extern uint8_t iterY;
 extern uint8_t changeYstart;
 extern uint8_t changeYend;
 extern uint8_t doChanege;
+
 extern uint8_t nextXTile;
 extern uint8_t* mapPtr;
 extern uint8_t nextYTiles[];
 extern uint8_t* nextYTilesPtr;
-
 
 extern uint8_t counter;
 extern const uint8_t* map_to_tiles;
@@ -29,3 +29,6 @@ extern bool padEnabled;
 extern function nextFunction;
 
 extern uint8_t level;
+
+extern uint8_t cameraPosX;
+extern uint8_t cameraPosY;

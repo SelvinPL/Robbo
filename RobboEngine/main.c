@@ -11,39 +11,7 @@
 #include "win_slide.h"
 #include "changes.h"
 
-#if defined(GAMEBOY)
-#define maxPosX 6
-#define maxPosY 23
-#define visibleY 8
-#define fixX 0
-#define fixY 0
-#define fixTileX 0
-#define fixTileY 0
-#define cameraStartPosY 0
-#elif defined(GAMEGEAR)
-#define maxPosX 6
-#define maxPosY 23
-#define visibleY 8
-#define fixX 48
-#define fixY 24
-#define fixTileX 6
-#define fixTileY 3
-#define cameraStartPosY 200
-#else
-#define maxPosX 0
-#define maxPosY 20
-#define visibleY 11
-#define fixX 0
-#define fixY 0
-#define fixTileX 0
-#define fixTileY 0
-#define cameraStartPosY 0
-#endif 
-
-uint8_t cameraPosX;
-uint8_t cameraPosY;
-
-#define BETWEEN(n, start, end) (((n)>=((uint8_t)(start))) && ((n)<((uint8_t)(end))))
+#define BETWEEN(n, start, end) ((((uint8_t)n)>=((uint8_t)(start))) && (((uint8_t)n)<((uint8_t)(end))))
 
 #define ASM_TILES
 
@@ -233,11 +201,9 @@ bool setupLevel()
 	}
 #endif
 
-#ifdef GAMEBOY
 	uint8_t wait = 40;
 	while (wait--)
 		wait_vbl_done();
-#endif
 	nextFunction = &setupLevelFinished;
 	startSlideOut();
 	return true;
@@ -465,17 +431,17 @@ void incrementCounter()
 
 #ifdef GAMEBOY
 #define palette1c1 RGBHTML(0xa8a8a8)
-#define palette1c2 RGBHTML(0xBF7A19)
-#define palette1c3 RGBHTML(0x1E7400)
+#define palette1c2 RGBHTML(0xbf7a19)
+#define palette1c3 RGBHTML(0x208020)
 #define palette1c4 RGBHTML(0x000000)
 #else
-#define palette1c1 RGBHTML(0xe8e8e8)
-#define palette1c2 RGBHTML(0xefaa49)
-#define palette1c3 RGBHTML(0x4ea430)
+#define palette1c1 RGBHTML(0xffffff)
+#define palette1c2 RGBHTML(0xffaa55)
+#define palette1c3 RGBHTML(0x55aa55)
 #define palette1c4 RGBHTML(0x000000)
 #endif
 
-const palette_color_t cgb_palettes[] =
+const palette_color_t palettes[] =
 {
 	palette1c1, palette1c2, palette1c3, palette1c4,
 };
@@ -502,31 +468,15 @@ void main()
 	winSlideX = 0;
 	winSlideToX = 0;
 	padEnabled = false;
-	set_bkg_palette(0, 1, (palette_color_t*)cgb_palettes);
-
+	set_bkg_palette(0, 1, (palette_color_t*)palettes);
 	uint8_t current = _current_bank;
 	SWITCH_ROM_EX(BANK(tiles_data));
 	set_bkg_data(0, 172, map_tiles);
 	set_bkg_data(tiles_trans_mob_bird2, 32, map_tiles + (tiles_trans_mob_bird2 + 0x10) * 0x10);
 	set_bkg_data(tiles_trans_robbo, 4u, map_tiles + tiles_trans_robbo_d * 0x10);
 	SWITCH_ROM_EX(current);
-#ifdef GAMEBOY
-	init_win(tiles_trans_black_wall);
-	WX_REG = 7;
-	WY_REG = 0;
-	SHOW_WIN;
-	cameraPosY = 0;
-#else
-	for (uint8_t c = 0; c < 112; c++)
-	{
-		vmemcpy(0x7000 + c * 16, tile2_data, 16);
-	}
-	uint8_t state = __READ_VDP_REG(VDP_R0);
-	state |= R0_IE1;
-	__WRITE_VDP_REG(VDP_R0, state);
-	__WRITE_VDP_REG(VDP_R10, 175 - fixY);
 	cameraPosY = cameraStartPosY;
-#endif
+	initHUD();
 	memset(nextYTiles, FIELD_NONE, 16);
 	uint8_t* mapLastRow = map + 496;
 	for (uint8_t i = 0; i < 16; i++)
@@ -561,9 +511,7 @@ void main()
 		padState = joypad();
 		mapIteration();
 		wait_vbl_done();
-#ifndef GAMEBOY
-		__WRITE_VDP_REG(VDP_R2, R2_MAP_0x3800);
-#endif
+		drawHUD();
 		incrementCounter();
 		repaint();
 	}

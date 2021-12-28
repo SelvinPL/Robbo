@@ -63,7 +63,7 @@ wait$:
 	di
 	out		(c),	l
 	out		(c),	h
-	dec		c
+	dec		c				;VDP_CMD -> VDP_DATA
 	out		(c),	a		;11
 	wait_read_write	4		;4*
 	in		l,		(c)		;skip
@@ -72,10 +72,10 @@ wait$:
 	out		(c),	a
 	wait_read_write 3
 	inc		a
-	inc		c
+	inc		c				;VDP_DATA -> VDP_CMD
 	out		(c),	e
 	out		(c),	d
-	dec		c
+	dec		c				;VDP_CMD -> VDP_DATA
 	out		(c),	a
 	wait_read_write 4
 	in		l,		(c)  ;skip
