@@ -2,9 +2,8 @@
 #include "platform.h"
 #include <stdint.h>
 
-#ifdef GAMEBOY
 BANKREF_EXTERN(tiles_data)
-#endif
+
 extern const uint8_t const map_tiles[];
 
 #define tiles_trans_empty				0x00

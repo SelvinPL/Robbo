@@ -3,8 +3,12 @@
 
 #ifdef GAMEBOY
 #pragma bank 2
-BANKREF(levels_data)
+#else
+#pragma bank 0
 #endif
+
+BANKREF(levels_data)
+
 
 /*
   level           1

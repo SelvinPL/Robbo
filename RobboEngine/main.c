@@ -19,6 +19,7 @@
 #define fixY 0
 #define fixTileX 0
 #define fixTileY 0
+#define cameraStartPosY 0
 #elif defined(GAMEGEAR)
 #define maxPosX 6
 #define maxPosY 23
@@ -27,6 +28,7 @@
 #define fixY 24
 #define fixTileX 6
 #define fixTileY 3
+#define cameraStartPosY 200
 #else
 #define maxPosX 0
 #define maxPosY 20
@@ -35,6 +37,7 @@
 #define fixY 0
 #define fixTileX 0
 #define fixTileY 0
+#define cameraStartPosY 0
 #endif 
 
 uint8_t cameraPosX;
@@ -204,31 +207,32 @@ void drawNumber(uint8_t x, uint8_t y, uint8_t number)
 bool setupLevel()
 {
 	const uint8_t lvl = (0xf & level) + (level >> 4 & 0xf) * 10 - 1;
-#ifdef GAMEBOY
+
 	uint8_t current = _current_bank;
-	SWITCH_ROM(BANK(levels_data));
-#endif
+	SWITCH_ROM_EX(BANK(levels_data));
 	gb_decompress(levels[lvl], map);
-#ifdef GAMEBOY
-	SWITCH_ROM(current);
-#endif
+	SWITCH_ROM_EX(current);
+
 	uint8_t startY = map_pos_y == 0 ? 0 : map_pos_y - 1;
 	uint8_t* mapIterator = map + 16 * startY;
 #ifdef ASM_TILES
 	for (uint8_t y = 0; y < visibleY + 2; y++)
-#else
-	for (uint8_t y = startY; y < map_pos_y + visibleY + 1; y++)
-#endif
 	{
 		for (uint8_t x = 0; x < 16; x++, mapIterator++)
 		{
-#ifdef ASM_TILES
 			set_bkg_tile_xy_2_map_to_tiles_with_translation(mapIterator);
-#else
-			set_bkg_tile_xy_2(x, y, map_to_tiles[*mapIterator]);
-#endif
 		}
 	}
+#else
+	for (uint8_t y = startY; y < map_pos_y + visibleY + 1; y++)
+	{
+		for (uint8_t x = 0; x < 16; x++, mapIterator++)
+		{
+			set_bkg_tile_xy_2(x, y, map_to_tiles[*mapIterator]);
+		}
+	}
+#endif
+
 #ifdef GAMEBOY
 	uint8_t wait = 40;
 	while (wait--)
@@ -499,33 +503,29 @@ void main()
 	winSlideToX = 0;
 	padEnabled = false;
 	set_bkg_palette(0, 1, (palette_color_t*)cgb_palettes);
+
+	uint8_t current = _current_bank;
+	SWITCH_ROM_EX(BANK(tiles_data));
+	set_bkg_data(0, 172, map_tiles);
+	set_bkg_data(tiles_trans_mob_bird2, 32, map_tiles + (tiles_trans_mob_bird2 + 0x10) * 0x10);
+	set_bkg_data(tiles_trans_robbo, 4u, map_tiles + tiles_trans_robbo_d * 0x10);
+	SWITCH_ROM_EX(current);
 #ifdef GAMEBOY
 	init_win(tiles_trans_black_wall);
 	WX_REG = 7;
 	WY_REG = 0;
 	SHOW_WIN;
-	uint8_t current = _current_bank;
-	SWITCH_ROM(BANK(tiles_data));
-#endif
-	set_bkg_data(0, 172, map_tiles);
-	set_bkg_data(tiles_trans_mob_bird2, 32, map_tiles + (tiles_trans_mob_bird2 + 0x10) * 0x10);
-	set_bkg_data(tiles_trans_robbo, 4u, map_tiles + tiles_trans_robbo_d * 0x10);
-#ifdef GAMEBOY
-	SWITCH_ROM(current);
+	cameraPosY = 0;
 #else
 	for (uint8_t c = 0; c < 112; c++)
 	{
-
 		vmemcpy(0x7000 + c * 16, tile2_data, 16);
 	}
 	uint8_t state = __READ_VDP_REG(VDP_R0);
 	state |= R0_IE1;
 	__WRITE_VDP_REG(VDP_R0, state);
-#ifdef GAMEGEAR
-	__WRITE_VDP_REG(VDP_R10, 151);
-#else
-	__WRITE_VDP_REG(VDP_R10, 175);
-#endif
+	__WRITE_VDP_REG(VDP_R10, 175 - fixY);
+	cameraPosY = cameraStartPosY;
 #endif
 	memset(nextYTiles, FIELD_NONE, 16);
 	uint8_t* mapLastRow = map + 496;
@@ -549,11 +549,7 @@ void main()
 	mapPtr = map - 1;
 	*changes = CHANGES_TERMINATOR;
 	cameraPosX = -fixX;
-#ifdef GAMEGEAR
-	cameraPosY = 224 - fixY;
-#else
-	cameraPosY = 0;
-#endif
+
 	move_bkg(cameraPosX, cameraPosY);
 	SHOW_BKG;
 	nextFunction = &setupLevel;
