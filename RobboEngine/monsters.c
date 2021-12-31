@@ -5,6 +5,7 @@
 #include "fields.h"
 #include "globals.h"
 #include "changes.h"
+#include "map.h"
 
 #define RND() (((uint8_t)rand()) < 18)
 
@@ -226,15 +227,36 @@ bool shootingL()
 		else
 		{
 			*mapPtr = FIELD_MONSTER_SHOOTING_R;
+			newMap = mapPtr;
 		}
 	}
 	else
 	{
 		newMap = mapPtr;
 	}
-	if (*MAP_DOWN(newMap) == FIELD_EMPTY && RND())
+	if (RND())
 	{
-		*nextYTilesPtr = FIELD_PROJECTILE_D;
+		uint8_t* newMap = MAP_DOWN(mapPtr);
+		if (*newMap == FIELD_EMPTY)
+		{
+			*nextYTilesPtr = FIELD_PROJECTILE_D;
+		}
+		else if (*newMap == FIELD_BOMB)
+		{
+
+		}
+		else if (*newMap == FIELD_SUPRISE)
+		{
+
+		}
+		else
+		{
+			uint8_t type = types[*newMap];
+			if (type & 1)
+			{
+				*nextYTilesPtr = FIELD_EXPLOSION1;
+			}
+		}
 	}
 	return true;
 }
@@ -253,15 +275,36 @@ bool shootingR()
 		else
 		{
 			*mapPtr = FIELD_MONSTER_SHOOTING_L;
+			newMap = mapPtr;
 		}
 	}
 	else
 	{ 
 		newMap = mapPtr;
 	}
-	if (*MAP_DOWN(newMap) == FIELD_EMPTY && RND())
+	if (RND())
 	{
-		*nextYTilesPtr = FIELD_PROJECTILE_D;
+		uint8_t* newMap = MAP_DOWN(mapPtr);
+		if (*newMap == FIELD_EMPTY)
+		{
+			*nextYTilesPtr = FIELD_PROJECTILE_D;
+		}
+		else if (*newMap == FIELD_BOMB)
+		{
+
+		}
+		else if (*newMap == FIELD_SUPRISE)
+		{
+
+		}
+		else
+		{
+			uint8_t type = types[*newMap];
+			if (type & 1)
+			{
+				*nextYTilesPtr = FIELD_EXPLOSION1;
+			}
+		}
 	}
 	return true;
 }

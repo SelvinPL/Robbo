@@ -13,3 +13,4 @@ extern const uint8_t const map_to_tiles1[];
 extern const uint8_t const map_to_tiles2[];
 extern const uint8_t const map_to_tiles3[];
 extern const uint8_t const map_to_tiles4[];
+extern const uint8_t const types[];

@@ -117,7 +117,7 @@ void mapIteration()
 					}
 					else if (low == 2)
 					{
-						if (!(animCounter & 1) && doChanege)
+						if ((animCounter & 1) && doChanege)
 						{
 							PUT_CHANGES(mapPtr);
 						}
