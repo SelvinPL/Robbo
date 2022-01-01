@@ -74,18 +74,28 @@ void mapIteration()
 	for (iterY = changeYstart; iterY < changeYend; iterY++)
 	{
 		doChanege = BETWEEN(iterY, map_pos_y == 0 ? 0 : map_pos_y - 1,  map_pos_y + visibleY + 1);
-		nextYTilesPtr = nextYTiles - 1;
+		if (iterY & 1)
+		{
+			nextYTilesPtr = nextYTiles - 1;
+			currentYTilesPtr = &nextYTiles[15];
+		}
+		else
+		{
+			currentYTilesPtr = nextYTiles - 1;
+			nextYTilesPtr = &nextYTiles[15];
+		}
 		for (iterX = 0; iterX < 16; iterX++)
 		{
 			nextYTilesPtr++;
+			currentYTilesPtr++;
 			if (*++mapPtr == FIELD_WALL || *mapPtr == FIELD_BLACK_WALL)
 			{
 				continue;
 			}
-			else  if (*nextYTilesPtr != FIELD_NONE)
+			else  if (*currentYTilesPtr != FIELD_NONE)
 			{
-				*mapPtr = *nextYTilesPtr;
-				*nextYTilesPtr = FIELD_NONE;
+				*mapPtr = *currentYTilesPtr;
+				*currentYTilesPtr = FIELD_NONE;
 				if (doChanege)
 				{
 					PUT_CHANGES(mapPtr);
@@ -477,7 +487,7 @@ void main()
 	SWITCH_ROM_EX(current);
 	cameraPosY = cameraStartPosY;
 	initHUD();
-	memset(nextYTiles, FIELD_NONE, 16);
+	memset(nextYTiles, FIELD_NONE, 32);
 	uint8_t* mapLastRow = map + 496;
 	for (uint8_t i = 0; i < 16; i++)
 		*mapLastRow++ = FIELD_BLACK_WALL;

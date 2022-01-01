@@ -50,7 +50,7 @@ bool projectileR()
 	if (animCounter & 1)
 	{
 		uint8_t* newMap = MAP_RIGHT(mapPtr);
-		uint8_t next = *(nextYTilesPtr + 1) == FIELD_NONE ? *newMap : *(nextYTilesPtr + 1);
+		uint8_t next = *(currentYTilesPtr + 1) == FIELD_NONE ? *newMap : *(currentYTilesPtr + 1);
 		if (next == FIELD_EMPTY || next == FIELD_LASER_HORIZONTAL_RAY)
 		{
 			nextXTile = FIELD_PROJECTILE_R;
@@ -188,7 +188,7 @@ bool laserBeamR()
 	if (animCounter & 1)
 	{
 		uint8_t* newMap = MAP_RIGHT(mapPtr);
-		uint8_t next = *(nextYTilesPtr + 1) == FIELD_NONE ? *newMap : *(nextYTilesPtr + 1);
+		uint8_t next = *(currentYTilesPtr + 1) == FIELD_NONE ? *newMap : *(currentYTilesPtr + 1);
 		if (next == FIELD_EMPTY)
 		{
 			nextXTile = FIELD_LASER_BEAM_R;
@@ -329,7 +329,7 @@ bool laserL()
 bool laserR()
 {
 	uint8_t* newMap = MAP_RIGHT(mapPtr);
-	uint8_t next = *(nextYTilesPtr + 1) == FIELD_NONE ? *newMap : *(nextYTilesPtr + 1);
+	uint8_t next = *(currentYTilesPtr + 1) == FIELD_NONE ? *newMap : *(currentYTilesPtr + 1);
 	if (next != FIELD_LASER_HORIZONTAL_RAY && RND())
 	{
 		if (next == FIELD_EMPTY)
@@ -452,7 +452,7 @@ bool gunR()
 	if (RND())
 	{
 		uint8_t* newMap = MAP_RIGHT(mapPtr);
-		uint8_t next = *(nextYTilesPtr + 1) == FIELD_NONE ? *newMap : *(nextYTilesPtr + 1);
+		uint8_t next = *(currentYTilesPtr + 1) == FIELD_NONE ? *newMap : *(currentYTilesPtr + 1);
 		if (next == FIELD_EMPTY)
 		{
 			nextXTile = FIELD_PROJECTILE_R;
@@ -562,7 +562,7 @@ bool blasterHeadR()
 	if (animCounter & 1)
 	{
 		uint8_t* newMap = MAP_RIGHT(mapPtr);
-		if (*newMap == FIELD_EMPTY && *(nextYTilesPtr + 1) == FIELD_NONE)
+		if (*newMap == FIELD_EMPTY && *(currentYTilesPtr + 1) == FIELD_NONE)
 		{
 			nextXTile = FIELD_BLASTER_HEAD_R;
 			*mapPtr = FIELD_EXPLOSION2;
@@ -630,7 +630,7 @@ bool blasterL()
 bool blasterR()
 {
 	uint8_t* newMap = MAP_RIGHT(mapPtr);
-	if (*newMap == FIELD_EMPTY && *(nextYTilesPtr + 1) == FIELD_NONE && RND())
+	if (*newMap == FIELD_EMPTY && *(currentYTilesPtr + 1) == FIELD_NONE && RND())
 	{
 		nextXTile = FIELD_BLASTER_HEAD_R;
 	}
@@ -738,7 +738,7 @@ bool movableGunR()
 	if (animCounter == 1 || animCounter == 5)
 	{
 		newMap = MAP_RIGHT(mapPtr);
-		if (*newMap == FIELD_EMPTY && *(nextYTilesPtr + 1) == FIELD_NONE)
+		if (*newMap == FIELD_EMPTY && *(currentYTilesPtr + 1) == FIELD_NONE)
 		{
 			*mapPtr = FIELD_EMPTY;
 			nextXTile = FIELD_MOVABLE_GUN_R;

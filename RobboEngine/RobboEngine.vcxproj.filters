@@ -54,6 +54,9 @@
     <ClCompile Include="changes.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="others.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tiles.h">
@@ -90,6 +93,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="changes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="others.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -4,14 +4,15 @@
 #include "globals.h"
 #include "monsters.h"
 #include "guns.h"
+#include "others.h"
 
 #define REFRESH1_ONLY ((function)(0x0001))
 #define REFRESH2_ONLY ((function)(0x0002))
 
 const function const functions_map[] =
 {
-	NULL, blasterR, NULL, NULL, blasterL, NULL, NULL, NULL, //0
-	NULL, NULL, NULL, NULL, NULL, movableGunL, movableGunR, NULL,
+	NULL, blasterR, NULL, NULL, blasterL, forceFieldEnd, NULL, NULL, //0
+	NULL, NULL, NULL, NULL, NULL, movableGunL, movableGunR, forceField,
 
 	NULL, NULL, NULL, NULL, NULL, NULL, NULL, blasterD, //1
 	blasterU, NULL, NULL, NULL, gunU, gunD, gunL, gunR,

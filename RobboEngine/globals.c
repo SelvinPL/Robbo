@@ -9,8 +9,9 @@ uint8_t doChanege;
 
 uint8_t nextXTile;
 uint8_t* mapPtr;
-uint8_t nextYTiles[16];
+uint8_t nextYTiles[32];
 uint8_t* nextYTilesPtr;
+uint8_t* currentYTilesPtr;
 
 uint8_t counter;
 const uint8_t* map_to_tiles;
