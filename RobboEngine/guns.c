@@ -297,9 +297,9 @@ bool expolosion()
 
 bool laserL()
 {
-	if (RND())
+	uint8_t* newMap = MAP_LEFT(mapPtr);
+	if (*newMap != FIELD_LASER_HORIZONTAL_RAY && RND())
 	{
-		uint8_t* newMap = MAP_LEFT(mapPtr);
 		if (*newMap == FIELD_EMPTY)
 		{
 			*newMap = FIELD_LASER_BEAM_L;
@@ -328,10 +328,10 @@ bool laserL()
 
 bool laserR()
 {
-	if (RND())
+	uint8_t* newMap = MAP_RIGHT(mapPtr);
+	uint8_t next = *(nextYTilesPtr + 1) == FIELD_NONE ? *newMap : *(nextYTilesPtr + 1);
+	if (next != FIELD_LASER_HORIZONTAL_RAY && RND())
 	{
-		uint8_t* newMap = MAP_RIGHT(mapPtr);
-		uint8_t next = *(nextYTilesPtr + 1) == FIELD_NONE ? *newMap : *(nextYTilesPtr + 1);
 		if (next == FIELD_EMPTY)
 		{
 			nextXTile = FIELD_LASER_BEAM_R;
@@ -358,9 +358,9 @@ bool laserR()
 
 bool laserU()
 {
-	if (RND())
+	uint8_t* newMap = MAP_UP(mapPtr);
+	if (*newMap != FIELD_LASER_VERTICAL_RAY && RND())
 	{
-		uint8_t* newMap = MAP_UP(mapPtr);
 		if (*newMap == FIELD_EMPTY)
 		{
 			*newMap = FIELD_LASER_BEAM_U;
@@ -389,9 +389,9 @@ bool laserU()
 
 bool laserD()
 {
-	if (RND())
+	uint8_t* newMap = MAP_DOWN(mapPtr);
+	if (*newMap != FIELD_LASER_VERTICAL_RAY && RND())
 	{
-		uint8_t* newMap = MAP_DOWN(mapPtr);
 		if (*newMap == FIELD_EMPTY)
 		{
 			*nextYTilesPtr = FIELD_LASER_BEAM_D;
