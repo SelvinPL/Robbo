@@ -117,7 +117,7 @@ void mapIteration()
 			else
 			{
 				function function = functions_map[*mapPtr];
-				uint8_t hi = (((uint16_t)function) >> 8) && 0xff;
+				uint8_t hi = (((uint16_t)function) >> 8);
 				if (hi == 0)
 				{
 					uint8_t low = ((uint8_t)function);
@@ -262,21 +262,9 @@ uint8_t* next_line = NULL;
 
 inline void loadNextLine()
 {
-	if (slideY)
+	if (slideY > 0)
 	{
-		if (slideY > 0)
-		{
-			if (map_pos_y + visibleY < 32)
-			{
-				for (uint8_t x = 0; x < 4; x++)
-				{
-					PUT_CHANGES(next_line);
-					next_line++;
-				}
-				PUT_CHANGES_TERMINATOR();
-			}
-		}
-		else if (map_pos_y != 0)
+		if (map_pos_y + visibleY < 32)
 		{
 			for (uint8_t x = 0; x < 4; x++)
 			{
@@ -285,6 +273,15 @@ inline void loadNextLine()
 			}
 			PUT_CHANGES_TERMINATOR();
 		}
+	}
+	else if (map_pos_y != 0)
+	{
+		for (uint8_t x = 0; x < 4; x++)
+		{
+			PUT_CHANGES(next_line);
+			next_line++;
+		}
+		PUT_CHANGES_TERMINATOR();
 	}
 }
 
@@ -295,21 +292,23 @@ void incrementCounter()
 	{
 		changeYstart = 6;
 		changeYend = 12;
-		loadNextLine();
 		if (slideX)
 			slide_bkg_x();
 		if (slideY)
+		{
+			loadNextLine();
 			slide_bkg_y();
+		}
 	}
 	else if (counter == 2)
 	{
 		changeYstart = 12;
 		changeYend = 18;
-		loadNextLine();
 		if(slideX)
 			slide_bkg_x();
 		if (slideY)
 		{
+			loadNextLine();
 			slide_bkg_y();
 		}
 	}
@@ -324,16 +323,15 @@ void incrementCounter()
 		}
 		if (slideY)
 		{
+			loadNextLine();
 			slide_bkg_y();
 			slideY = (int8_t)((((uint8_t)slideY) + 1) & 0b11111100);
 		}
-		loadNextLine();
 	}
 	else if (counter == 4)
 	{
 		changeYstart = 24;
 		changeYend = 32;
-		loadNextLine();
 		if (slideX)
 		{
 			slide_bkg_x();
@@ -341,6 +339,7 @@ void incrementCounter()
 		}
 		if (slideY)
 		{
+			loadNextLine();
 			slide_bkg_y();
 			slideY = 0;
 		}
