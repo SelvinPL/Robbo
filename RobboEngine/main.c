@@ -77,12 +77,12 @@ void mapIteration()
 		if (iterY & 1)
 		{
 			nextYTilesPtr = nextYTiles - 1;
-			currentYTilesPtr = &nextYTiles[15];
+			currentYTilesPtr = nextYTiles + 15;
 		}
 		else
 		{
 			currentYTilesPtr = nextYTiles - 1;
-			nextYTilesPtr = &nextYTiles[15];
+			nextYTilesPtr = nextYTiles + 15;
 		}
 		for (iterX = 0; iterX < 16; iterX++)
 		{
