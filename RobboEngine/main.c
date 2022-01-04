@@ -94,8 +94,9 @@ void mapIteration()
 			}
 			else  if (*currentYTilesPtr != FIELD_NONE)
 			{
-				*mapPtr = *currentYTilesPtr;
+				uint8_t tile = *currentYTilesPtr;
 				*currentYTilesPtr = FIELD_NONE;
+				*mapPtr = tile;
 				if (doChanege)
 				{
 					PUT_CHANGES(mapPtr);
@@ -117,28 +118,9 @@ void mapIteration()
 			else
 			{
 				function function = functions_map[*mapPtr];
-				uint8_t hi = (((uint16_t)function) >> 8);
-				if (hi == 0)
+				if (!(((uint16_t)function) >> 8) && !((uint8_t)function))
 				{
-					uint8_t low = ((uint8_t)function);
-					if (low == 0)
-					{
-						continue;
-					}
-					else if (low == 2)
-					{
-						if ((animCounter & 1) && doChanege)
-						{
-							PUT_CHANGES(mapPtr);
-						}
-					}
-					else
-					{
-						if (doChanege)
-						{
-							PUT_CHANGES(mapPtr);
-						}
-					}
+					continue;
 				}
 				else
 				{
