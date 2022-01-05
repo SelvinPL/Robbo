@@ -102,15 +102,6 @@ void mapIteration()
 					PUT_CHANGES(mapPtr);
 				}
 			}
-			else if (nextXTile != FIELD_NONE)
-			{
-				*mapPtr = nextXTile;
-				nextXTile = FIELD_NONE;
-				if (doChanege)
-				{
-					PUT_CHANGES(mapPtr);
-				}
-			}
 			else if (*mapPtr == FIELD_EMPTY)
 			{
 				continue;
@@ -486,7 +477,6 @@ void main()
 	slideY = 0;
 	changeYstart = 0;
 	changeYend = 6;
-	nextXTile = FIELD_NONE;
 	mapPtr = map - 1;
 	*changes = CHANGES_TERMINATOR;
 	cameraPosX = -fixX;

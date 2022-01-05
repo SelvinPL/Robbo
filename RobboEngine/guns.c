@@ -53,7 +53,7 @@ bool projectileR()
 		uint8_t next = *(currentYTilesPtr + 1) == FIELD_NONE ? *newMap : *(currentYTilesPtr + 1);
 		if (next == FIELD_EMPTY || next == FIELD_LASER_HORIZONTAL_RAY)
 		{
-			nextXTile = FIELD_PROJECTILE_R;
+			*(currentYTilesPtr + 1) = FIELD_PROJECTILE_R;
 			*mapPtr = FIELD_EMPTY;
 		}
 		else if (next == FIELD_BOMB)
@@ -69,7 +69,7 @@ bool projectileR()
 			uint8_t type = types[next];
 			if (type & 1)
 			{
-				nextXTile = FIELD_EXPLOSION1;
+				*(currentYTilesPtr + 1) = FIELD_EXPLOSION1;
 				*mapPtr = FIELD_EMPTY;
 			}
 			else
@@ -191,7 +191,7 @@ bool laserBeamR()
 		uint8_t next = *(currentYTilesPtr + 1) == FIELD_NONE ? *newMap : *(currentYTilesPtr + 1);
 		if (next == FIELD_EMPTY)
 		{
-			nextXTile = FIELD_LASER_BEAM_R;
+			*(currentYTilesPtr + 1) = FIELD_LASER_BEAM_R;
 			*mapPtr = FIELD_LASER_HORIZONTAL_RAY;
 		}
 		else if (next == FIELD_BOMB)
@@ -207,7 +207,7 @@ bool laserBeamR()
 			uint8_t type = types[next];
 			if (type & 1)
 			{
-				nextXTile = FIELD_EXPLOSION1;
+				*(currentYTilesPtr + 1) = FIELD_EXPLOSION1;
 			}
 			*mapPtr = FIELD_PROJECTILE_L;
 		}
@@ -334,7 +334,7 @@ bool laserR()
 	{
 		if (next == FIELD_EMPTY)
 		{
-			nextXTile = FIELD_LASER_BEAM_R;
+			*(currentYTilesPtr + 1) = FIELD_LASER_BEAM_R;
 		}
 		else if (next == FIELD_BOMB)
 		{
@@ -349,7 +349,7 @@ bool laserR()
 			uint8_t type = types[next];
 			if (type & 1)
 			{
-				nextXTile = FIELD_EXPLOSION1;
+				*(currentYTilesPtr + 1) = FIELD_EXPLOSION1;
 			}
 		}
 	}
@@ -455,7 +455,7 @@ bool gunR()
 		uint8_t next = *(currentYTilesPtr + 1) == FIELD_NONE ? *newMap : *(currentYTilesPtr + 1);
 		if (next == FIELD_EMPTY)
 		{
-			nextXTile = FIELD_PROJECTILE_R;
+			*(currentYTilesPtr + 1) = FIELD_PROJECTILE_R;
 		}
 		else if (next == FIELD_BOMB)
 		{
@@ -470,7 +470,7 @@ bool gunR()
 			uint8_t type = types[next];
 			if (type & 1)
 			{
-				nextXTile = FIELD_EXPLOSION1;
+				*(currentYTilesPtr + 1) = FIELD_EXPLOSION1;
 			}
 		}
 	}
@@ -564,7 +564,7 @@ bool blasterHeadR()
 		uint8_t* newMap = MAP_RIGHT(mapPtr);
 		if (*newMap == FIELD_EMPTY && *(currentYTilesPtr + 1) == FIELD_NONE)
 		{
-			nextXTile = FIELD_BLASTER_HEAD_R;
+			*(currentYTilesPtr + 1) = FIELD_BLASTER_HEAD_R;
 			*mapPtr = FIELD_EXPLOSION2;
 		}
 		else
@@ -632,7 +632,7 @@ bool blasterR()
 	uint8_t* newMap = MAP_RIGHT(mapPtr);
 	if (*newMap == FIELD_EMPTY && *(currentYTilesPtr + 1) == FIELD_NONE && RND())
 	{
-		nextXTile = FIELD_BLASTER_HEAD_R;
+		*(currentYTilesPtr + 1) = FIELD_BLASTER_HEAD_R;
 	}
 	return false;
 }
@@ -741,7 +741,7 @@ bool movableGunR()
 		if (*newMap == FIELD_EMPTY && *(currentYTilesPtr + 1) == FIELD_NONE)
 		{
 			*mapPtr = FIELD_EMPTY;
-			nextXTile = FIELD_MOVABLE_GUN_R;
+			*(currentYTilesPtr + 1) = FIELD_MOVABLE_GUN_R;
 			repaint = true;
 		}
 		else

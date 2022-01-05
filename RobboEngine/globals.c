@@ -7,7 +7,6 @@ uint8_t changeYstart;
 uint8_t changeYend;
 uint8_t doChanege;
 
-uint8_t nextXTile;
 uint8_t* mapPtr;
 uint8_t nextYTiles[32];
 uint8_t* nextYTilesPtr;

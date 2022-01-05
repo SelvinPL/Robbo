@@ -31,7 +31,7 @@ bool monsterLR()
 	if (*newMap == FIELD_EMPTY && *(currentYTilesPtr + 1) == FIELD_NONE)
 	{
 		*mapPtr = FIELD_EMPTY;
-		nextXTile = FIELD_MONSTER_LEFT_U;
+		*(currentYTilesPtr + 1) = FIELD_MONSTER_LEFT_U;
 	}
 	else
 	{
@@ -94,7 +94,7 @@ bool monsterRR()
 	if (*newMap == FIELD_EMPTY && *(currentYTilesPtr +1) == FIELD_NONE)
 	{
 		*mapPtr = FIELD_EMPTY;
-		nextXTile = FIELD_MONSTER_RIGHT_D;
+		*(currentYTilesPtr + 1) = FIELD_MONSTER_RIGHT_D;
 	}
 	else
 	{
@@ -162,7 +162,7 @@ bool birdR()
 		if (*newMap == FIELD_EMPTY && *(currentYTilesPtr + 1) == FIELD_NONE)
 		{
 			*mapPtr = FIELD_EMPTY;
-			nextXTile = FIELD_MONSTER_BIRD_R;
+			*(currentYTilesPtr + 1) = FIELD_MONSTER_BIRD_R;
 		}
 		else
 		{
@@ -271,7 +271,7 @@ bool shootingR()
 		if (*newMap == FIELD_EMPTY && *(nextYTilesPtr + 1) == FIELD_NONE)
 		{
 			*mapPtr = FIELD_EMPTY;
-			nextXTile = FIELD_MONSTER_SHOOTING_R;
+			*(currentYTilesPtr + 1) = FIELD_MONSTER_SHOOTING_R;
 			shootPtr = nextYTilesPtr + 1;
 		}
 		else

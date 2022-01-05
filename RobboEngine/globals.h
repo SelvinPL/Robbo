@@ -9,7 +9,6 @@ extern uint8_t changeYstart;
 extern uint8_t changeYend;
 extern uint8_t doChanege;
 
-extern uint8_t nextXTile;
 extern uint8_t* mapPtr;
 extern uint8_t nextYTiles[];
 extern uint8_t* nextYTilesPtr;
