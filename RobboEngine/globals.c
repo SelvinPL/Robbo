@@ -8,7 +8,7 @@ uint8_t changeYend;
 uint8_t doChanege;
 
 uint8_t* mapPtr;
-uint8_t nextYTiles[32];
+uint8_t nextYTiles[64];
 uint8_t* nextYTilesPtr;
 uint8_t* currentYTilesPtr;
 
@@ -26,7 +26,7 @@ uint8_t padState;
 bool padEnabled;
 function nextFunction;
 
-uint8_t level = 0x1;
+uint8_t level = 0x12;
 
 uint8_t cameraPosX;
 uint8_t cameraPosY;

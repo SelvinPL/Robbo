@@ -104,6 +104,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bombs.c" />
     <ClCompile Include="changes.c" />
     <ClCompile Include="funtions_map.c" />
     <ClCompile Include="globals.c" />
@@ -117,6 +118,7 @@
     <ClCompile Include="win_slide.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bombs.h" />
     <ClInclude Include="changes.h" />
     <ClInclude Include="fields.h" />
     <ClInclude Include="functions_map.h" />

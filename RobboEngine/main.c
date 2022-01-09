@@ -69,22 +69,16 @@ inline uint8_t bcdDecerement(uint8_t i)
 	return ni;
 }
 
+const int8_t currentPtrOffests[] = { -1, 15, 31, 47 };
+
 void mapIteration()
 {
 	changesPtr = changes;
 	for (iterY = changeYstart; iterY < changeYend; iterY++)
 	{
 		doChanege = BETWEEN(iterY, map_pos_y == 0 ? 0 : map_pos_y - 1,  map_pos_y + visibleY + 1);
-		if (iterY & 1)
-		{
-			nextYTilesPtr = nextYTiles - 1;
-			currentYTilesPtr = nextYTiles + 15;
-		}
-		else
-		{
-			currentYTilesPtr = nextYTiles - 1;
-			nextYTilesPtr = nextYTiles + 15;
-		}
+		currentYTilesPtr = nextYTiles + currentPtrOffests[iterY & 1];
+		nextYTilesPtr = nextYTiles + currentPtrOffests[(iterY + 1) & 1];
 		for (iterX = 0; iterX < 16; iterX++)
 		{
 			nextYTilesPtr++;

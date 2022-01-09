@@ -6,6 +6,7 @@
 #include "fields.h"
 #include "globals.h"
 #include "changes.h"
+#include "bombs.h"
 
 #define RND() (((uint8_t)rand()) < 18)
 

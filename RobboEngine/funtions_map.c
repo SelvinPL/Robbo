@@ -16,32 +16,36 @@ bool robboDragRight()
     return false;
 }
 
-#define  forceFieldStart NULL
-
 bool ship()
 {
     return false;
 }
+
 bool shipBlink1()
 {
     return false;
 }
+
 bool shipBlink2()
 {
     return false;
 }
+
 bool robboStart()
 {
     return false;
 }
+
 bool magnetLeft()
 {
     return false;
 }
+
 bool magnetRight()
 {
     return false;
 }
+
 bool robbo()
 {
     return false;
@@ -51,7 +55,6 @@ bool bombExploding()
 {
     return false;
 }
-
 
 bool inertBoxLeft()
 {
@@ -92,7 +95,5 @@ const function const functions_map[] =
     blasterDown, rotatingGunLeft, rotatingGunRight, rotatingGunUp, rotatingGunDown, movableGunLeft, movableGunRight, next,
     next, next, next, next, next, next, next, next,
     next, next, next, next, next, next, next, next,
-    next, next, next, next, next, next, NULL, NULL,
-    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    NULL,
+    next, next, next, next, next, next, 
 };
