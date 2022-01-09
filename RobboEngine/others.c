@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <rand.h>
 #include "stdbool.h"
 #include "fields.h"
 #include "globals.h"
@@ -88,4 +89,23 @@ bool next()
 		return true;
 	}
 	return false;
+}
+
+const uint8_t lootTable[] =
+{
+	FIELD_EMPTY,			FIELD_EMPTY,			FIELD_SURPRISE,			FIELD_SURPRISE,
+	FIELD_AMMO,				FIELD_AMMO,				FIELD_AMMO,				FIELD_AMMO,
+	FIELD_KEY,				FIELD_KEY,				FIELD_KEY,				FIELD_SCREW,
+	FIELD_SCREW,			FIELD_SCREW,			FIELD_SCREW,			FIELD_SCREW,
+	FIELD_EYES,				FIELD_EYES,				FIELD_BOMB,				FIELD_LIFE,
+	FIELD_LIFE,				FIELD_LIFE,				FIELD_LIFE,				FIELD_LIFE,
+	FIELD_EXPLOSION_ANIM3,	FIELD_EXPLOSION_ANIM3,	FIELD_SHIP_BLINK1,		FIELD_ROTATING_GUN_RIGHT,
+	FIELD_ROTATING_GUN_LEFT,FIELD_ROTATING_GUN_DOWN,FIELD_ROTATING_GUN_UP,	FIELD_BOX
+};
+
+bool surpriseExplosion()
+{
+	//TODO: if 0 the super explosion
+	*mapPtr = lootTable[rand() & 31];
+	return true;
 }

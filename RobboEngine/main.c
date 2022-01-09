@@ -456,6 +456,9 @@ void main()
 	map_pos_y = 0;
 	
 #ifdef GAMEBOY
+	rAUDENA = AUDENA_ON;
+	rAUDVOL = 0x77;
+	rAUDTERM = 0xFF;
 	drawNumber(9, 8, level);
 #endif
 	animCounter = 7;

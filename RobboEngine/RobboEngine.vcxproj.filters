@@ -106,8 +106,8 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <AsmCompile Include="sms\tiles_helper.asm">
-      <Filter>Source Files\sms</Filter>
+    <AsmCompile Include="gb\tiles_helper.asm">
+      <Filter>Source Files</Filter>
     </AsmCompile>
   </ItemGroup>
 </Project>

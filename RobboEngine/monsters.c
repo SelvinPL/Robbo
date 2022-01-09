@@ -214,44 +214,65 @@ bool batDown()
 
 bool batShootingLeft()
 {
-	uint8_t* newMap;
 	if (!(animCounter & 1))
 	{
-		newMap = MAP_LEFT(mapPtr);
+		uint8_t* newMap = MAP_LEFT(mapPtr);
 		if (*newMap == FIELD_EMPTY)
 		{
 			*newMap = FIELD_BAT_SHOOTING_LEFT;
 			*mapPtr = FIELD_EMPTY;
 			change(newMap);
+			if (RND())
+			{
+				uint8_t* newMapInner = MAP_DOWN(newMap);
+				uint8_t next = *(nextYTilesPtr - 1) == FIELD_NONE ? *newMapInner : *(nextYTilesPtr - 1);
+				if (next == FIELD_EMPTY)
+				{
+					*(nextYTilesPtr - 1) = FIELD_PROJECTILE_DOWN;
+				}
+				else if (next == FIELD_BOMB)
+				{
+					*(nextYTilesPtr - 1) = FIELD_BOMB_EXPLODING;
+				}
+				else if (next == FIELD_SURPRISE)
+				{
+					*(nextYTilesPtr - 1) = FIELD_SURPRISE_SHOOT_ANIM1;
+				}
+				else
+				{
+					uint8_t type = types[next];
+					if (type & 1)
+					{
+						*(nextYTilesPtr - 1) = FIELD_EXPLOSION_ANIM1;
+					}
+				}
+			}
+			return true;
 		}
 		else
 		{
 			*mapPtr = FIELD_BAT_SHOOTING_RIGHT;
-			newMap = mapPtr;
 		}
-	}
-	else
-	{
-		newMap = mapPtr;
 	}
 	if (RND())
 	{
-		uint8_t* newMap = MAP_DOWN(mapPtr);
-		if (*newMap == FIELD_EMPTY)
+		uint8_t* newMapInner = MAP_DOWN(mapPtr);
+		uint8_t next = *nextYTilesPtr == FIELD_NONE ? *newMapInner : *nextYTilesPtr;
+		if (next == FIELD_EMPTY)
 		{
 			*nextYTilesPtr = FIELD_PROJECTILE_DOWN;
 		}
-		else if (*newMap == FIELD_BOMB)
+		else if (next == FIELD_BOMB)
 		{
-
+			*nextYTilesPtr = FIELD_BOMB_EXPLODING;
 		}
-		else if (*newMap == FIELD_SURPRISE)
+		else if (next == FIELD_SURPRISE)
 		{
-
+			*nextYTilesPtr = FIELD_SURPRISE_SHOOT_ANIM1;
 		}
 		else
 		{
-			uint8_t type = types[*newMap];
+			uint8_t type = types[next];
 			if (type & 1)
 			{
 				*nextYTilesPtr = FIELD_EXPLOSION_ANIM1;
@@ -263,50 +284,67 @@ bool batShootingLeft()
 
 bool batShootingRight()
 {
-	uint8_t* newMap;
-	uint8_t* shootPtr;
 	if (!(animCounter & 1))
 	{
-		newMap = MAP_RIGHT(mapPtr);
+		uint8_t* newMap = MAP_RIGHT(mapPtr);
 		if (*newMap == FIELD_EMPTY && *(nextYTilesPtr + 1) == FIELD_NONE)
 		{
 			*mapPtr = FIELD_EMPTY;
 			*(currentYTilesPtr + 1) = FIELD_BAT_SHOOTING_RIGHT;
-			shootPtr = nextYTilesPtr + 1;
+			if (RND())
+			{
+				uint8_t* newMapInner = MAP_DOWN(newMap);
+				uint8_t next = *(nextYTilesPtr + 1) == FIELD_NONE ? *newMapInner : *(nextYTilesPtr + 1);
+				if (next == FIELD_EMPTY)
+				{
+					*(nextYTilesPtr + 1) = FIELD_PROJECTILE_DOWN;
+				}
+				else if (next == FIELD_BOMB)
+				{
+					*(nextYTilesPtr + 1) = FIELD_BOMB_EXPLODING;
+				}
+				else if (next == FIELD_SURPRISE)
+				{
+					*(nextYTilesPtr + 1) = FIELD_SURPRISE_SHOOT_ANIM1;
+				}
+				else
+				{
+					uint8_t type = types[next];
+					if (type & 1)
+					{
+						*(nextYTilesPtr + 1) = FIELD_EXPLOSION_ANIM1;
+					}
+				}
+			}
+			return true;
 		}
 		else
 		{
 			*mapPtr = FIELD_BAT_SHOOTING_LEFT;
-			newMap = mapPtr;
-			shootPtr = nextYTilesPtr;
 		}
-	}
-	else
-	{ 
-		newMap = mapPtr;
-		shootPtr = nextYTilesPtr;
 	}
 	if (RND())
 	{
-		uint8_t* newMap = MAP_DOWN(mapPtr);
-		if (*newMap == FIELD_EMPTY)
+		uint8_t* newMapInner = MAP_DOWN(mapPtr);
+		uint8_t next = *nextYTilesPtr == FIELD_NONE ? *newMapInner : *nextYTilesPtr;
+		if (next == FIELD_EMPTY)
 		{
-			*shootPtr = FIELD_PROJECTILE_DOWN;
+			*nextYTilesPtr = FIELD_PROJECTILE_DOWN;
 		}
-		else if (*newMap == FIELD_BOMB)
+		else if (next == FIELD_BOMB)
 		{
-
+			*nextYTilesPtr = FIELD_BOMB_EXPLODING;
 		}
-		else if (*newMap == FIELD_SURPRISE)
+		else if (next == FIELD_SURPRISE)
 		{
-
+			*nextYTilesPtr = FIELD_SURPRISE_SHOOT_ANIM1;
 		}
 		else
 		{
-			uint8_t type = types[*newMap];
+			uint8_t type = types[next];
 			if (type & 1)
 			{
-				*shootPtr = FIELD_EXPLOSION_ANIM1;
+				*nextYTilesPtr = FIELD_EXPLOSION_ANIM1;
 			}
 		}
 	}

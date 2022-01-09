@@ -8,3 +8,4 @@ bool forceField();
 bool forceFieldEnd();
 bool next();
 bool blinkOnOdd();
+bool surpriseExplosion();
