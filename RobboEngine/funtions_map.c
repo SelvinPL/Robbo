@@ -7,43 +7,86 @@
 #include "others.h"
 #include "changes.h"
 
-bool blinkOnOdd()
+bool robboDragLeft()
 {
-	return (animCounter & 1);
+    return false;
+}
+bool robboDragRight()
+{
+    return false;
+}
+
+#define  forceFieldStart NULL
+
+bool ship()
+{
+    return false;
+}
+bool shipBlink1()
+{
+    return false;
+}
+bool shipBlink2()
+{
+    return false;
+}
+bool robboStart()
+{
+    return false;
+}
+bool magnetLeft()
+{
+    return false;
+}
+bool magnetRight()
+{
+    return false;
+}
+bool robbo()
+{
+    return false;
+}
+
+bool bombExploding()
+{
+    return false;
+}
+
+
+bool inertBoxLeft()
+{
+    return false;
+}
+bool inertBoxRight()
+{
+    return false;
+}
+bool inertBoxUp()
+{
+    return false;
+}
+bool inertBoxDown()
+{
+    return false;
+}
+bool surpriseExplosion()
+{
+    return false;
+}
+bool teleport()
+{
+    return (animCounter & 1);
 }
 
 const function const functions_map[] =
 {
-	NULL, blasterR, NULL, NULL, blasterL, forceFieldEnd, NULL, NULL, //0
-	NULL, NULL, NULL, NULL, NULL, movableGunL, movableGunR, forceField,
-
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, blasterD, //1
-	blasterU, NULL, NULL, NULL, gunU, gunD, gunL, gunR,
-	
-	NULL, NULL, NULL, NULL, NULL, NULL, eyes, laserD, //2
-	NULL, NULL, NULL, NULL, rotatingGunL, rotatingGunR, rotatingGunU, rotatingGunD,
-
-	blinkOnOdd, blinkOnOdd, blinkOnOdd, blinkOnOdd, blinkOnOdd, blinkOnOdd, blinkOnOdd, blinkOnOdd, //3
-	blinkOnOdd, blinkOnOdd, NULL, NULL, laserL, NULL, laserR, NULL,
-
-	NULL, monsterLL, monsterLR, monsterLU, monsterLD, monsterRL, monsterRR, monsterRU, //4
-	monsterRD, birdL, birdR, birdU, birdD, shootingL, shootingR, projectileL,
-
-	projectileR, projectileU, projectileD, laserBeamL, laserBeamR, laserBeamU, laserBeamD, blasterHeadL, //5
-	blasterHeadR, blasterHeadU, blasterHeadD, blinkOnOdd, NULL, blinkOnOdd, laserU, NULL,
-
-	NULL, expolosion, expolosion, expolosion, expolosion, expolosion, expolosion, expolosion,
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    forceFieldEnd, robboDragLeft, robboDragRight, ship, shipBlink1, shipBlink2, robboStart, magnetLeft,
+    magnetRight, projectileLeft, projectileRight, projectileUp, projectileDown, laserHeadLeft, laserHeadRight, laserHeadUp,
+    laserHeadDown, blasterHeadLeft, blasterHeadRight, blasterHeadUp, blasterHeadDown, bombExploding, forceField, robbo,
+    eyes, leftHandLeft, leftHandRight, leftHandUp, leftHandDown, rightHandLeft, rightHandRight, rightHandUp,
+    rightHandDown, batLeft, batRight, batUp, batDown, batShootingLeft, batShootingRight, inertBoxLeft,
+    inertBoxRight, inertBoxUp, inertBoxDown, surpriseExplosion, teleport, teleport, teleport, teleport,
+    teleport, teleport, teleport, teleport, teleport, teleport, gunLeft, gunRight,
+    gunUp, gunDown, laserLeft, laserRight, laserUp, laserDown, blasterLeft, blasterRight,
+    blasterUp, blasterDown, rotatingGunLeft, rotatingGunRight, rotatingGunUp, rotatingGunDown, movableGunLeft, movableGunRight,
 };

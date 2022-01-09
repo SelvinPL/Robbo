@@ -2,18 +2,18 @@
 
 #include "stdbool.h"
 
-bool monsterLL();
-bool monsterLR();
-bool monsterLU();
-bool monsterLD();
-bool monsterRL();
-bool monsterRR();
-bool monsterRU();
-bool monsterRD();
-bool birdL();
-bool birdR();
-bool birdU();
-bool birdD();
-bool shootingL();
-bool shootingR();
+bool leftHandLeft();
+bool leftHandRight();
+bool leftHandUp();
+bool leftHandDown();
+bool rightHandLeft();
+bool rightHandRight();
+bool rightHandUp();
+bool rightHandDown();
+bool batLeft();
+bool batRight();
+bool batUp();
+bool batDown();
+bool batShootingLeft();
+bool batShootingRight();
 bool eyes();

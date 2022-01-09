@@ -6,65 +6,72 @@ BANKREF_EXTERN(tiles_data)
 
 extern const uint8_t const map_tiles[];
 
-#define tiles_trans_empty				0x00
-#define tiles_trans_black_wall			0x04
+#define TILE_EMPTY					0x00
 
-#define tiles_trans_wall1				0x08
-#define tiles_trans_wall2				0x0c
-#define tiles_trans_box_normal			0x70
-#define tiles_trans_box_push			0x74
-#define tiles_trans_ground				0x78
-#define tiles_trans_bomb				0x7c
-#define tiles_trans_pickable_key		0x20
-#define tiles_trans_pickable_screw		0x24
-#define tiles_trans_pickable_ammo		0x28
-#define tiles_trans_pickable_extra_life	0x2c
-#define tiles_trans_questionmark		0x30
-#define tiles_trans_door				0x34
-#define tiles_trans_magnet_right		0x38
-#define tiles_trans_magnet_left			0x3c
+#define TILE_WALL					0x08
+#define TILE_WALL2					0x0c
+#define TILE_BLACK_WALL				0x04
 
-#define tiles_trans_mob_bird			0x40
-#define tiles_trans_mob_bird_shooting	0x44
-#define tiles_trans_mob_right			0x48
-#define tiles_trans_mob_left			0x4c
-#define tiles_trans_mob_eyes			0x50
-#define tiles_trans_capsule				0x54
-#define tiles_trans_teleport			0x58
-#define tiles_trans_force_field			0x5c
+#define TILE_ROBBO					0xac
+#define TILE_ROBBO_RIGHT			0xe0
+#define TILE_ROBBO_RIGHT2			0xe4
+#define TILE_ROBBO_DOWN				0xe8
+#define TILE_ROBBO_DOWN2			0xec
+#define TILE_ROBBO_LEFT				0xf0
+#define TILE_ROBBO_LEFT2			0xf4
+#define TILE_ROBBO_UP				0xf8
+#define TILE_ROBBO_UP2				0xfc
 
-#define tiles_trans_mob_bird2			0xb0
-#define tiles_trans_mob_bird_shooting2	0xb4
-#define tiles_trans_mob_right2			0xb8
-#define tiles_trans_mob_left2			0xbc
-#define tiles_trans_mob_eyes2			0xc0
-#define tiles_trans_capsule2			0xc4
-#define tiles_trans_teleport2			0xc8
-#define tiles_trans_force_field2		0xcc
+#define TILE_SHIP					0x54
+#define TILE_SHIP2					0xc4
 
-#define tiles_trans_robbo				0xac
-#define tiles_trans_robbo_r				0xe0
-#define tiles_trans_robbo_r2			0xe4
-#define tiles_trans_robbo_d				0xe8
-#define tiles_trans_robbo_d2			0xec
-#define tiles_trans_robbo_l				0xf0
-#define tiles_trans_robbo_l2			0xf4
-#define tiles_trans_robbo_u				0xf8
-#define tiles_trans_robbo_u2			0xfc
+#define TILE_MAGNET_LEFT			0x3c
+#define TILE_MAGNET_RIGHT			0x38
 
-#define tiles_trans_gun_right			0x60
-#define tiles_trans_gun_down			0x64
-#define tiles_trans_gun_left			0x68
-#define tiles_trans_gun_up				0x6c
+#define TILE_PROJECTILE_HORIZONTAL	0x90
+#define TILE_PROJECTILE_HORIZONTAL2	0x94
+#define TILE_PROJECTILE_VERTICAL	0x98
+#define TILE_PROJECTILE_VERTICAL2	0x9c
 
-#define tiles_projectile_horizontal		0x90
-#define tiles_projectile_horizontal2	0x94
+#define TILE_BOMB					0x7c
 
-#define tiles_projectile_vertical		0x98
-#define tiles_projectile_vertical2		0x9c
+#define TILE_FORCE_FIELD			0x5c
+#define TILE_FORCE_FIELD2			0xcc
+
+#define TILE_EYES					0x50
+#define TILE_EYES2					0xc0
+#define TILE_LEFT_HAND				0x4c
+#define TILE_LEFT_HAND2				0xbc
+#define TILE_RIGHT_HAND				0x48
+#define TILE_RIGHT_HAND2			0xb8
+#define TILE_BAT					0x40
+#define TILE_BAT2					0xb0
+#define TILE_BAT_SHOOTING			0x44
+#define TILE_BAT_SHOOTING2			0xb4
+
+#define TILE_BOX					0x70
+#define TILE_INERT_BOX				0x74
+
+#define TILE_TELEPORT				0x58
+#define TILE_TELEPORT2				0xc8
+
+#define TILE_GUN_LEFT				0x68
+#define TILE_GUN_RIGHT				0x60
+#define TILE_GUN_UP					0x6c
+#define TILE_GUN_DOWN				0x64
+
+#define TILE_DOOR					0x34
+
+#define TILE_SCREW					0x24
+#define TILE_KEY					0x20
+#define TILE_AMMO					0x28
+#define TILE_GROUND					0x78
+#define TILE_LIFE					0x2c
+
+#define TILE_SURPRISE				0x30
 
 
-#define tiles_explosion1				0x80
-#define tiles_explosion2				0x84
-#define tiles_explosion3				0x88
-#define tiles_explosion4				0x8c
+#define TILE_EXPLOSION1				0x8c
+#define TILE_EXPLOSION2				0x88
+#define TILE_EXPLOSION3				0x84
+#define TILE_EXPLOSION4				0x80

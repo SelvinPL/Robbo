@@ -6,177 +6,90 @@
 
 __at(0x200) const uint8_t const map_to_tiles1[] =
 {
-	NONE, tiles_trans_gun_right, NONE, NONE, tiles_trans_gun_left, tiles_trans_wall1, tiles_trans_box_push, NONE, //0
-	NONE, NONE, NONE, NONE, NONE, tiles_trans_gun_up, tiles_trans_gun_up, tiles_trans_force_field,
-
-	NONE, tiles_trans_wall1, tiles_trans_door, tiles_trans_black_wall, tiles_trans_capsule, NONE, NONE, tiles_trans_gun_down, //1
-	tiles_trans_gun_up, NONE, NONE, NONE, tiles_trans_gun_up, tiles_trans_gun_down, tiles_trans_gun_left, tiles_trans_gun_right,
-
-	tiles_trans_empty, tiles_trans_pickable_ammo, NONE, tiles_trans_box_normal, tiles_trans_pickable_screw, tiles_trans_ground, tiles_trans_mob_eyes, tiles_trans_gun_down, //2
-	tiles_trans_magnet_right, tiles_trans_magnet_left, tiles_trans_robbo, tiles_trans_pickable_extra_life, tiles_trans_gun_left, tiles_trans_gun_right, tiles_trans_gun_up, tiles_trans_gun_down,
-
-	tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport, //3
-	tiles_trans_teleport, tiles_trans_teleport, NONE, NONE, tiles_trans_gun_left, tiles_trans_pickable_key, tiles_trans_gun_right, tiles_trans_questionmark,
-
-	tiles_trans_bomb, tiles_trans_mob_left, tiles_trans_mob_left, tiles_trans_mob_left, 
-	tiles_trans_mob_left, tiles_trans_mob_right, tiles_trans_mob_right, tiles_trans_mob_right, //4
-	tiles_trans_mob_right, tiles_trans_mob_bird, tiles_trans_mob_bird, tiles_trans_mob_bird, tiles_trans_mob_bird, 
-	tiles_trans_mob_bird_shooting, tiles_trans_mob_bird_shooting, tiles_projectile_horizontal,
-
-	tiles_projectile_horizontal, tiles_projectile_vertical, tiles_projectile_vertical, tiles_projectile_horizontal, tiles_projectile_horizontal, tiles_projectile_vertical, tiles_projectile_vertical, tiles_explosion4, //5
-	tiles_explosion4, tiles_explosion4, tiles_explosion4, tiles_projectile_vertical, tiles_trans_wall2, tiles_projectile_horizontal, tiles_trans_gun_up, NULL,
-
-	NONE, tiles_explosion4, tiles_explosion3, tiles_explosion2, tiles_explosion1, //6
-	tiles_explosion2, tiles_explosion3, tiles_explosion4,
-	NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE,
-
-	NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE,//7
-	NONE, NONE, NONE, NONE, tiles_trans_door, NONE, NONE, NONE,
-
-	NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE,//8
-	NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE,
-
-	NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE,//9
-	NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE,
-
-	tiles_trans_wall1, //a
+	TILE_WALL, TILE_ROBBO, TILE_ROBBO, TILE_SHIP, TILE_SHIP, TILE_SHIP2, TILE_SHIP, TILE_MAGNET_LEFT,
+	TILE_MAGNET_RIGHT, TILE_PROJECTILE_HORIZONTAL, TILE_PROJECTILE_HORIZONTAL, TILE_PROJECTILE_VERTICAL, TILE_PROJECTILE_VERTICAL, TILE_PROJECTILE_HORIZONTAL, TILE_PROJECTILE_HORIZONTAL, TILE_PROJECTILE_VERTICAL,
+	TILE_PROJECTILE_VERTICAL, TILE_EXPLOSION1, TILE_EXPLOSION1, TILE_EXPLOSION1, TILE_EXPLOSION1, TILE_BOMB, TILE_FORCE_FIELD, TILE_ROBBO,
+	TILE_EYES, TILE_LEFT_HAND, TILE_LEFT_HAND, TILE_LEFT_HAND, TILE_LEFT_HAND, TILE_RIGHT_HAND, TILE_RIGHT_HAND, TILE_RIGHT_HAND,
+	TILE_RIGHT_HAND, TILE_BAT, TILE_BAT, TILE_BAT, TILE_BAT, TILE_BAT_SHOOTING, TILE_BAT_SHOOTING, TILE_INERT_BOX,
+	TILE_INERT_BOX, TILE_INERT_BOX, TILE_INERT_BOX, TILE_EMPTY, TILE_TELEPORT, TILE_TELEPORT, TILE_TELEPORT, TILE_TELEPORT,
+	TILE_TELEPORT, TILE_TELEPORT, TILE_TELEPORT, TILE_TELEPORT, TILE_TELEPORT, TILE_TELEPORT, TILE_GUN_LEFT, TILE_GUN_RIGHT,
+	TILE_GUN_UP, TILE_GUN_DOWN, TILE_GUN_LEFT, TILE_GUN_RIGHT, TILE_GUN_UP, TILE_GUN_DOWN, TILE_GUN_LEFT, TILE_GUN_RIGHT,
+	TILE_GUN_UP, TILE_GUN_DOWN, TILE_GUN_LEFT, TILE_GUN_RIGHT, TILE_GUN_UP, TILE_GUN_DOWN, TILE_GUN_UP, TILE_GUN_UP,
+	TILE_INERT_BOX, TILE_DOOR, TILE_BOX, TILE_SCREW, TILE_KEY, TILE_EMPTY, TILE_AMMO, TILE_GROUND,
+	TILE_LIFE, TILE_SURPRISE, TILE_BOMB, TILE_EXPLOSION1, TILE_EXPLOSION2, TILE_EXPLOSION3, TILE_EXPLOSION4, TILE_EXPLOSION3,
+	TILE_EXPLOSION2, TILE_EXPLOSION1, TILE_EMPTY, TILE_EXPLOSION1, TILE_EXPLOSION2, TILE_EXPLOSION3, TILE_EXPLOSION4, TILE_EMPTY,
+	TILE_EXPLOSION1, TILE_EXPLOSION2, TILE_EXPLOSION3, TILE_EXPLOSION4, TILE_EXPLOSION3, TILE_EXPLOSION2, TILE_EXPLOSION1, TILE_DOOR,
+	TILE_ROBBO, TILE_ROBBO, TILE_PROJECTILE_HORIZONTAL, TILE_PROJECTILE_VERTICAL, TILE_WALL, TILE_BLACK_WALL, TILE_WALL2, TILE_WALL,
 };
 
 __at(0x300) const uint8_t const map_to_tiles2[] =
 {
-	NONE, tiles_trans_gun_right, NONE, NONE, tiles_trans_gun_left, tiles_trans_wall1, tiles_trans_box_push, NONE, //0
-	NONE, NONE, NONE, NONE, NONE, tiles_trans_gun_up, tiles_trans_gun_up, tiles_trans_force_field2,
-
-	NONE, tiles_trans_wall1, tiles_trans_door, tiles_trans_black_wall, tiles_trans_capsule, NONE, NONE, tiles_trans_gun_down, //1
-	tiles_trans_gun_up, NONE, NONE, NONE, tiles_trans_gun_up, tiles_trans_gun_down, tiles_trans_gun_left, tiles_trans_gun_right,
-
-	tiles_trans_empty, tiles_trans_pickable_ammo, NONE, tiles_trans_box_normal, tiles_trans_pickable_screw, tiles_trans_ground, tiles_trans_mob_eyes, tiles_trans_gun_down, //2
-	tiles_trans_magnet_right, tiles_trans_magnet_left, tiles_trans_robbo, tiles_trans_pickable_extra_life, tiles_trans_gun_left, tiles_trans_gun_right, tiles_trans_gun_up, tiles_trans_gun_down,
-
-	tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport, tiles_trans_teleport, //3
-	tiles_trans_teleport, tiles_trans_teleport, NONE, NONE, tiles_trans_gun_left, tiles_trans_pickable_key, tiles_trans_gun_right, tiles_trans_questionmark,
-
-	tiles_trans_bomb, tiles_trans_mob_left2, tiles_trans_mob_left2, tiles_trans_mob_left2,
-	tiles_trans_mob_left2, tiles_trans_mob_right2, tiles_trans_mob_right2, tiles_trans_mob_right2, //4
-	tiles_trans_mob_right2, tiles_trans_mob_bird2, tiles_trans_mob_bird2, tiles_trans_mob_bird2, tiles_trans_mob_bird2,
-	tiles_trans_mob_bird_shooting2, tiles_trans_mob_bird_shooting2, tiles_projectile_horizontal,
-
-	tiles_projectile_horizontal, tiles_projectile_vertical, tiles_projectile_vertical, tiles_projectile_horizontal, tiles_projectile_horizontal, tiles_projectile_vertical, tiles_projectile_vertical, tiles_explosion4, //5
-	tiles_explosion4, tiles_explosion4, tiles_explosion4, tiles_projectile_vertical, tiles_trans_wall2, tiles_projectile_horizontal, tiles_trans_gun_up, NULL,
-
-	NULL, tiles_explosion4, tiles_explosion3, tiles_explosion2, tiles_explosion1, //6
-	tiles_explosion2, tiles_explosion3, tiles_explosion4,
-	NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE,
-
-	NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE,//7
-	NONE, NONE, NONE, NONE, tiles_trans_door, NONE, NONE, NONE,
-
-	NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE,//8
-	NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE,
-
-	NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE,//9
-	NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE,
-
-	tiles_trans_wall1, //a
+	TILE_WALL, TILE_ROBBO, TILE_ROBBO, TILE_SHIP, TILE_SHIP, TILE_SHIP2, TILE_SHIP, TILE_MAGNET_LEFT,
+	TILE_MAGNET_RIGHT, TILE_PROJECTILE_HORIZONTAL, TILE_PROJECTILE_HORIZONTAL, TILE_PROJECTILE_VERTICAL, TILE_PROJECTILE_VERTICAL, TILE_PROJECTILE_HORIZONTAL, TILE_PROJECTILE_HORIZONTAL, TILE_PROJECTILE_VERTICAL,
+	TILE_PROJECTILE_VERTICAL, TILE_EXPLOSION1, TILE_EXPLOSION1, TILE_EXPLOSION1, TILE_EXPLOSION1, TILE_BOMB, TILE_FORCE_FIELD, TILE_ROBBO,
+	TILE_EYES, TILE_LEFT_HAND, TILE_LEFT_HAND, TILE_LEFT_HAND, TILE_LEFT_HAND, TILE_RIGHT_HAND, TILE_RIGHT_HAND, TILE_RIGHT_HAND,
+	TILE_RIGHT_HAND, TILE_BAT, TILE_BAT, TILE_BAT, TILE_BAT, TILE_BAT_SHOOTING, TILE_BAT_SHOOTING, TILE_INERT_BOX,
+	TILE_INERT_BOX, TILE_INERT_BOX, TILE_INERT_BOX, TILE_EMPTY, TILE_TELEPORT, TILE_TELEPORT, TILE_TELEPORT, TILE_TELEPORT,
+	TILE_TELEPORT, TILE_TELEPORT, TILE_TELEPORT, TILE_TELEPORT, TILE_TELEPORT, TILE_TELEPORT, TILE_GUN_LEFT, TILE_GUN_RIGHT,
+	TILE_GUN_UP, TILE_GUN_DOWN, TILE_GUN_LEFT, TILE_GUN_RIGHT, TILE_GUN_UP, TILE_GUN_DOWN, TILE_GUN_LEFT, TILE_GUN_RIGHT,
+	TILE_GUN_UP, TILE_GUN_DOWN, TILE_GUN_LEFT, TILE_GUN_RIGHT, TILE_GUN_UP, TILE_GUN_DOWN, TILE_GUN_UP, TILE_GUN_UP,
+	TILE_INERT_BOX, TILE_DOOR, TILE_BOX, TILE_SCREW, TILE_KEY, TILE_EMPTY, TILE_AMMO, TILE_GROUND,
+	TILE_LIFE, TILE_SURPRISE, TILE_BOMB, TILE_EXPLOSION1, TILE_EXPLOSION2, TILE_EXPLOSION3, TILE_EXPLOSION4, TILE_EXPLOSION3,
+	TILE_EXPLOSION2, TILE_EXPLOSION1, TILE_EMPTY, TILE_EXPLOSION1, TILE_EXPLOSION2, TILE_EXPLOSION3, TILE_EXPLOSION4, TILE_EMPTY,
+	TILE_EXPLOSION1, TILE_EXPLOSION2, TILE_EXPLOSION3, TILE_EXPLOSION4, TILE_EXPLOSION3, TILE_EXPLOSION2, TILE_EXPLOSION1, TILE_DOOR,
+	TILE_ROBBO, TILE_ROBBO, TILE_PROJECTILE_HORIZONTAL, TILE_PROJECTILE_VERTICAL, TILE_WALL, TILE_BLACK_WALL, TILE_WALL2, TILE_WALL,
 };
 
 __at(0x400) const uint8_t const map_to_tiles3[] =
 {
-	NONE, tiles_trans_gun_right, NONE, NONE, tiles_trans_gun_left, tiles_trans_wall1, tiles_trans_box_push, NONE, //0
-	NONE, NONE, NONE, NONE, NONE, tiles_trans_gun_up, tiles_trans_gun_up, tiles_trans_force_field,
-
-	NONE, tiles_trans_wall1, tiles_trans_door, tiles_trans_black_wall, tiles_trans_capsule, NONE, NONE, tiles_trans_gun_down, //1
-	tiles_trans_gun_up, NONE, NONE, NONE, tiles_trans_gun_up, tiles_trans_gun_down, tiles_trans_gun_left, tiles_trans_gun_right,
-
-	tiles_trans_empty, tiles_trans_pickable_ammo, NONE, tiles_trans_box_normal, tiles_trans_pickable_screw, tiles_trans_ground, tiles_trans_mob_eyes2, tiles_trans_gun_down, //2
-	tiles_trans_magnet_right, tiles_trans_magnet_left, tiles_trans_robbo, tiles_trans_pickable_extra_life, tiles_trans_gun_left, tiles_trans_gun_right, tiles_trans_gun_up, tiles_trans_gun_down,
-
-	tiles_trans_teleport2, tiles_trans_teleport2, tiles_trans_teleport2, tiles_trans_teleport2, tiles_trans_teleport2, tiles_trans_teleport2, tiles_trans_teleport2, tiles_trans_teleport2, //3
-	tiles_trans_teleport2, tiles_trans_teleport2, NONE, NONE, tiles_trans_gun_left, tiles_trans_pickable_key, tiles_trans_gun_right, tiles_trans_questionmark,
-
-	tiles_trans_bomb, tiles_trans_mob_left, tiles_trans_mob_left, tiles_trans_mob_left,
-	tiles_trans_mob_left, tiles_trans_mob_right, tiles_trans_mob_right, tiles_trans_mob_right, //4
-	tiles_trans_mob_right, tiles_trans_mob_bird, tiles_trans_mob_bird, tiles_trans_mob_bird, tiles_trans_mob_bird,
-	tiles_trans_mob_bird_shooting, tiles_trans_mob_bird_shooting, tiles_projectile_horizontal2,
-
-	tiles_projectile_horizontal2, tiles_projectile_vertical2, tiles_projectile_vertical2, tiles_projectile_horizontal2, tiles_projectile_horizontal2, tiles_projectile_vertical2, tiles_projectile_vertical2, tiles_explosion4, //5
-	tiles_explosion4, tiles_explosion4, tiles_explosion4, tiles_projectile_vertical2, tiles_trans_wall2, tiles_projectile_horizontal2, tiles_trans_gun_up, NULL,
-
-	NULL, tiles_explosion4, tiles_explosion3, tiles_explosion2, tiles_explosion1, //6
-	tiles_explosion2, tiles_explosion3, tiles_explosion4,
-	NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE,
-
-	NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE,//7
-	NONE, NONE, NONE, NONE, tiles_trans_door, NONE, NONE, NONE,
-
-	NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE,//8
-	NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE,
-
-	NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE,//9
-	NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE,
-
-	tiles_trans_wall1, //a
+	TILE_WALL, TILE_ROBBO, TILE_ROBBO, TILE_SHIP, TILE_SHIP, TILE_SHIP2, TILE_SHIP, TILE_MAGNET_LEFT,
+	TILE_MAGNET_RIGHT, TILE_PROJECTILE_HORIZONTAL2, TILE_PROJECTILE_HORIZONTAL2, TILE_PROJECTILE_VERTICAL2, TILE_PROJECTILE_VERTICAL2, TILE_PROJECTILE_HORIZONTAL2, TILE_PROJECTILE_HORIZONTAL2, TILE_PROJECTILE_VERTICAL2,
+	TILE_PROJECTILE_VERTICAL2, TILE_EXPLOSION1, TILE_EXPLOSION1, TILE_EXPLOSION1, TILE_EXPLOSION1, TILE_BOMB, TILE_FORCE_FIELD, TILE_ROBBO,
+	TILE_EYES2, TILE_LEFT_HAND, TILE_LEFT_HAND, TILE_LEFT_HAND, TILE_LEFT_HAND, TILE_RIGHT_HAND, TILE_RIGHT_HAND, TILE_RIGHT_HAND,
+	TILE_RIGHT_HAND, TILE_BAT, TILE_BAT, TILE_BAT, TILE_BAT, TILE_BAT_SHOOTING, TILE_BAT_SHOOTING, TILE_INERT_BOX,
+	TILE_INERT_BOX, TILE_INERT_BOX, TILE_INERT_BOX, TILE_EMPTY, TILE_TELEPORT2, TILE_TELEPORT2, TILE_TELEPORT2, TILE_TELEPORT2,
+	TILE_TELEPORT2, TILE_TELEPORT2, TILE_TELEPORT2, TILE_TELEPORT2, TILE_TELEPORT2, TILE_TELEPORT2, TILE_GUN_LEFT, TILE_GUN_RIGHT,
+	TILE_GUN_UP, TILE_GUN_DOWN, TILE_GUN_LEFT, TILE_GUN_RIGHT, TILE_GUN_UP, TILE_GUN_DOWN, TILE_GUN_LEFT, TILE_GUN_RIGHT,
+	TILE_GUN_UP, TILE_GUN_DOWN, TILE_GUN_LEFT, TILE_GUN_RIGHT, TILE_GUN_UP, TILE_GUN_DOWN, TILE_GUN_UP, TILE_GUN_UP,
+	TILE_INERT_BOX, TILE_DOOR, TILE_BOX, TILE_SCREW, TILE_KEY, TILE_EMPTY, TILE_AMMO, TILE_GROUND,
+	TILE_LIFE, TILE_SURPRISE, TILE_BOMB, TILE_EXPLOSION1, TILE_EXPLOSION2, TILE_EXPLOSION3, TILE_EXPLOSION4, TILE_EXPLOSION3,
+	TILE_EXPLOSION2, TILE_EXPLOSION1, TILE_EMPTY, TILE_EXPLOSION1, TILE_EXPLOSION2, TILE_EXPLOSION3, TILE_EXPLOSION4, TILE_EMPTY,
+	TILE_EXPLOSION1, TILE_EXPLOSION2, TILE_EXPLOSION3, TILE_EXPLOSION4, TILE_EXPLOSION3, TILE_EXPLOSION2, TILE_EXPLOSION1, TILE_DOOR,
+	TILE_ROBBO, TILE_ROBBO, TILE_PROJECTILE_HORIZONTAL2, TILE_PROJECTILE_VERTICAL2, TILE_WALL, TILE_BLACK_WALL, TILE_WALL2, TILE_WALL,
 };
 
 __at(0x500) const uint8_t const map_to_tiles4[] =
 {
-	NONE, tiles_trans_gun_right, NULL, NULL, tiles_trans_gun_left, tiles_trans_wall1, tiles_trans_box_push, NONE, //0
-	NONE, NONE, NONE, NONE, NONE, tiles_trans_gun_up, tiles_trans_gun_up, tiles_trans_force_field2,
-
-	NONE, tiles_trans_wall1, tiles_trans_door, tiles_trans_black_wall, tiles_trans_capsule, NONE, NONE, tiles_trans_gun_down, //1
-	tiles_trans_gun_up, NULL, NULL, NULL, tiles_trans_gun_up, tiles_trans_gun_down, tiles_trans_gun_left, tiles_trans_gun_right,
-
-	tiles_trans_empty, tiles_trans_pickable_ammo, NONE, tiles_trans_box_normal, tiles_trans_pickable_screw, tiles_trans_ground, tiles_trans_mob_eyes2, tiles_trans_gun_down, //2
-	tiles_trans_magnet_right, tiles_trans_magnet_left, tiles_trans_robbo, tiles_trans_pickable_extra_life, tiles_trans_gun_left, tiles_trans_gun_right, tiles_trans_gun_up, tiles_trans_gun_down,
-
-	tiles_trans_teleport2, tiles_trans_teleport2, tiles_trans_teleport2, tiles_trans_teleport2, tiles_trans_teleport2, tiles_trans_teleport2, tiles_trans_teleport2, tiles_trans_teleport2, //3
-	tiles_trans_teleport2, tiles_trans_teleport2, NONE, NONE, tiles_trans_gun_left, tiles_trans_pickable_key, tiles_trans_gun_right, tiles_trans_questionmark,
-
-	tiles_trans_bomb, tiles_trans_mob_left2, tiles_trans_mob_left2, tiles_trans_mob_left2,
-	tiles_trans_mob_left2, tiles_trans_mob_right2, tiles_trans_mob_right2, tiles_trans_mob_right2, //4
-	tiles_trans_mob_right2, tiles_trans_mob_bird2, tiles_trans_mob_bird2, tiles_trans_mob_bird2, tiles_trans_mob_bird2,
-	tiles_trans_mob_bird_shooting2, tiles_trans_mob_bird_shooting2, tiles_projectile_horizontal2,
-
-	tiles_projectile_horizontal2, tiles_projectile_vertical2, tiles_projectile_vertical2, tiles_projectile_horizontal2, tiles_projectile_horizontal2, tiles_projectile_vertical2, tiles_projectile_vertical2, tiles_explosion4, //5
-	tiles_explosion4, tiles_explosion4, tiles_explosion4, tiles_projectile_vertical2, tiles_trans_wall2, tiles_projectile_horizontal2, tiles_trans_gun_up, NULL,
-
-	NULL, tiles_explosion4, tiles_explosion3, tiles_explosion2, tiles_explosion1, //6
-	tiles_explosion2, tiles_explosion3, tiles_explosion4,
-	NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE,
-
-	NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE,//7
-	NONE, NONE, NONE, NONE, tiles_trans_door, NONE, NONE, NONE,
-
-	NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE,//8
-	NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE,
-
-	NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE,//9
-	NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE,
-
-	tiles_trans_wall1, //a
+	TILE_WALL, TILE_ROBBO, TILE_ROBBO, TILE_SHIP, TILE_SHIP, TILE_SHIP2, TILE_SHIP, TILE_MAGNET_LEFT,
+	TILE_MAGNET_RIGHT, TILE_PROJECTILE_HORIZONTAL2, TILE_PROJECTILE_HORIZONTAL2, TILE_PROJECTILE_VERTICAL2, TILE_PROJECTILE_VERTICAL2, TILE_PROJECTILE_HORIZONTAL2, TILE_PROJECTILE_HORIZONTAL2, TILE_PROJECTILE_VERTICAL2,
+	TILE_PROJECTILE_VERTICAL2, TILE_EXPLOSION1, TILE_EXPLOSION1, TILE_EXPLOSION1, TILE_EXPLOSION1, TILE_BOMB, TILE_FORCE_FIELD2, TILE_ROBBO,
+	TILE_EYES2, TILE_LEFT_HAND2, TILE_LEFT_HAND2, TILE_LEFT_HAND2, TILE_LEFT_HAND2, TILE_RIGHT_HAND2, TILE_RIGHT_HAND2, TILE_RIGHT_HAND2,
+	TILE_RIGHT_HAND2, TILE_BAT2, TILE_BAT2, TILE_BAT2, TILE_BAT2, TILE_BAT_SHOOTING2, TILE_BAT_SHOOTING2, TILE_INERT_BOX,
+	TILE_INERT_BOX, TILE_INERT_BOX, TILE_INERT_BOX, TILE_EMPTY, TILE_TELEPORT2, TILE_TELEPORT2, TILE_TELEPORT2, TILE_TELEPORT2,
+	TILE_TELEPORT2, TILE_TELEPORT2, TILE_TELEPORT2, TILE_TELEPORT2, TILE_TELEPORT2, TILE_TELEPORT2, TILE_GUN_LEFT, TILE_GUN_RIGHT,
+	TILE_GUN_UP, TILE_GUN_DOWN, TILE_GUN_LEFT, TILE_GUN_RIGHT, TILE_GUN_UP, TILE_GUN_DOWN, TILE_GUN_LEFT, TILE_GUN_RIGHT,
+	TILE_GUN_UP, TILE_GUN_DOWN, TILE_GUN_LEFT, TILE_GUN_RIGHT, TILE_GUN_UP, TILE_GUN_DOWN, TILE_GUN_UP, TILE_GUN_UP,
+	TILE_INERT_BOX, TILE_DOOR, TILE_BOX, TILE_SCREW, TILE_KEY, TILE_EMPTY, TILE_AMMO, TILE_GROUND,
+	TILE_LIFE, TILE_SURPRISE, TILE_BOMB, TILE_EXPLOSION1, TILE_EXPLOSION2, TILE_EXPLOSION3, TILE_EXPLOSION4, TILE_EXPLOSION3,
+	TILE_EXPLOSION2, TILE_EXPLOSION1, TILE_EMPTY, TILE_EXPLOSION1, TILE_EXPLOSION2, TILE_EXPLOSION3, TILE_EXPLOSION4, TILE_EMPTY,
+	TILE_EXPLOSION1, TILE_EXPLOSION2, TILE_EXPLOSION3, TILE_EXPLOSION4, TILE_EXPLOSION3, TILE_EXPLOSION2, TILE_EXPLOSION1, TILE_DOOR,
+	TILE_ROBBO, TILE_ROBBO, TILE_PROJECTILE_HORIZONTAL2, TILE_PROJECTILE_VERTICAL2, TILE_WALL, TILE_BLACK_WALL, TILE_WALL2, TILE_WALL,
 };
 
 const uint8_t const types[] =
 {
-	0x20, 0x22, 0x20, 0x20, 0x22, 0x20, 0x22, 0x22,//0
-	0x22, 0x22, 0x22, 0x20, 0x20, 0x22, 0x22, 0x23,
-	0x20, 0x20, 0x22, 0x20, 0x20, 0x20, 0x20, 0x22,//1
-	0x22, 0x20, 0x20, 0x20, 0x22, 0x22, 0x22, 0x22,
-	0x23, 0x23, 0x22, 0x22, 0x22, 0x23, 0x23, 0x20,//2
-	0x20, 0x20, 0x23, 0x23, 0x22, 0x22, 0x22, 0x22,
-	0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22,//3
-	0x22, 0x22, 0x22, 0x20, 0x22, 0x22, 0x22, 0x23,
-	0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23,//4
-	0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x20,
-	0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,//5
-	0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x22, 0x20,
-	0x20, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22,//6
+	0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+	0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+	0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x23, 0x23,
+	0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23,
+	0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x22,
 	0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22,
-	0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x20, 0x20,//7
-	0x20, 0x20, 0x20, 0x20, 0x22, 0x20, 0x20, 0x20,
-	0x20, 0x20, 0x20, 0x20, 0x22, 0x20, 0x20, 0x20,//8
-	0x20, 0x20, 0x20, 0x20, 0x22, 0x20, 0x20, 0x20,
-	0x20, 0x20, 0x20, 0x20, 0x22, 0x20, 0x20, 0x20,//9
-	0x20, 0x20, 0x20, 0x20, 0x22, 0x20, 0x20, 0x20,
-	0x20
+	0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22,
+	0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22,
+	0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22,
+	0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x23, 0x23,
+	0x23, 0x23, 0x23, 0x22, 0x22, 0x22, 0x22, 0x22,
+	0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22,
+	0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22,
+	0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
 };

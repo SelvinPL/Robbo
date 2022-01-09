@@ -10,6 +10,7 @@
 #include "tiles.h"
 #include "win_slide.h"
 #include "changes.h"
+#include "others.h"
 
 #define BETWEEN(n, start, end) ((((uint8_t)n)>=((uint8_t)(start))) && (((uint8_t)n)<((uint8_t)(end))))
 
@@ -88,11 +89,11 @@ void mapIteration()
 		{
 			nextYTilesPtr++;
 			currentYTilesPtr++;
-			if (*++mapPtr == FIELD_WALL || *mapPtr == FIELD_BLACK_WALL)
+			if (*++mapPtr >= FIELD_TYPES_WALLS_START)
 			{
 				continue;
 			}
-			else  if (*currentYTilesPtr != FIELD_NONE)
+			else if (*currentYTilesPtr != FIELD_NONE)
 			{
 				uint8_t tile = *currentYTilesPtr;
 				*currentYTilesPtr = FIELD_NONE;
@@ -102,23 +103,34 @@ void mapIteration()
 					PUT_CHANGES(mapPtr);
 				}
 			}
-			else if (*mapPtr == FIELD_EMPTY)
+			else if (*map == FIELD_EMPTY)
 			{
 				continue;
 			}
-			else
+			else if (*mapPtr <= FIELD_TYPES_FUNCTIONS_END)
 			{
 				function function = functions_map[*mapPtr];
-				if (!(((uint16_t)function) >> 8) && !((uint8_t)function))
+				if (function() && doChanege)
 				{
-					continue;
+					PUT_CHANGES(mapPtr);
 				}
-				else
+			}
+			else if (*mapPtr <= FIELD_TYPES_NONE_END)
+			{
+				continue;
+			}
+			else if (*mapPtr <= FIELD_TYPES_NEXT_END)
+			{
+				if (next() && doChanege)
 				{
-					if (function() && doChanege)
-					{
-						PUT_CHANGES(mapPtr);
-					}
+					PUT_CHANGES(mapPtr);
+				}
+			}
+			else
+			{
+				if (doChanege && blinkOnOdd())
+				{
+					PUT_CHANGES(mapPtr);
 				}
 			}
 		}
@@ -431,14 +443,14 @@ const palette_color_t palettes[] =
 #ifndef GAMEBOY
 const uint8_t tile2_data[] = 
 { 
-	tiles_trans_black_wall, 0, tiles_trans_black_wall, 0,
-	tiles_trans_black_wall, 0, tiles_trans_black_wall, 0,
-	tiles_trans_black_wall, 0, tiles_trans_black_wall, 0,
-	tiles_trans_black_wall, 0, tiles_trans_black_wall, 0,
-	tiles_trans_black_wall, 0, tiles_trans_black_wall, 0,
-	tiles_trans_black_wall, 0, tiles_trans_black_wall, 0,
-	tiles_trans_black_wall, 0, tiles_trans_black_wall, 0,
-	tiles_trans_black_wall, 0, tiles_trans_black_wall, 0,
+	TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
+	TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
+	TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
+	TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
+	TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
+	TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
+	TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
+	TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
 };
 #endif
 
@@ -446,7 +458,6 @@ void main()
 {
 	DISABLE_VBL_TRANSFER;
 	DISPLAY_OFF;
-	level = 1;
 	winSlideX = 0;
 	winSlideToX = 0;
 	padEnabled = false;
@@ -454,8 +465,8 @@ void main()
 	uint8_t current = _current_bank;
 	SWITCH_ROM_EX(BANK(tiles_data));
 	set_bkg_data(0, 172, map_tiles);
-	set_bkg_data(tiles_trans_mob_bird2, 32, map_tiles + (tiles_trans_mob_bird2 + 0x10) * 0x10);
-	set_bkg_data(tiles_trans_robbo, 4u, map_tiles + tiles_trans_robbo_d * 0x10);
+	set_bkg_data(TILE_BAT2, 32, map_tiles + (TILE_BAT2 + 0x10) * 0x10);
+	set_bkg_data(TILE_ROBBO, 4u, map_tiles + TILE_ROBBO_DOWN * 0x10);
 	SWITCH_ROM_EX(current);
 	cameraPosY = cameraStartPosY;
 	initHUD();

@@ -63,7 +63,7 @@ extern void wait_vbl_done_alt();
 #define	initHUD()								\
 	do											\
 	{											\
-		init_win(tiles_trans_black_wall);		\
+		init_win(TILE_BLACK_WALL);		\
 		WX_REG = 7;								\
 		WY_REG = 0;								\
 		SHOW_WIN;								\
