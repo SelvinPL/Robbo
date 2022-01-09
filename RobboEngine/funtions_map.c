@@ -80,13 +80,19 @@ bool teleport()
 
 const function const functions_map[] =
 {
-    forceFieldEnd, robboDragLeft, robboDragRight, ship, shipBlink1, shipBlink2, robboStart, magnetLeft,
-    magnetRight, projectileLeft, projectileRight, projectileUp, projectileDown, laserHeadLeft, laserHeadRight, laserHeadUp,
-    laserHeadDown, blasterHeadLeft, blasterHeadRight, blasterHeadUp, blasterHeadDown, bombExploding, forceField, robbo,
-    eyes, leftHandLeft, leftHandRight, leftHandUp, leftHandDown, rightHandLeft, rightHandRight, rightHandUp,
-    rightHandDown, batLeft, batRight, batUp, batDown, batShootingLeft, batShootingRight, inertBoxLeft,
-    inertBoxRight, inertBoxUp, inertBoxDown, surpriseExplosion, teleport, teleport, teleport, teleport,
-    teleport, teleport, teleport, teleport, teleport, teleport, gunLeft, gunRight,
-    gunUp, gunDown, laserLeft, laserRight, laserUp, laserDown, blasterLeft, blasterRight,
-    blasterUp, blasterDown, rotatingGunLeft, rotatingGunRight, rotatingGunUp, rotatingGunDown, movableGunLeft, movableGunRight,
+    NULL, NULL, NULL, NULL, NULL, forceFieldEnd, robboDragLeft, robboDragRight,
+    ship, shipBlink1, shipBlink2, robboStart, magnetLeft, magnetRight, projectileLeft, projectileRight,
+    projectileUp, projectileDown, laserHeadLeft, laserHeadRight, laserHeadUp, laserHeadDown, blasterHeadLeft, blasterHeadRight,
+    blasterHeadUp, blasterHeadDown, bombExploding, blinkOnOdd, blinkOnOdd, forceField, robbo, eyes,
+    leftHandLeft, leftHandRight, leftHandUp, leftHandDown, rightHandLeft, rightHandRight, rightHandUp, rightHandDown,
+    batLeft, batRight, batUp, batDown, batShootingLeft, batShootingRight, inertBoxLeft, inertBoxRight,
+    inertBoxUp, inertBoxDown, surpriseExplosion, teleport, teleport, teleport, teleport, teleport,
+    teleport, teleport, teleport, teleport, teleport, gunLeft, gunRight, gunUp,
+    gunDown, laserLeft, laserRight, laserUp, laserDown, blasterLeft, blasterRight, blasterUp,
+    blasterDown, rotatingGunLeft, rotatingGunRight, rotatingGunUp, rotatingGunDown, movableGunLeft, movableGunRight, next,
+    next, next, next, next, next, next, next, next,
+    next, next, next, next, next, next, next, next,
+    next, next, next, next, next, next, NULL, NULL,
+    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    NULL,
 };

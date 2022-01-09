@@ -44,6 +44,11 @@ bool forceFieldEnd()
 	return false;
 }
 
+bool blinkOnOdd()
+{
+	return (animCounter & 1);
+}
+
 const uint8_t nextField[] =
 {
 	FIELD_EXPLOSION_ANIM2,
@@ -74,3 +79,13 @@ const uint8_t nextField[] =
 	FIELD_ROBBO_DRAG_ANIM2,
 	FIELD_EXPLOSION_ANIM1,
 };
+
+bool next()
+{
+	if (animCounter & 1)
+	{
+		*mapPtr = nextField[*mapPtr - FIELD_TYPES_NEXT_START];
+		return true;
+	}
+	return false;
+}

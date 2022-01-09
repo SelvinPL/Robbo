@@ -89,7 +89,7 @@ void mapIteration()
 		{
 			nextYTilesPtr++;
 			currentYTilesPtr++;
-			if (*++mapPtr >= FIELD_TYPES_WALLS_START)
+			if (*++mapPtr <= FIELD_TYPES_WALLS_END)
 			{
 				continue;
 			}
@@ -103,10 +103,6 @@ void mapIteration()
 					PUT_CHANGES(mapPtr);
 				}
 			}
-			else if (*map == FIELD_EMPTY)
-			{
-				continue;
-			}
 			else if (*mapPtr <= FIELD_TYPES_FUNCTIONS_END)
 			{
 				function function = functions_map[*mapPtr];
@@ -115,23 +111,9 @@ void mapIteration()
 					PUT_CHANGES(mapPtr);
 				}
 			}
-			else if (*mapPtr <= FIELD_TYPES_NONE_END)
-			{
-				continue;
-			}
-			else if (*mapPtr <= FIELD_TYPES_NEXT_END)
-			{
-				if (next() && doChanege)
-				{
-					PUT_CHANGES(mapPtr);
-				}
-			}
 			else
 			{
-				if (doChanege && blinkOnOdd())
-				{
-					PUT_CHANGES(mapPtr);
-				}
+				continue;
 			}
 		}
 	}
