@@ -591,16 +591,17 @@ bool blasterHeadLeft()
 	if (animCounter & 1)
 	{
 		uint8_t* newMap = MAP_LEFT(mapPtr);
-		if (*newMap == FIELD_EMPTY)
+		if (*newMap == FIELD_BOMB)
 		{
-			*newMap = FIELD_BLASTER_HEAD_LEFT;
-			*mapPtr = FIELD_EXPLOSION_ANIM2;
+			*newMap = FIELD_BOMB_EXPLODING;
 			change(newMap);
 		}
-		else
+		else if (*newMap == FIELD_EMPTY || (types[*newMap] & 1))
 		{
-			*mapPtr = FIELD_EXPLOSION_ANIM2;
+			*newMap = FIELD_BLASTER_HEAD_LEFT;
+			change(newMap);
 		}
+		*mapPtr = FIELD_EXPLOSION_ANIM2;
 		return true;
 	}
 	return false;
@@ -611,15 +612,16 @@ bool blasterHeadRight()
 	if (animCounter & 1)
 	{
 		uint8_t* newMap = MAP_RIGHT(mapPtr);
-		if (*newMap == FIELD_EMPTY && *(currentYTilesPtr + 1) == FIELD_NONE)
+		uint8_t next = *(currentYTilesPtr + 1) == FIELD_NONE ? *newMap : *(currentYTilesPtr + 1);
+		if (next == FIELD_BOMB)
+		{
+			*(currentYTilesPtr + 1) = FIELD_BOMB_EXPLODING;
+		}
+		else if (next == FIELD_EMPTY || (types[next] & 1))
 		{
 			*(currentYTilesPtr + 1) = FIELD_BLASTER_HEAD_RIGHT;
-			*mapPtr = FIELD_EXPLOSION_ANIM2;
 		}
-		else
-		{
-			*mapPtr = FIELD_EXPLOSION_ANIM2;
-		}
+		*mapPtr = FIELD_EXPLOSION_ANIM2;
 		return true;
 	}
 	return false;
@@ -630,16 +632,17 @@ bool blasterHeadUp()
 	if (animCounter & 1)
 	{
 		uint8_t* newMap = MAP_UP(mapPtr);
-		if (*newMap == FIELD_EMPTY)
+		if (*newMap == FIELD_BOMB)
 		{
-			*newMap = FIELD_BLASTER_HEAD_UP;
-			*mapPtr = FIELD_EXPLOSION_ANIM2;
+			*newMap = FIELD_BOMB_EXPLODING;
 			change(newMap);
 		}
-		else
+		else if (*newMap == FIELD_EMPTY || (types[*newMap] & 1))
 		{
-			*mapPtr = FIELD_EXPLOSION_ANIM2;
+			*newMap = FIELD_BLASTER_HEAD_UP;
+			change(newMap);
 		}
+		*mapPtr = FIELD_EXPLOSION_ANIM2;
 		return true;
 	}
 	return false;
@@ -649,16 +652,17 @@ bool blasterHeadDown()
 {
 	if (animCounter & 1)
 	{
-		uint8_t* newMap = MAP_DOWN(mapPtr);
-		if (*newMap == FIELD_EMPTY)
+		uint8_t* newMap = MAP_RIGHT(mapPtr);
+		uint8_t next = *nextYTilesPtr == FIELD_NONE ? *newMap : *nextYTilesPtr;
+		if (next == FIELD_BOMB)
+		{
+			*nextYTilesPtr = FIELD_BOMB_EXPLODING;
+		}
+		else if (next == FIELD_EMPTY || (types[next] & 1))
 		{
 			*nextYTilesPtr = FIELD_BLASTER_HEAD_DOWN;
-			*mapPtr = FIELD_EXPLOSION_ANIM2;
 		}
-		else
-		{
-			*mapPtr = FIELD_EXPLOSION_ANIM2;
-		}
+		*mapPtr = FIELD_EXPLOSION_ANIM2;
 		return true;
 	}
 	return false;
@@ -667,42 +671,74 @@ bool blasterHeadDown()
 
 bool blasterLeft()
 {
-	uint8_t* newMap = MAP_LEFT(mapPtr);
-	if (*newMap == FIELD_EMPTY && RND())
+	if (RND())
 	{
-		*newMap = FIELD_BLASTER_HEAD_LEFT;
-		change(newMap);
+		uint8_t* newMap = MAP_LEFT(mapPtr);
+		if (*newMap == FIELD_BOMB)
+		{
+			*newMap = FIELD_BOMB_EXPLODING;
+			change(newMap);
+		}
+		else if (*newMap == FIELD_EMPTY || (types[*newMap] & 1))
+		{
+			*newMap = FIELD_BLASTER_HEAD_LEFT;
+			change(newMap);
+		}
 	}
 	return false;
 }
 
 bool blasterRight()
 {
-	uint8_t* newMap = MAP_RIGHT(mapPtr);
-	if (*newMap == FIELD_EMPTY && *(currentYTilesPtr + 1) == FIELD_NONE && RND())
+	if (RND())
 	{
-		*(currentYTilesPtr + 1) = FIELD_BLASTER_HEAD_RIGHT;
+		uint8_t* newMap = MAP_RIGHT(mapPtr);
+		uint8_t next = *(currentYTilesPtr + 1) == FIELD_NONE ? *newMap : *(currentYTilesPtr + 1);
+		if (next == FIELD_BOMB)
+		{
+			*(currentYTilesPtr + 1) = FIELD_BOMB_EXPLODING;
+		}
+		else if (next == FIELD_EMPTY || (types[next] & 1))
+		{
+			*(currentYTilesPtr + 1) = FIELD_BLASTER_HEAD_RIGHT;
+		}
 	}
 	return false;
 }
 
 bool blasterUp()
 {
-	uint8_t* newMap = MAP_UP(mapPtr);
-	if (*newMap == FIELD_EMPTY && RND())
+	if (RND())
 	{
-		*newMap = FIELD_BLASTER_HEAD_UP;
-		change(newMap);
+		uint8_t* newMap = MAP_UP(mapPtr);
+		if (*newMap == FIELD_BOMB)
+		{
+			*newMap = FIELD_BOMB_EXPLODING;
+			change(newMap);
+		}
+		else if (*newMap == FIELD_EMPTY || (types[*newMap] & 1))
+		{
+			*newMap = FIELD_BLASTER_HEAD_UP;
+			change(newMap);
+		}
 	}
 	return false;
 }
 
 bool blasterDown()
 {
-	uint8_t* newMap = MAP_DOWN(mapPtr);
-	if (*newMap == FIELD_EMPTY && RND())
+	if (RND())
 	{
-		*nextYTilesPtr = FIELD_BLASTER_HEAD_DOWN;
+		uint8_t* newMap = MAP_RIGHT(mapPtr);
+		uint8_t next = *nextYTilesPtr == FIELD_NONE ? *newMap : *nextYTilesPtr;
+		if (next == FIELD_BOMB)
+		{
+			*nextYTilesPtr = FIELD_BOMB_EXPLODING;
+		}
+		else if (next == FIELD_EMPTY || (types[next] & 1))
+		{
+			*nextYTilesPtr = FIELD_BLASTER_HEAD_DOWN;
+		}
 	}
 	return false;
 }
@@ -725,28 +761,31 @@ const uint8_t rotationCounterClock[] =
 
 bool rotatingGun()
 {
-	if (animCounter == 1 || animCounter == 5)
+	if (animCounter == 5)
 	{
-		if ((animCounter & 3) && (rand() & 3))
+		if ((animCounter & 3) && (rand() & 1))
 		{
 			const uint8_t* rotation = (rand() & 1) ? rotationClock : rotationCounterClock;
 			*mapPtr = rotation[*mapPtr - FIELD_ROTATING_GUN_LEFT];
-			change(mapPtr);
+			return true;
 		}
-		switch (*mapPtr)
+		else
 		{
-		case FIELD_ROTATING_GUN_LEFT:
-			gunLeftImpl(rand() & 7, mapPtr);
-			break;
-		case FIELD_ROTATING_GUN_RIGHT:
-			gunRightImpl(rand() & 7, mapPtr);
-			break;
-		case FIELD_ROTATING_GUN_UP:
-			gunUpImpl(rand() & 7, mapPtr);
-			break;
-		case FIELD_ROTATING_GUN_DOWN:
-			gunDownImpl(rand() & 7, mapPtr);
-			break;
+			switch (*mapPtr)
+			{
+			case FIELD_ROTATING_GUN_LEFT:
+				gunLeftImpl(rand() & 7, mapPtr);
+				break;
+			case FIELD_ROTATING_GUN_RIGHT:
+				gunRightImpl(rand() & 7, mapPtr);
+				break;
+			case FIELD_ROTATING_GUN_UP:
+				gunUpImpl(rand() & 7, mapPtr);
+				break;
+			case FIELD_ROTATING_GUN_DOWN:
+				gunDownImpl(rand() & 7, mapPtr);
+				break;
+			}
 		}
 	}
 	return false;
