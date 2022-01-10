@@ -4,7 +4,8 @@
 #include "fields.h"
 #include "changes.h"
 #include "stdbool.h"
-#include <gb/gb.h>
+#include "platform.h"
+
 bool bombExploding()
 {
 	if (!(animCounter & 1))
