@@ -17,6 +17,8 @@ const uint8_t* map_to_tiles;
 uint8_t map_to_tiles_hi;
 uint8_t map_pos_x;
 uint8_t map_pos_y;
+uint8_t slide_to_map_pos_x;
+uint8_t slide_to_map_pos_y;
 
 uint8_t animCounter;
 int8_t slideX;

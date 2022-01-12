@@ -19,6 +19,8 @@ extern const uint8_t* map_to_tiles;
 extern uint8_t map_to_tiles_hi;
 extern uint8_t map_pos_x;
 extern uint8_t map_pos_y;
+extern uint8_t slide_to_map_pos_x;
+extern uint8_t slide_to_map_pos_y;
 
 extern uint8_t animCounter;
 extern int8_t slideX;

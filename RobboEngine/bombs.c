@@ -11,10 +11,10 @@ bool bombExploding()
 	if (!(animCounter & 1))
 	{
 #ifdef GAMEBOY
-		rAUD4LEN = 0x00;
-		rAUD4ENV = 0xf5;
-		rAUD4POLY = 0x5d;
-		rAUD4GO = 0x80;
+		//rAUD4LEN = 0x00;
+		//rAUD4ENV = 0xf5;
+		//rAUD4POLY = 0x5d;
+		//rAUD4GO = 0x80;
 #endif
 		uint8_t* newMap = MAP_LEFT(MAP_UP(mapPtr));
 		if (types[*newMap])
@@ -26,8 +26,8 @@ bool bombExploding()
 			else
 			{
 				*newMap = FIELD_EXPLOSION_ANIM1;
-				change(newMap);
 			}
+			change(newMap);
 		}
 		newMap = MAP_RIGHT(newMap);
 		if (types[*newMap])
@@ -39,8 +39,8 @@ bool bombExploding()
 			else
 			{
 				*newMap = FIELD_EXPLOSION_ANIM2;
-				change(newMap);
 			}
+			change(newMap);
 		}
 		newMap = MAP_RIGHT(newMap);
 		if (types[*newMap])
@@ -52,8 +52,8 @@ bool bombExploding()
 			else
 			{
 				*newMap = FIELD_EXPLOSION_ANIM1;
-				change(newMap);
 			}
+			change(newMap);
 		}
 
 		newMap = MAP_LEFT(mapPtr);
@@ -66,8 +66,8 @@ bool bombExploding()
 			else
 			{
 				*newMap = FIELD_EXPLOSION_ANIM2;
-				change(newMap);
 			}
+			change(newMap);
 		}
 		*mapPtr = FIELD_EXPLOSION_ANIM3;
 		newMap = MAP_RIGHT(mapPtr);

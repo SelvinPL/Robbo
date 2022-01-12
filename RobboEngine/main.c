@@ -246,6 +246,8 @@ inline void loadNextLine()
 	}
 }
 
+
+
 void incrementCounter()
 {
 	counter++;
@@ -336,63 +338,91 @@ void incrementCounter()
 		}
 		if (padEnabled)
 		{
-			if ((padState & J_LEFT) && map_pos_x > 0)
+			if (padState & J_SELECT)
 			{
-				map_pos_x--;
+				if (padState & J_B)
+				{
+					padEnabled = false;
+					uint8_t newLevel = bcdDecerement(level);
+					if (newLevel == 0)
+						newLevel = 0x56;
+					level = newLevel;
+#ifdef GAMEBOY
+					drawNumber(9, 8, level);
+#endif
+					nextFunction = &setupLevel;
+					startSlideIn();
+				}
+				else if (padState & J_A)
+				{
+					padEnabled = false;
+					uint8_t newLevel = bcdIncerement(level);
+					if (newLevel == 87)
+						newLevel = 1;
+					level = newLevel;
+#ifdef GAMEBOY
+					drawNumber(9, 8, level);
+#endif
+					nextFunction = &setupLevel;
+					startSlideIn();
+				}
+				else
+				{
+					if ((padState & J_LEFT) && slide_to_map_pos_x == map_pos_x && slide_to_map_pos_x > 0)
+					{
+						slide_to_map_pos_x -= 3;
+					}
+					else if ((padState & J_RIGHT) && slide_to_map_pos_x == map_pos_x && slide_to_map_pos_x < maxPosX)
+					{
+						slide_to_map_pos_x += 3;
+					}
+					else if ((padState & J_UP) && slide_to_map_pos_y == map_pos_y && slide_to_map_pos_y > 0)
+					{
+						if (slide_to_map_pos_y == maxPosY && (maxPosY != (maxPosY & 0xfc)))
+							slide_to_map_pos_y = (maxPosY & 0xfc);
+						else
+							slide_to_map_pos_y -= 4;
+					}
+					else if ((padState & J_DOWN) && slide_to_map_pos_y == map_pos_y && slide_to_map_pos_y < maxPosY)
+					{
+						slide_to_map_pos_y += 4;
+						if ((maxPosY != (maxPosY & 0xfc)) && slide_to_map_pos_y > maxPosY)
+							slide_to_map_pos_y = maxPosY;
+					}
+				}
+			}
+			if (slide_to_map_pos_x < map_pos_x)
+			{
 				slideX = -3;
+				map_pos_x--;
 				slide_bkg_x();
 			}
-			else if ((padState & J_RIGHT) && map_pos_x < maxPosX)
+			else if (slide_to_map_pos_x > map_pos_x)
 			{
-				map_pos_x++;
 				slideX = 3;
+				map_pos_x++;
 				slide_bkg_x();
 			}
-			else if ((padState & J_UP) && map_pos_y > 0)
+
+			if (slide_to_map_pos_y < map_pos_y)
 			{
 				slideY = -3;
-				slide_bkg_y();
 				map_pos_y--;
+				slide_bkg_y();
 				if (map_pos_y != 0)
 				{
 					next_line = map + 16 * (map_pos_y - 1);
 				}
 			}
-			else if ((padState & J_DOWN) && map_pos_y < maxPosY)
+			else if (slide_to_map_pos_y > map_pos_y)
 			{
 				slideY = 3;
-				slide_bkg_y();
 				map_pos_y++;
+				slide_bkg_y();
 				if (map_pos_y + visibleY < 32)
 				{
 					next_line = map + 16 * (map_pos_y + visibleY);
 				}
-			}
-			if (padState & J_B)
-			{
-				padEnabled = false;
-				uint8_t newLevel = bcdDecerement(level);
-				if (newLevel == 0)
-					newLevel = 86;
-				level = newLevel;
-#ifdef GAMEBOY
-				drawNumber(9, 8, level);
-#endif
-				nextFunction = &setupLevel;
-				startSlideIn();
-			}
-			else if (padState & J_A)
-			{
-				padEnabled = false;
-				uint8_t newLevel = bcdIncerement(level);
-				if (newLevel == 87)
-					newLevel = 1;
-				level = newLevel;
-#ifdef GAMEBOY
-				drawNumber(9, 8, level);
-#endif
-				nextFunction = &setupLevel;
-				startSlideIn();
 			}
 		}
 	}
@@ -454,6 +484,8 @@ void main()
 	map_to_tiles_hi = 0x2;
 	map_pos_x = 0;
 	map_pos_y = 0;
+	slide_to_map_pos_x = 0;
+	slide_to_map_pos_y = 0;
 	
 #ifdef GAMEBOY
 	rAUDENA = AUDENA_ON;
