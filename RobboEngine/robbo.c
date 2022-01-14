@@ -16,6 +16,7 @@ uint8_t* nextRobboPosDest;
 bool sendChange;
 uint8_t newRobboX;
 uint8_t newRobboY;
+uint8_t keys;
 
 bool robbo()
 {
@@ -25,11 +26,10 @@ bool robbo()
 		{
 			robboX = ((uint8_t)mapPtr) & 0xf;
 			robboY = ((((uint8_t)mapPtr) & 0xf0) >> 4) | ((((uint8_t)((uint16_t)mapPtr >> 8)) & 0xf) << 4);
+			keys = 0;
 		}
 		newRobboX = robboX;
 		newRobboY = robboY;
-		uint8_t* newRobboPos;
-		uint8_t* newRobboPosDes;
 		if ((padState & J_UP))
 		{
 			newRobboPos = MAP_UP(mapPtr);
@@ -71,7 +71,6 @@ bool robbo()
 			nextRobboPos = MAP_RIGHT(newRobboPos);
 			nextRobboPosDest = MAP_RIGHT(newRobboPosDest);
 			nextRobboTile = *nextRobboPosDest != FIELD_NONE ? *nextRobboPosDest : *nextRobboPos;
-
 			newRobboX++;
 			sendChange = false;
 		}
@@ -82,18 +81,12 @@ bool robbo()
 		switch (newRobboTile)
 		{
 		case FIELD_KEY:
-			//TODO: pickkey
+			keys++;
 		case FIELD_AMMO:
 			//TODO: pick ammo
 		case FIELD_SCREW:
 			//TODO: pick screw
 		case FIELD_EMPTY:
-			*mapPtr = FIELD_EMPTY;
-			*newRobboPosDest = FIELD_ROBBO;
-			if (sendChange)
-			{
-				change(newRobboPosDest);
-			}
 			break;
 		case FIELD_BOX:
 		case FIELD_BOMB:
@@ -102,12 +95,9 @@ bool robbo()
 		case FIELD_MOVABLE_GUN_RIGHT:
 			if (nextRobboTile == FIELD_EMPTY)
 			{
-				*mapPtr = FIELD_EMPTY;
-				*newRobboPosDest = FIELD_ROBBO;
 				*nextRobboPosDest = newRobboTile;
 				if (sendChange)
 				{
-					change(newRobboPosDest);
 					change(nextRobboPosDest);
 				}
 			}
@@ -116,8 +106,24 @@ bool robbo()
 				return false;
 			}
 			break;
+		case FIELD_DOOR:
+			if (keys > 0)
+			{
+				keys--;
+				if (sendChange)
+				{
+					change(newRobboPosDest);
+				}
+				break;
+			}
 		default:
 			return false;
+		}
+		*mapPtr = FIELD_EMPTY;
+		*newRobboPosDest = FIELD_ROBBO;
+		if (sendChange)
+		{
+			change(newRobboPosDest);
 		}
 		robboX = newRobboX;
 		if (maxPosX)

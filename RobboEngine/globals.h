@@ -32,6 +32,7 @@ extern bool padEnabled;
 extern function nextFunction;
 
 extern uint8_t level;
+extern uint8_t cave;
 
 extern uint8_t cameraPosX;
 extern uint8_t cameraPosY;

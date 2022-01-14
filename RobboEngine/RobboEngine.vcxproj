@@ -51,7 +51,7 @@
     <PlatformSpecificAsmPath>sms</PlatformSpecificAsmPath>
     <PortType>z80</PortType>
     <CustomCrt>$(GBDKLibPath)/small/asxxxx/sms/crt0.o</CustomCrt>
-    <GlobalSymbols>_shadow_OAM=0xC400;.STACK=0xDEFF;_map=0xC000;_changes=0xC200</GlobalSymbols>
+    <GlobalSymbols>_shadow_OAM=0xC400;.STACK=0xDFF0;_map=0xC000;_changes=0xC200</GlobalSymbols>
     <DataLocation>0xc500</DataLocation>
     <AdditionalLibraryPath>$(GBDKLibPath);$(GBDKLibPath)/small/asxxxx/sms;$(GBDKLibPath)/small/asxxxx/z80</AdditionalLibraryPath>
     <IncludeLibraries>sms.lib;z80.lib</IncludeLibraries>
@@ -63,7 +63,7 @@
     <PlatformSpecificAsmPath>gg</PlatformSpecificAsmPath>
     <PortType>z80</PortType>
     <CustomCrt>$(GBDKLibPath)/small/asxxxx/gg/crt0.o</CustomCrt>
-    <GlobalSymbols>_shadow_OAM=0xC400;.STACK=0xDEFF;_map=0xC000;_changes=0xC200</GlobalSymbols>
+    <GlobalSymbols>_shadow_OAM=0xC400;.STACK=0xDFF0;_map=0xC000;_changes=0xC200</GlobalSymbols>
     <DataLocation>0xc500</DataLocation>
     <AdditionalLibraryPath>$(GBDKLibPath);$(GBDKLibPath)/small/asxxxx/gg;$(GBDKLibPath)/small/asxxxx/z80</AdditionalLibraryPath>
     <IncludeLibraries>gg.lib;z80.lib</IncludeLibraries>

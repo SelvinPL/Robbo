@@ -33,8 +33,8 @@ void repaint()
 #else
 inline void set_bkg_tile_xy_2(uint8_t x, uint8_t y, uint8_t t)
 {
-	uint8_t tiles[] = { t, t + 1, t + 2, t + 3 };
-	set_bkg_tiles(2 * x - fixTileX, 2 * y - fixTileY, 2, 2, tiles);
+	uint8_t main_tiles[] = { t, t + 1, t + 2, t + 3 };
+	set_bkg_tiles(2 * x - fixTileX, 2 * y - fixTileY, 2, 2, main_tiles);
 }
 void repaint()
 {
@@ -127,17 +127,31 @@ bool setupLevelFinished()
 
 const uint8_t numbersTiles[10][2] =
 {
-	{ 0x10, 0x11 }, //0
-	{ 0x12, 0x13 }, //1
-	{ 0x1b, 0x15 }, //2
-	{ 0x1b, 0x16 }, //3
-	{ 0x17, 0x18 }, //4
-	{ 0x19, 0x16 }, //5
-	{ 0x19, 0x1a }, //6
-	{ 0x14, 0x13 }, //7
-	{ 0x1c, 0x1a }, //8
-	{ 0x1c, 0x16 }, //9
+	{ TILE_NUM_PART0, TILE_NUM_PART1 }, //0
+	{ TILE_NUM_PART2, TILE_NUM_PART3 }, //1
+	{ TILE_NUM_PARTB, TILE_NUM_PART5 }, //2
+	{ TILE_NUM_PARTB, TILE_NUM_PART6 }, //3
+	{ TILE_NUM_PART7, TILE_NUM_PART8 }, //4
+	{ TILE_NUM_PART9, TILE_NUM_PART6 }, //5
+	{ TILE_NUM_PART9, TILE_NUM_PARTA }, //6
+	{ TILE_NUM_PART4, TILE_NUM_PART3 }, //7
+	{ TILE_NUM_PARTC, TILE_NUM_PARTA }, //8
+	{ TILE_NUM_PARTC, TILE_NUM_PART6 }, //9
 };
+
+#ifndef  GAMEBOY
+#include <stdlib.h>
+
+void gb_decompress_bkg_data(uint16_t start, const uint8_t* source)
+{
+	uint8_t heap[4096];
+	uint16_t res = gb_decompress(source, heap);
+	CRITICAL
+	{
+		set_bkg_data(start, res / 16, heap);
+	}
+}
+#endif
 
 void drawNumber(uint8_t x, uint8_t y, uint8_t number)
 {
@@ -152,6 +166,13 @@ bool setupLevel()
 	uint8_t current = _current_bank;
 	SWITCH_ROM_EX(BANK(levels_data));
 	gb_decompress(levels[lvl], map);
+	if (cave != (lvl/4))
+	{
+		cave = (lvl / 4);
+		SWITCH_ROM_EX(BANK(tiles_data));
+		wait_vbl_done();
+		gb_decompress_bkg_data(8, walls_tiles[cave]);
+	}
 	SWITCH_ROM_EX(current);
 
 	uint8_t startY = map_pos_y == 0 ? 0 : map_pos_y - 1;
@@ -474,9 +495,13 @@ void main()
 	set_bkg_palette(0, 1, (palette_color_t*)palettes);
 	uint8_t current = _current_bank;
 	SWITCH_ROM_EX(BANK(tiles_data));
-	set_bkg_data(0, 172, map_tiles);
-	set_bkg_data(TILE_BAT2, 32, map_tiles + (TILE_BAT2 + 0x10) * 0x10);
-	set_bkg_data(TILE_ROBBO, 4u, map_tiles + TILE_ROBBO_DOWN * 0x10);
+	gb_decompress_bkg_data(0, main_tiles);
+#ifdef GAMEBOY
+	vmemcpy((uint8_t*)((void*)(TILE_ROBBO * 0x10 + 0x8000)), (uint8_t*)((void*)(TILE_ROBBO_DOWN * 0x10 + 0x8000)), 64);
+#else
+	//TODO: fix for SEGA
+	vmemcpy(TILE_ROBBO * 0x10, (uint8_t*)((uint16_t*)(TILE_ROBBO_DOWN * 0x10)), 128);
+#endif 
 	SWITCH_ROM_EX(current);
 	cameraPosY = cameraStartPosY;
 	initHUD();
