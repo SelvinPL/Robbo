@@ -77,11 +77,13 @@ void mapIteration()
 	for (iterY = changeYstart; iterY < changeYend; iterY++)
 	{
 		doChanege = BETWEEN(iterY, map_pos_y == 0 ? 0 : map_pos_y - 1,  map_pos_y + visibleY + 1);
-		currentYTilesPtr = nextYTiles + currentPtrOffests[iterY & 1];
-		nextYTilesPtr = nextYTiles + currentPtrOffests[(iterY + 1) & 1];
+		currentYTilesPtr = nextYTiles + currentPtrOffests[iterY & 3];
+		nextYTilesPtr = nextYTiles + currentPtrOffests[(iterY + 1) & 3];
+		nextNextYTilesPtr = nextYTiles + currentPtrOffests[(iterY + 2) & 3];
 		for (iterX = 0; iterX < 16; iterX++)
 		{
 			nextYTilesPtr++;
+			nextNextYTilesPtr++;
 			currentYTilesPtr++;
 			if (*++mapPtr <= FIELD_TYPES_WALLS_END)
 			{
@@ -175,6 +177,8 @@ bool setupLevel()
 	uint8_t wait = 40;
 	while (wait--)
 		wait_vbl_done();
+	robboX = 255;
+	robboY = 255;
 	nextFunction = &setupLevelFinished;
 	startSlideOut();
 	return true;
@@ -340,12 +344,12 @@ void incrementCounter()
 		{
 			if (padState & J_SELECT)
 			{
-				if (padState & J_B)
+				if (padState & J_A)
 				{
 					padEnabled = false;
-					uint8_t newLevel = bcdDecerement(level);
-					if (newLevel == 0)
-						newLevel = 0x56;
+					uint8_t newLevel = bcdIncerement(level);
+					if (newLevel == 87)
+						newLevel = 1;
 					level = newLevel;
 #ifdef GAMEBOY
 					drawNumber(9, 8, level);
@@ -353,12 +357,12 @@ void incrementCounter()
 					nextFunction = &setupLevel;
 					startSlideIn();
 				}
-				else if (padState & J_A)
+				else if (padState & J_B)
 				{
 					padEnabled = false;
-					uint8_t newLevel = bcdIncerement(level);
-					if (newLevel == 87)
-						newLevel = 1;
+					uint8_t newLevel = bcdDecerement(level);
+					if (newLevel == 0)
+						newLevel = 0x56;
 					level = newLevel;
 #ifdef GAMEBOY
 					drawNumber(9, 8, level);

@@ -7,6 +7,7 @@
 #include "others.h"
 #include "changes.h"
 #include "bombs.h"
+#include "robbo.h"
 
 bool robboDragLeft()
 {
@@ -43,11 +44,6 @@ bool magnetLeft()
 }
 
 bool magnetRight()
-{
-	return false;
-}
-
-bool robbo()
 {
 	return false;
 }

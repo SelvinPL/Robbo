@@ -60,6 +60,9 @@
     <ClCompile Include="bombs.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="robbo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tiles.h">
@@ -104,16 +107,13 @@
     <ClInclude Include="bombs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="robbo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <AsmCompile Include="gb\tiles_helper.asm">
       <Filter>Source Files\gb</Filter>
-    </AsmCompile>
-        <AsmCompile Include="sms\tiles_helper.asm">
-      <Filter>Source Files\sms</Filter>
-    </AsmCompile>
-        <AsmCompile Include="gg\tiles_helper.asm">
-      <Filter>Source Files\gg</Filter>
     </AsmCompile>
   </ItemGroup>
 </Project>

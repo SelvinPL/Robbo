@@ -114,6 +114,7 @@
     <ClCompile Include="levels_data.c" />
     <ClCompile Include="monsters.c" />
     <ClCompile Include="others.c" />
+    <ClCompile Include="robbo.c" />
     <ClCompile Include="tiles_data.c" />
     <ClCompile Include="win_slide.c" />
   </ItemGroup>
@@ -129,6 +130,7 @@
     <ClInclude Include="monsters.h" />
     <ClInclude Include="others.h" />
     <ClInclude Include="platform.h" />
+    <ClInclude Include="robbo.h" />
     <ClInclude Include="stdbool.h" />
     <ClInclude Include="tiles.h" />
     <ClInclude Include="win_slide.h" />

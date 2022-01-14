@@ -12,6 +12,7 @@ extern uint8_t doChanege;
 extern uint8_t* mapPtr;
 extern uint8_t nextYTiles[];
 extern uint8_t* nextYTilesPtr;
+extern uint8_t* nextNextYTilesPtr;
 extern uint8_t* currentYTilesPtr;
 
 extern uint8_t counter;
@@ -34,3 +35,6 @@ extern uint8_t level;
 
 extern uint8_t cameraPosX;
 extern uint8_t cameraPosY;
+
+extern uint8_t robboX;
+extern uint8_t robboY;
