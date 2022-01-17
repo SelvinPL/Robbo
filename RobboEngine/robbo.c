@@ -80,7 +80,10 @@ bool robbo()
 		}
 		switch (newRobboTile)
 		{
+		case FIELD_LIFE:
+			//TODO: pick life
 		case FIELD_KEY:
+			//TODO: pick key
 			keys++;
 		case FIELD_AMMO:
 			//TODO: pick ammo
@@ -91,6 +94,7 @@ bool robbo()
 		case FIELD_BOX:
 		case FIELD_BOMB:
 		case FIELD_SURPRISE:
+		case FIELD_SHIP:
 		case FIELD_MOVABLE_GUN_LEFT:
 		case FIELD_MOVABLE_GUN_RIGHT:
 			if (nextRobboTile == FIELD_EMPTY)

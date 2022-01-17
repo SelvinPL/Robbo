@@ -107,6 +107,7 @@
     <ClCompile Include="bombs.c" />
     <ClCompile Include="changes.c" />
     <ClCompile Include="funtions_map.c" />
+    <ClCompile Include="gbdecompress.c" />
     <ClCompile Include="globals.c" />
     <ClCompile Include="guns.c" />
     <ClCompile Include="main.c" />
@@ -123,6 +124,7 @@
     <ClInclude Include="changes.h" />
     <ClInclude Include="fields.h" />
     <ClInclude Include="functions_map.h" />
+    <ClInclude Include="gbdecompress.h" />
     <ClInclude Include="globals.h" />
     <ClInclude Include="guns.h" />
     <ClInclude Include="levels_data.h" />

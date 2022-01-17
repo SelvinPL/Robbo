@@ -58,31 +58,35 @@ wait$:
 	.endm
 .endm
 
-.macro put_2_on_2_tile ;a - tile, hl addres, de address + 64
+.macro put_2_on_2_tile ?end;b - tile, hl addres, de address + 64
 	ld		c,		#VDP_CMD
+	ld		a,		i
+	push	af
 	di
 	out		(c),	l
 	out		(c),	h
-	dec		c
-	out		(c),	a		;11
+	dec		c				;VDP_CMD -> VDP_DATA
+	out		(c),	b		;11
 	wait_read_write	4		;4*
 	in		l,		(c)		;skip
 	wait_read_write 3
-	inc		a
-	out		(c),	a
-	wait_read_write 3
-	inc		a
-	inc		c
+	inc		b
+	out		(c),	b
+	wait_read_write 2
+	inc		b
+	inc		c				;VDP_DATA -> VDP_CMD
 	out		(c),	e
 	out		(c),	d
-	dec		c
-	out		(c),	a
+	dec		c				;VDP_CMD -> VDP_DATA
+	out		(c),	b
 	wait_read_write 4
 	in		l,		(c)  ;skip
-	wait_read_write 3
-	inc		a
-	out		(c),	a
+	inc		b
+	pop		af
+	out		(c),	b
+	jp		po,		end
 	ei
+end:
 .endm
 
 .macro set_bkg_tile_xy_2 ?modcheck ;DE = YX, H  = data
@@ -109,7 +113,7 @@ modcheck:
 	ld		l,		a
 	add		a,		#64
 	ld		e,		a
-	ld		a,		h
+	ld		b,		h
 	ld		h,		d
 	put_2_on_2_tile
 .endm

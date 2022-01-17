@@ -1,7 +1,7 @@
 ﻿#include "platform.h"
 #include "stdbool.h"
 #include <string.h>
-#include <gbdk/gbdecompress.h>
+#include "gbdecompress.h"
 #include "fields.h"
 #include "functions_map.h"
 #include "map.h"
@@ -139,20 +139,6 @@ const uint8_t numbersTiles[10][2] =
 	{ TILE_NUM_PARTC, TILE_NUM_PART6 }, //9
 };
 
-#ifndef  GAMEBOY
-#include <stdlib.h>
-
-void gb_decompress_bkg_data(uint16_t start, const uint8_t* source)
-{
-	uint8_t heap[4096];
-	uint16_t res = gb_decompress(source, heap);
-	CRITICAL
-	{
-		set_bkg_data(start, res / 16, heap);
-	}
-}
-#endif
-
 void drawNumber(uint8_t x, uint8_t y, uint8_t number)
 {
 	set_win_tiles(x, y, 1, 2, numbersTiles[(number >> 4) & 0xf]);
@@ -162,7 +148,6 @@ void drawNumber(uint8_t x, uint8_t y, uint8_t number)
 bool setupLevel()
 {
 	const uint8_t lvl = (0xf & level) + (level >> 4 & 0xf) * 10 - 1;
-
 	uint8_t current = _current_bank;
 	SWITCH_ROM_EX(BANK(levels_data));
 	gb_decompress(levels[lvl], map);
@@ -170,7 +155,6 @@ bool setupLevel()
 	{
 		cave = (lvl / 4);
 		SWITCH_ROM_EX(BANK(tiles_data));
-		wait_vbl_done();
 		gb_decompress_bkg_data(8, walls_tiles[cave]);
 	}
 	SWITCH_ROM_EX(current);
@@ -282,7 +266,7 @@ void incrementCounter()
 		changeYend = 12;
 		if (slideX)
 			slide_bkg_x();
-		if (slideY)
+		else if (slideY)
 		{
 			loadNextLine();
 			slide_bkg_y();
@@ -292,9 +276,9 @@ void incrementCounter()
 	{
 		changeYstart = 12;
 		changeYend = 18;
-		if(slideX)
+		if (slideX)
 			slide_bkg_x();
-		if (slideY)
+		else if (slideY)
 		{
 			loadNextLine();
 			slide_bkg_y();
@@ -309,7 +293,7 @@ void incrementCounter()
 			slide_bkg_x();
 			slideX = (int8_t)((((uint8_t)slideX) + 1) & 0b11111100); //works only fo 3 to 4 and -3 to - 4
 		}
-		if (slideY)
+		else if (slideY)
 		{
 			loadNextLine();
 			slide_bkg_y();
@@ -325,7 +309,7 @@ void incrementCounter()
 			slide_bkg_x();
 			slideX = 0;
 		}
-		if (slideY)
+		else if (slideY)
 		{
 			loadNextLine();
 			slide_bkg_y();
@@ -369,7 +353,7 @@ void incrementCounter()
 				{
 					padEnabled = false;
 					uint8_t newLevel = bcdIncerement(level);
-					if (newLevel == 87)
+					if (newLevel == 0x57)
 						newLevel = 1;
 					level = newLevel;
 #ifdef GAMEBOY
@@ -428,8 +412,7 @@ void incrementCounter()
 				map_pos_x++;
 				slide_bkg_x();
 			}
-
-			if (slide_to_map_pos_y < map_pos_y)
+			else if (slide_to_map_pos_y < map_pos_y)
 			{
 				slideY = -3;
 				map_pos_y--;
@@ -449,6 +432,7 @@ void incrementCounter()
 					next_line = map + 16 * (map_pos_y + visibleY);
 				}
 			}
+			memset(nextYTiles + 32, FIELD_NONE, 32);
 		}
 	}
 	slideStep();
@@ -496,16 +480,15 @@ void main()
 	uint8_t current = _current_bank;
 	SWITCH_ROM_EX(BANK(tiles_data));
 	gb_decompress_bkg_data(0, main_tiles);
+	SWITCH_ROM_EX(current);
 #ifdef GAMEBOY
 	vmemcpy((uint8_t*)((void*)(TILE_ROBBO * 0x10 + 0x8000)), (uint8_t*)((void*)(TILE_ROBBO_DOWN * 0x10 + 0x8000)), 64);
 #else
 	//TODO: fix for SEGA
-	vmemcpy(TILE_ROBBO * 0x10, (uint8_t*)((uint16_t*)(TILE_ROBBO_DOWN * 0x10)), 128);
+	//vmemcpy(TILE_ROBBO * 0x10, (uint8_t*)((uint16_t*)(TILE_ROBBO_DOWN * 0x10)), 128);
 #endif 
-	SWITCH_ROM_EX(current);
 	cameraPosY = cameraStartPosY;
-	initHUD();
-	memset(nextYTiles, FIELD_NONE, 32);
+	memset(nextYTiles, FIELD_NONE, 64);
 	uint8_t* mapLastRow = map + 496;
 	for (uint8_t i = 0; i < 16; i++)
 		*mapLastRow++ = FIELD_BLACK_WALL;
@@ -536,6 +519,7 @@ void main()
 	SHOW_BKG;
 	nextFunction = &setupLevel;
 	DISPLAY_ON;
+	initHUD();
 	setupLevel();
 	wait_vbl_done();
 	while (true)
