@@ -58,7 +58,7 @@ wait$:
 	.endm
 .endm
 
-.macro put_2_on_2_tile ?end;b - tile, hl addres, de address + 64
+.macro put_2_on_2_tile ?end;d - tile, hl addres
 	ld		c,		#VDP_CMD
 	ld		a,		i
 	push	af
@@ -66,31 +66,38 @@ wait$:
 	out		(c),	l
 	out		(c),	h
 	dec		c				;VDP_CMD -> VDP_DATA
-	out		(c),	b		;11
-	wait_read_write	4		;4*
-	in		l,		(c)		;skip
-	wait_read_write 3
-	inc		b
-	out		(c),	b
-	wait_read_write 2
-	inc		b
-	inc		c				;VDP_DATA -> VDP_CMD
-	out		(c),	e
+	out		(c),	d		
+	ld		e,		#64		;7
+	wait_read_write	5		;20 + 7 = 26
+	in		e,		(c)		;skip
+	ld		e,		#64		;7
+	wait_read_write 5		;20
+	inc		d				;4 + 16 + 7 = 27
 	out		(c),	d
+	ld		e,		#64		;7
+	inc		d				;4
+	inc		c				;4          VDP_DATA -> VDP_CMD
+	ld		a,		l		;4
+	add		a,		e		;4
+	ld		l,		a		;4 + 7 + 4 + 4 + 4 + 4 = 27
+	out		(c),	l
+	out		(c),	h
 	dec		c				;VDP_CMD -> VDP_DATA
-	out		(c),	b
-	wait_read_write 4
-	in		l,		(c)  ;skip
-	inc		b
-	pop		af
-	out		(c),	b
+	out		(c),	d
+	ld		e,		#0		;7
+	wait_read_write 5		;20 + 7 = 27
+	in		e,		(c)		;skip
+	inc		d				;4
+	pop		af				;10
+	wait_read_write 3		;12 + 10 + 4 = 26
+	out		(c),	d
 	jp		po,		end
 	ei
 end:
 .endm
 
-.macro set_bkg_tile_xy_2 ?modcheck ;DE = YX, H  = data
-	ld		a,		d
+.macro set_bkg_tile_xy_2 ?modcheck ;HL = YX, D  = data
+	ld		a,		h
 	ld		b,		#28
 modcheck:
 	sub		b
@@ -98,23 +105,18 @@ modcheck:
 	add		b
 	rrca                    ; rrca(2) == rlca(6)
 	rrca 
-	ld		d,		a
+	ld		e,		a
 	and		#0x07
 
-	ld		bc,		#VDP_TILEMAP
+	ld		b,		#>VDP_TILEMAP
 
 	add		b
-	ld		b,		a
+	ld		h,		a
 	ld		a,		#0xC0
-	and		d
-	sla		e
-	add		e
-	ld		d,		b 
+	and		e
+	sla		l
+	add		l
 	ld		l,		a
-	add		a,		#64
-	ld		e,		a
-	ld		b,		h
-	ld		h,		d
 	put_2_on_2_tile
 .endm
 
@@ -125,7 +127,6 @@ _set_bkg_tile_xy_2::
 	ex		(sp),	hl     ; HL = data
 	ex		de,		hl
 	add		hl,		hl
-	ex		de,		hl
 	set_bkg_tile_xy_2
 	ret
 
@@ -138,13 +139,11 @@ _set_bkg_tile_xy_2_map_to_tiles_with_translation::
 	ld		a,		(_map_to_tiles_hi)
 	ld		h,		a
 	ld		h,		(hl)
-	ld		l,		e
-	ex		de,		hl
-
-	ld		a,		l
+	
+	ld		a,		e
 	and		#0xf0
 	ld		c,		a
-	ld		a,		h
+	ld		a,		d
 	and		#1
 	add		a,		c
 
@@ -153,11 +152,11 @@ _set_bkg_tile_xy_2_map_to_tiles_with_translation::
 	rrca
 	rrca
 
+	ld		d,		h
 	ld		h,		a
-	ld		a,		l
+	ld		a,		e
 	and		#0xf
 	ld		l,		a
 	add		hl,		hl
-	ex		de,		hl
-	set_bkg_tile_xy_2 ;DE = YX, H  = data
+	set_bkg_tile_xy_2 ;HL = YX, D  = data
 	ret

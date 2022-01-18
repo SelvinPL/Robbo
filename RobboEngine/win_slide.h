@@ -1,7 +1,7 @@
 #pragma once
 
 #include "platform.h"
-
+#include "hud.h"
 
 extern bool winSlide;
 extern int8_t winSlideX;
@@ -10,8 +10,9 @@ extern uint8_t winSlideToX;
 
 inline void startSlideIn()
 {
+	hideHUD();
 #ifdef GAMEBOY
-	move_win(167, 0);
+	move_win(167, sliderYPos);
 	winSlideToX = 7;
 #else
 	winPositionX = 172 - fixY;
@@ -25,7 +26,7 @@ inline void startSlideIn()
 inline void startSlideOut()
 {
 #ifdef GAMEBOY
-	move_win(7, 0);
+	move_win(7, sliderYPos);
 	winSlideToX = 167;
 #else
 	winPositionX = 0;

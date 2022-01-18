@@ -91,3 +91,10 @@ extern const uint8_t* const walls_tiles[];
 #define TILE_NUM_PARTA				0xbe
 #define TILE_NUM_PARTB				0xbf
 #define TILE_NUM_PARTC				0xf4
+
+
+#define TILE_HUD_SCREW				0xe0
+#define TILE_HUD_LIFE				0xe4
+#define TILE_HUD_KEY				0xe8
+#define TILE_HUD_AMMO				0xec
+#define TILE_HUD_LEVEL				0xf0

@@ -66,6 +66,12 @@
 	<ClCompile Include="gbdecompress.c">
 	  <Filter>Source Files</Filter>
 	</ClCompile>
+	<ClCompile Include="hud.c">
+	  <Filter>Source Files</Filter>
+	</ClCompile>
+	<ClCompile Include="stats.c">
+	  <Filter>Source Files</Filter>
+	</ClCompile>
   </ItemGroup>
   <ItemGroup>
 	<ClInclude Include="tiles.h">
@@ -116,12 +122,18 @@
 	<ClInclude Include="gbdecompress.h">
 	  <Filter>Header Files</Filter>
 	</ClInclude>
+	<ClInclude Include="stats.h">
+	  <Filter>Header Files</Filter>
+	</ClInclude>
+	<ClInclude Include="hud.h">
+	  <Filter>Header Files</Filter>
+	</ClInclude>
   </ItemGroup>
-  <ItemGroup>
+  <ItemGroup Label="UserMacros">
 	<AsmCompile Include="gb\tiles_helper.asm">
 	  <Filter>Source Files\gb</Filter>
 	</AsmCompile>
-		<AsmCompile Include="sms\tiles_helper.asm">
+	<AsmCompile Include="sms\tiles_helper.asm">
 	  <Filter>Source Files\sms</Filter>
 	</AsmCompile>
 		<AsmCompile Include="gg\tiles_helper.asm">

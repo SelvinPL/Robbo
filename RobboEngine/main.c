@@ -11,6 +11,8 @@
 #include "win_slide.h"
 #include "changes.h"
 #include "others.h"
+#include "stats.h"
+#include "hud.h"
 
 #define BETWEEN(n, start, end) ((((uint8_t)n)>=((uint8_t)(start))) && (((uint8_t)n)<((uint8_t)(end))))
 
@@ -122,31 +124,15 @@ bool setupLevelFinished()
 #ifdef GAMEBOY
 	move_win(7, 128);
 #endif
+	showHUD();
 	return true;
 }
 
-const uint8_t numbersTiles[10][2] =
-{
-	{ TILE_NUM_PART0, TILE_NUM_PART1 }, //0
-	{ TILE_NUM_PART2, TILE_NUM_PART3 }, //1
-	{ TILE_NUM_PARTB, TILE_NUM_PART5 }, //2
-	{ TILE_NUM_PARTB, TILE_NUM_PART6 }, //3
-	{ TILE_NUM_PART7, TILE_NUM_PART8 }, //4
-	{ TILE_NUM_PART9, TILE_NUM_PART6 }, //5
-	{ TILE_NUM_PART9, TILE_NUM_PARTA }, //6
-	{ TILE_NUM_PART4, TILE_NUM_PART3 }, //7
-	{ TILE_NUM_PARTC, TILE_NUM_PARTA }, //8
-	{ TILE_NUM_PARTC, TILE_NUM_PART6 }, //9
-};
-
-void drawNumber(uint8_t x, uint8_t y, uint8_t number)
-{
-	set_win_tiles(x, y, 1, 2, numbersTiles[(number >> 4) & 0xf]);
-	set_win_tiles(x + 1, y, 1, 2, numbersTiles[number & 0xf]);
-}
+uint8_t wait = 0;
 
 bool setupLevel()
 {
+	disableHUD();
 	const uint8_t lvl = (0xf & level) + (level >> 4 & 0xf) * 10 - 1;
 	uint8_t current = _current_bank;
 	SWITCH_ROM_EX(BANK(levels_data));
@@ -178,13 +164,12 @@ bool setupLevel()
 		}
 	}
 #endif
-
-	uint8_t wait = 40;
-	while (wait--)
-		wait_vbl_done();
 	robboX = 255;
 	robboY = 255;
 	nextFunction = &setupLevelFinished;
+	uint8_t waitLocal = wait;
+	while (waitLocal--)
+		wait_vbl_done();
 	startSlideOut();
 	return true;
 }
@@ -455,22 +440,9 @@ const palette_color_t palettes[] =
 	palette1c1, palette1c2, palette1c3, palette1c4,
 };
 
-#ifndef GAMEBOY
-const uint8_t tile2_data[] = 
-{ 
-	TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
-	TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
-	TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
-	TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
-	TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
-	TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
-	TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
-	TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
-};
-#endif
-
 void main()
 {
+	cpu_fast();
 	DISABLE_VBL_TRANSFER;
 	DISPLAY_OFF;
 	winSlideX = 0;
@@ -518,9 +490,10 @@ void main()
 	move_bkg(cameraPosX, cameraPosY);
 	SHOW_BKG;
 	nextFunction = &setupLevel;
-	DISPLAY_ON;
 	initHUD();
 	setupLevel();
+	wait = 40;
+	DISPLAY_ON;
 	wait_vbl_done();
 	while (true)
 	{

@@ -115,7 +115,9 @@
     <ClCompile Include="levels_data.c" />
     <ClCompile Include="monsters.c" />
     <ClCompile Include="others.c" />
+    <ClCompile Include="hud.c" />
     <ClCompile Include="robbo.c" />
+    <ClCompile Include="stats.c" />
     <ClCompile Include="tiles_data.c" />
     <ClCompile Include="win_slide.c" />
   </ItemGroup>
@@ -127,12 +129,14 @@
     <ClInclude Include="gbdecompress.h" />
     <ClInclude Include="globals.h" />
     <ClInclude Include="guns.h" />
+    <ClInclude Include="hud.h" />
     <ClInclude Include="levels_data.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="monsters.h" />
     <ClInclude Include="others.h" />
     <ClInclude Include="platform.h" />
     <ClInclude Include="robbo.h" />
+    <ClInclude Include="stats.h" />
     <ClInclude Include="stdbool.h" />
     <ClInclude Include="tiles.h" />
     <ClInclude Include="win_slide.h" />
