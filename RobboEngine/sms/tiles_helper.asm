@@ -79,7 +79,7 @@ wait$:
 	ld		d,		a		;4
 	inc		c				;4          VDP_DATA -> VDP_CMD
 	ld		a,		l		;4
-	add		a,		e		;4
+	add		e				;4
 	ld		l,		a		;4
 	ld		a,		d       ;4+24=28
 	out		(c),	l		;12

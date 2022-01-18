@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include "hud.h"
 #include "tiles.h"
 
 const uint8_t tile2_data[] =
@@ -112,22 +113,86 @@ const uint16_t hud_sprites_y_start[] =
     0x7f10
 };
 
-#define TILE_HUD_SEGA_SCREW 0x04
-#define TILE_HUD_SEGA_NUM_PART0 0x18
+bool hudVisible = false;
+uint8_t hudCounter = 0;
+
+/*
+sprite order:
+T0T1B0A0 
+T2T3B1A1
+where: 
+    TX is ui element graphical title
+    AX  is 2nd digit
+    BX  is 1st digit
+*/
 
 const uint8_t hud_sprites_x_tile[] =
 {
     hudX + 0, TILE_HUD_SEGA_SCREW + 0, hudX + 0, TILE_HUD_SEGA_SCREW + 2, hudX + 8, TILE_HUD_SEGA_SCREW + 1, hudX + 8, TILE_HUD_SEGA_SCREW + 3,
-    hudX + 16, TILE_HUD_SEGA_NUM_PART0 + 0, hudX + 16, TILE_HUD_SEGA_NUM_PART0 + 1, hudX + 24, TILE_HUD_SEGA_NUM_PART0 + 0, hudX + 24, TILE_HUD_SEGA_NUM_PART0 + 1,
+    hudX + 24, TILE_HUD_SEGA_NUM_PART0 + 0, hudX + 24, TILE_HUD_SEGA_NUM_PART0 + 1, hudX + 16, TILE_HUD_SEGA_NUM_PART0 + 0, hudX + 16, TILE_HUD_SEGA_NUM_PART0 + 1,
     hudX + 32, TILE_HUD_SEGA_SCREW + 4, hudX + 32, TILE_HUD_SEGA_SCREW + 6, hudX + 40, TILE_HUD_SEGA_SCREW + 5, hudX + 40, TILE_HUD_SEGA_SCREW + 7,
-    hudX + 48, TILE_HUD_SEGA_NUM_PART0 + 0, hudX + 48, TILE_HUD_SEGA_NUM_PART0 + 1, hudX + 56, TILE_HUD_SEGA_NUM_PART0 + 0, hudX + 56, TILE_HUD_SEGA_NUM_PART0 + 1,
+    hudX + 56, TILE_HUD_SEGA_NUM_PART0 + 0, hudX + 56, TILE_HUD_SEGA_NUM_PART0 + 1, hudX + 48, TILE_HUD_SEGA_NUM_PART0 + 0, hudX + 48, TILE_HUD_SEGA_NUM_PART0 + 1,
     hudX + 64, TILE_HUD_SEGA_SCREW + 8, hudX + 64, TILE_HUD_SEGA_SCREW + 10, hudX + 72, TILE_HUD_SEGA_SCREW + 9, hudX + 72, TILE_HUD_SEGA_SCREW + 11,
-    hudX + 80, TILE_HUD_SEGA_NUM_PART0 + 0, hudX + 80, TILE_HUD_SEGA_NUM_PART0 + 1, hudX + 88, TILE_HUD_SEGA_NUM_PART0 + 0, hudX + 88, TILE_HUD_SEGA_NUM_PART0 + 1,
+    hudX + 88, TILE_HUD_SEGA_NUM_PART0 + 0, hudX + 88, TILE_HUD_SEGA_NUM_PART0 + 1, hudX + 80, TILE_HUD_SEGA_NUM_PART0 + 0, hudX + 80, TILE_HUD_SEGA_NUM_PART0 + 1,
     hudX + 96, TILE_HUD_SEGA_SCREW + 12, hudX + 96, TILE_HUD_SEGA_SCREW + 14, hudX + 104, TILE_HUD_SEGA_SCREW + 13, hudX + 104, TILE_HUD_SEGA_SCREW + 15,
-    hudX + 112, TILE_HUD_SEGA_NUM_PART0 + 0, hudX + 112, TILE_HUD_SEGA_NUM_PART0 + 1, hudX + 120, TILE_HUD_SEGA_NUM_PART0 + 0, hudX + 120, TILE_HUD_SEGA_NUM_PART0 + 1,
+    hudX + 120, TILE_HUD_SEGA_NUM_PART0 + 0, hudX + 120, TILE_HUD_SEGA_NUM_PART0 + 1, hudX + 112, TILE_HUD_SEGA_NUM_PART0 + 0, hudX + 112, TILE_HUD_SEGA_NUM_PART0 + 1,
     hudX + 128, TILE_HUD_SEGA_SCREW + 16, hudX + 128, TILE_HUD_SEGA_SCREW + 18, hudX + 136, TILE_HUD_SEGA_SCREW + 17, hudX + 136, TILE_HUD_SEGA_SCREW + 19,
-    hudX + 144, TILE_HUD_SEGA_NUM_PART0 + 0, hudX + 144, TILE_HUD_SEGA_NUM_PART0 + 1, hudX + 152, TILE_HUD_SEGA_NUM_PART0 + 0, hudX + 152, TILE_HUD_SEGA_NUM_PART0 + 1,
+    hudX + 152, TILE_HUD_SEGA_NUM_PART0 + 0, hudX + 152, TILE_HUD_SEGA_NUM_PART0 + 1, hudX + 144, TILE_HUD_SEGA_NUM_PART0 + 0, hudX + 144, TILE_HUD_SEGA_NUM_PART0 + 1,
 };
 
+void initHUD()
+{
+    gb_decompress_sprite_data(0, sega_hud_tiles);
+    vmemcpy(0x7f00, hud_sprites_y_invisible_all, 40);
+    vmemcpy(0x7f80, hud_sprites_x_tile, 80);
+    for (uint8_t c = 0; c < 112; c++)
+    {
+        vmemcpy(0x7000 + c * 16, tile2_data, 16);
+    }
+    uint8_t state = __READ_VDP_REG(VDP_R0);
+    state |= R0_IE1;
+    __WRITE_VDP_REG(VDP_R0, state);
+    __WRITE_VDP_REG(VDP_R10, 175U - fixY);
+}
+
+void drawHUD()
+{
+    __WRITE_VDP_REG(VDP_R2, R2_MAP_0x3800);
+    if (counter == 3 && animCounter == 7 && hudVisible)
+    {
+        vmemcpy(hud_sprites_y_start[hudCounter], hud_sprites_y[hudCounter], hud_sprites_y_size[hudCounter]);
+        hudCounter++;
+        if (hudCounter == 3)
+            hudCounter = 0;
+    }
+}
+
+#else
+
+const uint8_t numbersTiles[10][2] =
+{
+    { TILE_NUM_PART0, TILE_NUM_PART1 }, //0
+    { TILE_NUM_PART2, TILE_NUM_PART3 }, //1
+    { TILE_NUM_PARTB, TILE_NUM_PART5 }, //2
+    { TILE_NUM_PARTB, TILE_NUM_PART6 }, //3
+    { TILE_NUM_PART7, TILE_NUM_PART8 }, //4
+    { TILE_NUM_PART9, TILE_NUM_PART6 }, //5
+    { TILE_NUM_PART9, TILE_NUM_PARTA }, //6
+    { TILE_NUM_PART4, TILE_NUM_PART3 }, //7
+    { TILE_NUM_PARTC, TILE_NUM_PARTA }, //8
+    { TILE_NUM_PARTC, TILE_NUM_PART6 }, //9
+};
+
+void drawUICounter(uiElement type, uint8_t number)
+{
+    set_win_tiles(type + 2, 0, 1, 2, numbersTiles[(number >> 4) & 0xf]);
+    set_win_tiles(type + 3, 0, 1, 2, numbersTiles[number & 0xf]);
+}
+
+void drawNumber(uint8_t x, uint8_t y, uint8_t number)
+{
+    set_win_tiles(x, y, 1, 2, numbersTiles[(number >> 4) & 0xf]);
+    set_win_tiles(x + 1, y, 1, 2, numbersTiles[number & 0xf]);
+}
 
 #endif

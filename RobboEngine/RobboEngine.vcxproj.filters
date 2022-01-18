@@ -1,133 +1,127 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-	<Filter Include="Source Files">
-	  <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-	  <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx;s</Extensions>
-	</Filter>
-	<Filter Include="Header Files">
-	  <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-	  <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
-	</Filter>
-	<Filter Include="Resource Files">
-	  <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-	  <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-	</Filter>
-	<Filter Include="Source Files\gb">
-	  <UniqueIdentifier>{b7f7fd91-a6eb-4512-b0ae-173b58a5fe97}</UniqueIdentifier>
-	</Filter>
-	<Filter Include="Source Files\sms">
-	  <UniqueIdentifier>{5ff1070d-b1c3-468b-942a-223ef5b732f5}</UniqueIdentifier>
-	</Filter>
-	<Filter Include="Source Files\gg">
-	  <UniqueIdentifier>{1d7ee7e7-7829-4aa8-bf5d-74ab139da40a}</UniqueIdentifier>
-	</Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx;s</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\gb">
+      <UniqueIdentifier>{b7f7fd91-a6eb-4512-b0ae-173b58a5fe97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\sms">
+      <UniqueIdentifier>{5ff1070d-b1c3-468b-942a-223ef5b732f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gg">
+      <UniqueIdentifier>{1d7ee7e7-7829-4aa8-bf5d-74ab139da40a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-	<ClCompile Include="main.c">
-	  <Filter>Source Files</Filter>
-	</ClCompile>
-	<ClCompile Include="tiles_data.c">
-	  <Filter>Source Files</Filter>
-	</ClCompile>
-	<ClCompile Include="monsters.c">
-	  <Filter>Source Files</Filter>
-	</ClCompile>
-	<ClCompile Include="map.c">
-	  <Filter>Source Files</Filter>
-	</ClCompile>
-	<ClCompile Include="funtions_map.c">
-	  <Filter>Source Files</Filter>
-	</ClCompile>
-	<ClCompile Include="levels_data.c">
-	  <Filter>Source Files</Filter>
-	</ClCompile>
-	<ClCompile Include="guns.c">
-	  <Filter>Source Files</Filter>
-	</ClCompile>
-	<ClCompile Include="globals.c">
-	  <Filter>Source Files</Filter>
-	</ClCompile>
-	<ClCompile Include="win_slide.c">
-	  <Filter>Source Files</Filter>
-	</ClCompile>
-	<ClCompile Include="changes.c">
-	  <Filter>Source Files</Filter>
-	</ClCompile>
-	<ClCompile Include="others.c">
-	  <Filter>Source Files</Filter>
-	</ClCompile>
-	<ClCompile Include="bombs.c">
-	  <Filter>Source Files</Filter>
-	</ClCompile>
-	<ClCompile Include="robbo.c">
-	  <Filter>Source Files</Filter>
-	</ClCompile>
-	<ClCompile Include="gbdecompress.c">
-	  <Filter>Source Files</Filter>
-	</ClCompile>
-	<ClCompile Include="hud.c">
-	  <Filter>Source Files</Filter>
-	</ClCompile>
-	<ClCompile Include="stats.c">
-	  <Filter>Source Files</Filter>
-	</ClCompile>
+    <ClCompile Include="main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tiles_data.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="monsters.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="map.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="funtions_map.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="levels_data.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="guns.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="globals.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="win_slide.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="changes.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="others.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bombs.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="robbo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gbdecompress.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hud.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-	<ClInclude Include="tiles.h">
-	  <Filter>Header Files</Filter>
-	</ClInclude>
-	<ClInclude Include="monsters.h">
-	  <Filter>Header Files</Filter>
-	</ClInclude>
-	<ClInclude Include="fields.h">
-	  <Filter>Header Files</Filter>
-	</ClInclude>
-	<ClInclude Include="map.h">
-	  <Filter>Header Files</Filter>
-	</ClInclude>
-	<ClInclude Include="functions_map.h">
-	  <Filter>Header Files</Filter>
-	</ClInclude>
-	<ClInclude Include="levels_data.h">
-	  <Filter>Header Files</Filter>
-	</ClInclude>
-	<ClInclude Include="guns.h">
-	  <Filter>Header Files</Filter>
-	</ClInclude>
-	<ClInclude Include="globals.h">
-	  <Filter>Header Files</Filter>
-	</ClInclude>
-	<ClInclude Include="stdbool.h">
-	  <Filter>Header Files</Filter>
-	</ClInclude>
-	<ClInclude Include="win_slide.h">
-	  <Filter>Header Files</Filter>
-	</ClInclude>
-	<ClInclude Include="platform.h">
-	  <Filter>Header Files</Filter>
-	</ClInclude>
-	<ClInclude Include="changes.h">
-	  <Filter>Header Files</Filter>
-	</ClInclude>
-	<ClInclude Include="others.h">
-	  <Filter>Header Files</Filter>
-	</ClInclude>
-	<ClInclude Include="bombs.h">
-	  <Filter>Header Files</Filter>
-	</ClInclude>
-	<ClInclude Include="robbo.h">
-	  <Filter>Header Files</Filter>
-	</ClInclude>
-	<ClInclude Include="gbdecompress.h">
-	  <Filter>Header Files</Filter>
-	</ClInclude>
-	<ClInclude Include="stats.h">
-	  <Filter>Header Files</Filter>
-	</ClInclude>
-	<ClInclude Include="hud.h">
-	  <Filter>Header Files</Filter>
-	</ClInclude>
+    <ClInclude Include="tiles.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="monsters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fields.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="functions_map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="levels_data.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="guns.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="globals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdbool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="win_slide.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="platform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="changes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="others.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bombs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="robbo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gbdecompress.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hud.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup Label="UserMacros">
 	<AsmCompile Include="gb\tiles_helper.asm">

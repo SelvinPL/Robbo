@@ -5,7 +5,11 @@
 
 extern bool winSlide;
 extern int8_t winSlideX;
+#ifdef GAMEBOY
+#define winPositionX WX_REG
+#else
 extern uint8_t winPositionX;
+#endif
 extern uint8_t winSlideToX;
 
 inline void startSlideIn()
@@ -41,22 +45,18 @@ inline void slideStep()
 {
 	if (winSlide)
 	{
-#ifdef GAMEBOY
-		if (winSlideToX != WX_REG)
-		{
-			WX_REG += winSlideX;
-		}
-		else
-		{ 
-#else
 		if (winSlideToX != winPositionX)
 		{
+#ifdef GAMEBOY
+			WX_REG += winSlideX;
+#else
 			winPositionX += winSlideX;
 			__WRITE_VDP_REG(VDP_R10, winPositionX);
-
+#endif
 		}
 		else
 		{
+#ifndef GAMEBOY
 			if (winPositionX == (172 - fixY))
 			{
 				__WRITE_VDP_REG(VDP_R10, 175 - fixY);
