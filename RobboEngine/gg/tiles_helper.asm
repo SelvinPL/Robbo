@@ -63,34 +63,36 @@ wait$:
 	ld		a,		i
 	push	af
 	di
-	out		(c),	l
-	out		(c),	h
-	dec		c				;VDP_CMD -> VDP_DATA
-	out		(c),	d		
+	out		(c),	l		;12
+	out		(c),	h		;12
+	ld		a,		d		;4
+	dec		c				;4			VDP_CMD -> VDP_DATA
+	out		(c),	a		;12
 	ld		e,		#64		;7
-	wait_read_write	5		;20 + 7 = 26
-	in		e,		(c)		;skip
+	wait_read_write	2		;8+19=27
+	in		e,		(c)		;12			skip
 	ld		e,		#64		;7
-	wait_read_write 5		;20
-	inc		d				;4 + 16 + 7 = 27
-	out		(c),	d
-	ld		e,		#64		;7
-	inc		d				;4
+	inc		a				;4
+	wait_read_write 1		;4+23=27
+	out		(#VDP_DATA),	a		;11
+	inc		a				;4
+	ld		d,		a		;4
 	inc		c				;4          VDP_DATA -> VDP_CMD
 	ld		a,		l		;4
 	add		a,		e		;4
-	ld		l,		a		;4 + 7 + 4 + 4 + 4 + 4 = 27
-	out		(c),	l
-	out		(c),	h
-	dec		c				;VDP_CMD -> VDP_DATA
-	out		(c),	d
+	ld		l,		a		;4
+	ld		a,		d       ;4+24=28
+	out		(c),	l		;12
+	out		(c),	h		;12
+	dec		c				;4			VDP_CMD -> VDP_DATA
+	out		(c),	a		;12
 	ld		e,		#0		;7
-	wait_read_write 5		;20 + 7 = 27
-	in		e,		(c)		;skip
-	inc		d				;4
+	inc		a				;4
+	ld		d,		a		;4+23=27
+	in		e,		(c)		;12			skip
 	pop		af				;10
-	wait_read_write 3		;12 + 10 + 4 = 26
-	out		(c),	d
+	wait_read_write 1		;4+22=26
+	out		(c),	d		;12
 	jp		po,		end
 	ei
 end:

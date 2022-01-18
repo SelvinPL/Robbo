@@ -128,8 +128,6 @@ bool setupLevelFinished()
 	return true;
 }
 
-uint8_t wait = 0;
-
 bool setupLevel()
 {
 	disableHUD();
@@ -167,8 +165,8 @@ bool setupLevel()
 	robboX = 255;
 	robboY = 255;
 	nextFunction = &setupLevelFinished;
-	uint8_t waitLocal = wait;
-	while (waitLocal--)
+	uint8_t wait = waitAfterSetupLevel;
+	while (wait--)
 		wait_vbl_done();
 	startSlideOut();
 	return true;
@@ -442,7 +440,8 @@ const palette_color_t palettes[] =
 
 void main()
 {
-	cpu_fast();
+	waitAfterSetupLevel = 0;
+	//cpu_fast();
 	DISABLE_VBL_TRANSFER;
 	DISPLAY_OFF;
 	winSlideX = 0;
@@ -492,7 +491,7 @@ void main()
 	nextFunction = &setupLevel;
 	initHUD();
 	setupLevel();
-	wait = 40;
+	waitAfterSetupLevel = 40;
 	DISPLAY_ON;
 	wait_vbl_done();
 	while (true)

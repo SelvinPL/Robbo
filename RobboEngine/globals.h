@@ -22,6 +22,7 @@ extern uint8_t map_pos_x;
 extern uint8_t map_pos_y;
 extern uint8_t slide_to_map_pos_x;
 extern uint8_t slide_to_map_pos_y;
+extern uint8_t waitAfterSetupLevel;
 
 extern uint8_t animCounter;
 extern int8_t slideX;

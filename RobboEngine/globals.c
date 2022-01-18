@@ -37,3 +37,4 @@ uint8_t cameraPosY;
 
 uint8_t robboX;
 uint8_t robboY;
+uint8_t waitAfterSetupLevel;

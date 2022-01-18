@@ -15,9 +15,8 @@ lbl:
 	ld		a,		b
 	ld		(hl+),	a
 	inc		a
-	ld		(hl),	a
-	ld		h,		d		;we could use ld (de), a [8]  and inc de [8] ... but i love hl+ 
-	ld		l,		e
+	ld		(hl+),	a
+	add		hl,		de
 	inc		a
 	ld		(hl+),	a		
 	inc		a
@@ -36,16 +35,16 @@ lbl:
 	ld		a,		e
 	and		c					;
 	add		a					;x *= 2
-	ld		e,		a
-	ld		d,		#0
-	add		hl,		de			;
-	ld		a,		h			
+	add		l
+	ld		l,		a			;now we should add carry to h
+	xor		a,		a
+	ld		d,		a
+	adc		h
 	and		#3					;we need to get rid of eventually 3 bit of hi
 	add		#>.SCRN0			;and add to hi of tiles address 
 	ld		h,		a			
-	ld		d,		a			;doing copy +32 of hi to omit WAIT_STAT between 2 and 2 operation
-	ld		a,		#32
-	add		l
+	ld		a,		c
+	add		c
 	ld		e,		a
 	put_2_on_2_tile
 .endm
@@ -99,8 +98,7 @@ _set_bkg_tile_xy_2::
 	and		c
 	add		d
 	ld		l,		a
-	add		a,		#32
-	ld		e,		a
-	ld		d,		h
+	ld		e,		#30
+	ld		d,		#0
 	put_2_on_2_tile
 	ret
