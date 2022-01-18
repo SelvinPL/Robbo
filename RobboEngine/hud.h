@@ -42,6 +42,8 @@ inline void hideHUD()
 }
 inline void showHUD()
 {
+	move_win(7, 128);
+
 	drawUIElement(0, 0, uiElementScrews);
 	drawUICounter(uiElementScrews, 0);
 
@@ -65,6 +67,8 @@ inline void showHUD()
 
 void initHUD();
 void drawHUD();
+
+#define drawNumber(x, y, number)
 
 inline void disableHUD()
 {

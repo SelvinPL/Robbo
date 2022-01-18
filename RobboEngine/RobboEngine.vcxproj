@@ -116,12 +116,14 @@
     <ClCompile Include="monsters.c" />
     <ClCompile Include="others.c" />
     <ClCompile Include="hud.c" />
+    <ClCompile Include="palettes.c" />
     <ClCompile Include="robbo.c" />
     <ClCompile Include="tiles_data.c" />
     <ClCompile Include="win_slide.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bombs.h" />
+    <ClInclude Include="camera.h" />
     <ClInclude Include="changes.h" />
     <ClInclude Include="fields.h" />
     <ClInclude Include="functions_map.h" />
@@ -133,6 +135,7 @@
     <ClInclude Include="map.h" />
     <ClInclude Include="monsters.h" />
     <ClInclude Include="others.h" />
+    <ClInclude Include="palettes.h" />
     <ClInclude Include="platform.h" />
     <ClInclude Include="robbo.h" />
     <ClInclude Include="stdbool.h" />

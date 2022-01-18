@@ -12,6 +12,8 @@
 #include "changes.h"
 #include "others.h"
 #include "hud.h"
+#include "camera.h"
+#include "palettes.h"
 
 #define BETWEEN(n, start, end) ((((uint8_t)n)>=((uint8_t)(start))) && (((uint8_t)n)<((uint8_t)(end))))
 
@@ -120,9 +122,6 @@ void mapIteration()
 bool setupLevelFinished()
 {
 	padEnabled = true;
-#ifdef GAMEBOY
-	move_win(7, 128);
-#endif
 	showHUD();
 	return true;
 }
@@ -171,45 +170,6 @@ bool setupLevel()
 	return true;
 }
 
-inline uint8_t incrementCameraX()
-{
-	return cameraPosX += slideX;
-}
-
-#ifdef GAMEBOY
-inline uint8_t incrementCameraY()
-{
-	return cameraPosY += slideY;
-}
-inline void slide_bkg_x()
-{
-	SCX_REG = incrementCameraX();
-}
-inline void slide_bkg_y()
-{
-	SCY_REG = incrementCameraY();
-}
-#else
-inline uint8_t incrementCameraY()
-{
-	uint8_t ret = cameraPosY + slideY;
-	if (ret > 240)
-		ret -= 32;
-	else if (ret >= 224)
-		ret -= 224;
-	return cameraPosY = ret;
-}
-
-inline void slide_bkg_x()
-{
-	__WRITE_VDP_REG(VDP_RSCX, - incrementCameraX());
-}
-inline void slide_bkg_y()
-{
-	__WRITE_VDP_REG(VDP_RSCY, incrementCameraY());
-}
-#endif 
-
 uint8_t* next_line = NULL;
 
 inline void loadNextLine()
@@ -236,8 +196,6 @@ inline void loadNextLine()
 		PUT_CHANGES_TERMINATOR();
 	}
 }
-
-
 
 void incrementCounter()
 {
@@ -338,9 +296,7 @@ void incrementCounter()
 					if (newLevel == 0x57)
 						newLevel = 1;
 					level = newLevel;
-#ifdef GAMEBOY
 					drawNumber(9, 8, level);
-#endif
 					nextFunction = &setupLevel;
 					startSlideIn();
 				}
@@ -351,9 +307,7 @@ void incrementCounter()
 					if (newLevel == 0)
 						newLevel = 0x56;
 					level = newLevel;
-#ifdef GAMEBOY
 					drawNumber(9, 8, level);
-#endif
 					nextFunction = &setupLevel;
 					startSlideIn();
 				}
@@ -420,23 +374,6 @@ void incrementCounter()
 	slideStep();
 }
 
-#ifdef GAMEBOY
-#define palette1c1 RGBHTML(0xa8a8a8)
-#define palette1c2 RGBHTML(0xbf7a19)
-#define palette1c3 RGBHTML(0x208020)
-#define palette1c4 RGBHTML(0x000000)
-#else
-#define palette1c1 RGBHTML(0xffffff)
-#define palette1c2 RGBHTML(0xffaa55)
-#define palette1c3 RGBHTML(0x55aa55)
-#define palette1c4 RGBHTML(0x000000)
-#endif
-
-const palette_color_t palettes[] =
-{
-	palette1c1, palette1c2, palette1c3, palette1c4,
-};
-
 void main()
 {
 	waitAfterSetupLevel = 0;
@@ -468,13 +405,7 @@ void main()
 	map_pos_y = 0;
 	slide_to_map_pos_x = 0;
 	slide_to_map_pos_y = 0;
-	
-#ifdef GAMEBOY
-	rAUDENA = AUDENA_ON;
-	rAUDVOL = 0x77;
-	rAUDTERM = 0xFF;
 	drawNumber(9, 8, level);
-#endif
 	animCounter = 7;
 	counter = 255;
 	slideX = 0;
