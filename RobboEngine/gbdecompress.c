@@ -1,6 +1,6 @@
 #include "platform.h"
 
-#ifndef  GAMEBOY
+#ifdef  SEGA
 #include <stdlib.h>
 #include <gbdk/gbdecompress.h>
 
