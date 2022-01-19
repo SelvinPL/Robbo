@@ -29,10 +29,7 @@ void slideToRobbo()
 		slide_to_map_pos_x = (robboState.X >= 9) ? 6 : (robboState.X < 6) ? 0 : 3;
 	}
 	robboState.Y = newRobboY;
-	if (robboState.Y > 1)
-	{
-		slide_to_map_pos_y = MIN((((robboState.Y - 2) >> 2) << 2), maxPosY);
-	}
+	slide_to_map_pos_y = robboState.Y > 1 ? MIN((((robboState.Y - 2) >> 2) << 2), maxPosY) : 0;
 }
 
 bool screw()
