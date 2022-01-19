@@ -19,25 +19,52 @@ bool sendChange;
 uint8_t newRobboX;
 uint8_t newRobboY;
 robbo_info robboState;
+uint8_t screwCounting;
+
+void slideToRobbo()
+{
+	robboState.X = newRobboX;
+	if (maxPosX)
+	{
+		slide_to_map_pos_x = (robboState.X >= 9) ? 6 : (robboState.X < 6) ? 0 : 3;
+	}
+	robboState.Y = newRobboY;
+	if (robboState.Y > 1)
+	{
+		slide_to_map_pos_y = MIN((((robboState.Y - 2) >> 2) << 2), maxPosY);
+	}
+}
+
+bool screw()
+{
+	if (screwCounting)
+	{
+		robboState.screws++;
+	}
+	return false;
+}
 
 bool robbo()
 {
-	if (!(padState & J_B) && (animCounter & 1))
+	if (!(animCounter & 1))
+		return;
+	if (robboState.X == 255)
 	{
-		if (robboState.X == 255)
-		{
-			robboState.X = ((uint8_t)mapPtr) & 0xf;
-			robboState.Y = (((uint8_t)mapPtr) >> 4) | (((uint8_t)((uint16_t)mapPtr >> 8)) << 4);
-			robboState.keys = 0;
-			robboState.ammo = 0;
-			robboState.shootDelay = 0;
-		}
+		newRobboX = ((uint8_t)mapPtr) & 0xf;
+		newRobboY = (((uint8_t)mapPtr) >> 4) | (((uint8_t)((uint16_t)mapPtr >> 8)) << 4);
+		robboState.keys = 0;
+		robboState.ammo = 0;
+		robboState.shootDelay = 0;
+		slideToRobbo();
+	}
+	else if (!(padState & J_B))
+	{
 		if (!(padState & J_A))
 		{
 
 			newRobboX = robboState.X;
 			newRobboY = robboState.Y;
-			if ((padState & J_UP))
+			if (padState & J_UP)
 			{
 				newRobboPos = MAP_UP(mapPtr);
 				newRobboPosDest = newRobboPos;
@@ -48,7 +75,7 @@ bool robbo()
 				newRobboY--;
 				sendChange = true;
 			}
-			else if ((padState & J_DOWN))
+			else if (padState & J_DOWN)
 			{
 				newRobboPos = MAP_DOWN(mapPtr);
 				newRobboPosDest = nextYTilesPtr;
@@ -59,7 +86,7 @@ bool robbo()
 				newRobboY++;
 				sendChange = false;
 			}
-			else if ((padState & J_LEFT))
+			else if (padState & J_LEFT)
 			{
 				newRobboPos = MAP_LEFT(mapPtr);
 				newRobboPosDest = newRobboPos;
@@ -70,7 +97,7 @@ bool robbo()
 				newRobboX--;
 				sendChange = true;
 			}
-			else if ((padState & J_RIGHT))
+			else if (padState & J_RIGHT)
 			{
 				newRobboPos = MAP_RIGHT(mapPtr);
 				newRobboPosDest = currentYTilesPtr + 1;
@@ -139,33 +166,24 @@ bool robbo()
 			{
 				change(newRobboPosDest);
 			}
-			robboState.X = newRobboX;
-			if (maxPosX)
-			{
-				slide_to_map_pos_x = (robboState.X >= 9) ? 6 : (robboState.X < 6) ? 0 : 3;
-			}
-			robboState.Y = newRobboY;
-			if (robboState.Y > 1)
-			{
-				slide_to_map_pos_y = MIN((((robboState.Y - 2) >> 2) << 2), maxPosY);
-			}
+			slideToRobbo();
 			return true;
 		}
 		else if(robboState.ammo > 0 && !robboState.shootDelay)
 		{
-			if ((padState & J_UP))
+			if (padState & J_UP)
 			{
 				shootUp(true, mapPtr);
 			}
-			else if ((padState & J_DOWN))
+			else if (padState & J_DOWN)
 			{
 				shootDown(true, mapPtr);
 			}
-			else if ((padState & J_LEFT))
+			else if (padState & J_LEFT)
 			{
 				shootLeft(true, mapPtr);
 			}
-			else if ((padState & J_RIGHT))
+			else if (padState & J_RIGHT)
 			{
 				shootRight(true, mapPtr);
 			}
@@ -176,10 +194,10 @@ bool robbo()
 			robboState.ammo--;
 			robboState.shootDelay = 5;
 		}
-		if (robboState.shootDelay)
-		{
-			robboState.shootDelay--;
-		}
+	}
+	if (robboState.shootDelay)
+	{
+		robboState.shootDelay--;
 	}
 	return false;
 }

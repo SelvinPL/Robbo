@@ -19,6 +19,12 @@
 
 #define BETWEEN(n, start, end) ((((uint8_t)n)>=((uint8_t)(start))) && (((uint8_t)n)<((uint8_t)(end))))
 
+inline void resetCounters()
+{
+	animCounter = 7;
+	counter = 255;
+}
+
 inline uint8_t bcdIncerement(uint8_t i)
 {
 	uint8_t ni = i + 1;
@@ -114,6 +120,7 @@ bool setupLevel()
 	while (wait--)
 		wait_vbl_done();
 	startSlideOut();
+	screwCounting = true;
 	return true;
 }
 
@@ -286,39 +293,39 @@ void incrementCounter()
 					}
 				}
 			}
-			if (slide_to_map_pos_x < map_pos_x)
-			{
-				slideX = -3;
-				map_pos_x--;
-				slide_bkg_x();
-			}
-			else if (slide_to_map_pos_x > map_pos_x)
-			{
-				slideX = 3;
-				map_pos_x++;
-				slide_bkg_x();
-			}
-			else if (slide_to_map_pos_y < map_pos_y)
-			{
-				slideY = -3;
-				map_pos_y--;
-				slide_bkg_y();
-				if (map_pos_y != 0)
-				{
-					next_line = map + 16 * (map_pos_y - 1);
-				}
-			}
-			else if (slide_to_map_pos_y > map_pos_y)
-			{
-				slideY = 3;
-				map_pos_y++;
-				slide_bkg_y();
-				if (map_pos_y + visibleY < 32)
-				{
-					next_line = map + 16 * (map_pos_y + visibleY);
-				}
-			}
 			memset(nextYTiles + 32, FIELD_NONE, 32);
+		}
+		if (slide_to_map_pos_x < map_pos_x)
+		{
+			slideX = -3;
+			map_pos_x--;
+			slide_bkg_x();
+		}
+		else if (slide_to_map_pos_x > map_pos_x)
+		{
+			slideX = 3;
+			map_pos_x++;
+			slide_bkg_x();
+		}
+		else if (slide_to_map_pos_y < map_pos_y)
+		{
+			slideY = -3;
+			map_pos_y--;
+			slide_bkg_y();
+			if (map_pos_y != 0)
+			{
+				next_line = map + 16 * (map_pos_y - 1);
+			}
+		}
+		else if (slide_to_map_pos_y > map_pos_y)
+		{
+			slideY = 3;
+			map_pos_y++;
+			slide_bkg_y();
+			if (map_pos_y + visibleY < 32)
+			{
+				next_line = map + 16 * (map_pos_y + visibleY);
+			}
 		}
 	}
 	slideStep();
@@ -357,8 +364,7 @@ void main()
 	slide_to_map_pos_x = 0;
 	slide_to_map_pos_y = 0;
 	drawNumber(9, 8, level);
-	animCounter = 7;
-	counter = 255;
+	resetCounters();
 	slideX = 0;
 	slideY = 0;
 	changeYstart = 0;
@@ -366,7 +372,6 @@ void main()
 	mapPtr = map - 1;
 	*changes = CHANGES_TERMINATOR;
 	cameraPosX = -fixX;
-
 	move_bkg(cameraPosX, cameraPosY);
 	SHOW_BKG;
 	nextFunction = &setupLevel;

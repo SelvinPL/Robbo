@@ -23,5 +23,5 @@ const function const functions_map[] =
 	blasterDown, rotatingGun, rotatingGun, rotatingGun, rotatingGun, movableGunLeft, movableGunRight, next,
 	next, next, next, next, next, next, next, next,
 	next, next, next, next, next, next, next, next,
-	next, next, next, next, next, next, 
+	next, next, next, next, next, next, screw,
 };

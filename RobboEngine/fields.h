@@ -105,11 +105,10 @@
 #define FIELD_OPENING_DOOR              0x63
 #define FIELD_ROBBO_DRAG_ANIM1          0x64
 #define FIELD_ROBBO_DRAG_ANIM2          0x65
-#define FIELD_TYPES_NEXT_START		    FIELD_EXPLOSION_ANIM1
-#define FIELD_TYPES_FUNCTIONS_END	    FIELD_ROBBO_DRAG_ANIM2
-
-
 #define FIELD_SCREW                     0x66
+#define FIELD_TYPES_NEXT_START		    FIELD_EXPLOSION_ANIM1
+#define FIELD_TYPES_FUNCTIONS_END	    FIELD_SCREW
+
 #define FIELD_KEY                       0x67
 #define FIELD_EMPTY                     0x68
 #define FIELD_INERT_BOX                 0x69
@@ -120,4 +119,4 @@
 #define FIELD_AMMO                      0x6e
 #define FIELD_GROUND                    0x6f
 #define FIELD_LIFE						0x70
-#define FIELD_TYPES_NONE_START		    FIELD_SCREW
+#define FIELD_TYPES_NONE_START		    FIELD_KEY
