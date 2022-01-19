@@ -2,6 +2,7 @@
 #include "stdbool.h"
 #include <stdint.h>
 #include <rand.h>
+#include "projectile_utils.h"
 #include "map.h"
 #include "fields.h"
 #include "globals.h"
@@ -436,153 +437,27 @@ bool laserDown()
 	return false;
 }
 
-#define gunLeftImpl(when, ptr)							\
-do														\
-{														\
-	if ((when))											\
-	{													\
-		uint8_t* newMapInner = MAP_LEFT(ptr);			\
-		if (*newMapInner == FIELD_EMPTY)				\
-		{												\
-			*newMapInner = FIELD_PROJECTILE_LEFT;		\
-			change(newMapInner);						\
-		}												\
-		else if (*newMapInner == FIELD_BOMB)			\
-		{												\
-			*newMapInner = FIELD_BOMB_EXPLODING;		\
-			change(newMapInner);						\
-		}												\
-		else if (*newMapInner == FIELD_SURPRISE)		\
-		{												\
-			*newMapInner = FIELD_SURPRISE_SHOOT_ANIM1;	\
-			change(newMapInner);						\
-		}												\
-		else											\
-		{												\
-			uint8_t type = types[*newMapInner];			\
-			if (type & 1)								\
-			{											\
-				*newMapInner = FIELD_EXPLOSION_ANIM1;	\
-				change(newMapInner);					\
-			}											\
-		}												\
-	}													\
-} while (0)
-
 bool gunLeft()
 {
-	gunLeftImpl(RND(), mapPtr);
+	shootLeft(RND(), mapPtr);
 	return false;
 }
-
-#define gunRightImpl(when, ptr)							\
-do														\
-{														\
-	if ((when))											\
-	{													\
-		uint8_t* newMapInner = MAP_RIGHT(ptr);			\
-		uint8_t next = *(currentYTilesPtr + 1) == FIELD_NONE ? *newMapInner : *(currentYTilesPtr + 1);\
-		if (next == FIELD_EMPTY)						\
-		{												\
-			*(currentYTilesPtr + 1) = FIELD_PROJECTILE_RIGHT;\
-		}												\
-		else if (next == FIELD_BOMB)					\
-		{												\
-			*(currentYTilesPtr + 1) = FIELD_BOMB_EXPLODING;\
-		}												\
-		else if (next == FIELD_SURPRISE)				\
-		{												\
-			*(currentYTilesPtr + 1) = FIELD_SURPRISE_SHOOT_ANIM1;\
-		}												\
-		else											\
-		{												\
-			uint8_t type = types[next];					\
-			if (type & 1)								\
-			{											\
-				*(currentYTilesPtr + 1) = FIELD_EXPLOSION_ANIM1;\
-			}											\
-		}												\
-	}													\
-} while (0)
 
 bool gunRight()
 {
-	gunRightImpl(RND(), mapPtr);
+	shootRight(RND(), mapPtr);
 	return false;
 }
-
-#define gunUpImpl(when, ptr)							\
-do														\
-{														\
-	if ((when))											\
-	{													\
-		uint8_t* newMapInner = MAP_UP(ptr);				\
-		if (*newMapInner == FIELD_EMPTY)				\
-		{												\
-			*newMapInner = FIELD_PROJECTILE_UP;			\
-			change(newMapInner);						\
-		}												\
-		else if (*newMapInner == FIELD_BOMB)			\
-		{												\
-			*newMapInner = FIELD_BOMB_EXPLODING;		\
-			change(newMapInner);						\
-		}												\
-		else if (*newMapInner == FIELD_SURPRISE)		\
-		{												\
-			*newMapInner = FIELD_SURPRISE_SHOOT_ANIM1;	\
-			change(newMapInner);						\
-		}												\
-		else											\
-		{												\
-			uint8_t type = types[*newMapInner];			\
-			if (type & 1)								\
-			{											\
-				*newMapInner = FIELD_EXPLOSION_ANIM1;	\
-				change(newMapInner);					\
-			}											\
-		}												\
-	}													\
-} while (0)
 
 bool gunUp()
 {
-	gunUpImpl(RND(), mapPtr);
+	shootUp(RND(), mapPtr);
 	return false;
 }
 
-#define gunDownImpl(when, ptr)							\
-do														\
-{														\
-	if ((when))											\
-	{													\
-		uint8_t* newMapInner = MAP_DOWN(ptr);			\
-		uint8_t next = *nextYTilesPtr == FIELD_NONE ? *newMapInner : *nextYTilesPtr; \
-		if (next == FIELD_EMPTY)						\
-		{												\
-			*nextYTilesPtr = FIELD_PROJECTILE_DOWN;		\
-		}												\
-		else if (next == FIELD_BOMB)					\
-		{												\
-			*nextYTilesPtr = FIELD_BOMB_EXPLODING;		\
-		}												\
-		else if (next == FIELD_SURPRISE)				\
-		{												\
-			*nextYTilesPtr = FIELD_SURPRISE_SHOOT_ANIM1;\
-		}												\
-		else											\
-		{												\
-			uint8_t type = types[next];					\
-			if (type & 1)								\
-			{											\
-				*nextYTilesPtr = FIELD_EXPLOSION_ANIM1;	\
-			}											\
-		}												\
-	}													\
-} while (0)
-
 bool gunDown()
 {
-	gunDownImpl(RND(), mapPtr);
+	shootDown(RND(), mapPtr);
 	return false;
 }
 
@@ -774,16 +649,16 @@ bool rotatingGun()
 			switch (*mapPtr)
 			{
 			case FIELD_ROTATING_GUN_LEFT:
-				gunLeftImpl(rand() & 7, mapPtr);
+				shootLeft(rand() & 7, mapPtr);
 				break;
 			case FIELD_ROTATING_GUN_RIGHT:
-				gunRightImpl(rand() & 7, mapPtr);
+				shootRight(rand() & 7, mapPtr);
 				break;
 			case FIELD_ROTATING_GUN_UP:
-				gunUpImpl(rand() & 7, mapPtr);
+				shootUp(rand() & 7, mapPtr);
 				break;
 			case FIELD_ROTATING_GUN_DOWN:
-				gunDownImpl(rand() & 7, mapPtr);
+				shootDown(rand() & 7, mapPtr);
 				break;
 			}
 		}
@@ -815,7 +690,7 @@ bool movableGunLeft()
 	{
 		newMap = mapPtr;
 	}
-	gunUpImpl(RND(), newMap);
+	shootUp(RND(), newMap);
 	return repaint;
 }
 
@@ -842,6 +717,6 @@ bool movableGunRight()
 	{
 		newMap = mapPtr;
 	}
-	gunUpImpl(RND(), newMap);
+	shootUp(RND(), newMap);
 	return repaint;
 }

@@ -138,7 +138,9 @@
     <ClInclude Include="others.h" />
     <ClInclude Include="palettes.h" />
     <ClInclude Include="platform.h" />
+    <ClInclude Include="projectile_utils.h" />
     <ClInclude Include="robbo.h" />
+    <ClInclude Include="robbo_state.h" />
     <ClInclude Include="stdbool.h" />
     <ClInclude Include="tiles.h" />
     <ClInclude Include="tiles_helperc.h" />

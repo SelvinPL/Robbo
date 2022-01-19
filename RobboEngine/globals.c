@@ -35,6 +35,4 @@ uint8_t cave = 255;
 uint8_t cameraPosX;
 uint8_t cameraPosY;
 
-uint8_t robboX;
-uint8_t robboY;
 uint8_t waitAfterSetupLevel;

@@ -15,6 +15,7 @@
 #include "camera.h"
 #include "palettes.h"
 #include "tiles_helperc.h"
+#include "robbo_state.h"
 
 #define BETWEEN(n, start, end) ((((uint8_t)n)>=((uint8_t)(start))) && (((uint8_t)n)<((uint8_t)(end))))
 
@@ -107,8 +108,7 @@ bool setupLevel()
 	}
 	SWITCH_ROM_EX(current);
 	repaintAll();
-	robboX = 255;
-	robboY = 255;
+	robboState.Y = robboState.X = 255;
 	nextFunction = &setupLevelFinished;
 	uint8_t wait = waitAfterSetupLevel;
 	while (wait--)
@@ -238,7 +238,7 @@ void incrementCounter()
 			{
 				if (padState & J_A)
 				{
-					if (padState & J_LEFT)
+					if (padState & J_RIGHT)
 					{
 						padEnabled = false;
 						uint8_t newLevel = bcdIncerement(level);
@@ -249,7 +249,7 @@ void incrementCounter()
 						nextFunction = &setupLevel;
 						startSlideIn();
 					}
-					else if (padState & J_RIGHT)
+					else if (padState & J_LEFT)
 					{
 						padEnabled = false;
 						uint8_t newLevel = bcdDecerement(level);

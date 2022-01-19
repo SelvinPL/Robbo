@@ -137,6 +137,12 @@
     <ClInclude Include="tiles_helperc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="robbo_state.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="projectile_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup Label="UserMacros">
 	<AsmCompile Include="gb\tiles_helper.asm">
