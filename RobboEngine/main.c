@@ -14,43 +14,9 @@
 #include "hud.h"
 #include "camera.h"
 #include "palettes.h"
+#include "tiles_helperc.h"
 
 #define BETWEEN(n, start, end) ((((uint8_t)n)>=((uint8_t)(start))) && (((uint8_t)n)<((uint8_t)(end))))
-
-#define ASM_TILES
-
-#ifdef ASM_TILES
-#ifdef GAMEBOY
-extern void set_bkg_tile_xy_2_map_to_tiles_with_translation(uint8_t* map) OLDCALL;
-#else
-extern void set_bkg_tile_xy_2_map_to_tiles_with_translation(uint8_t* map) __z88dk_callee __preserves_regs(iyh, iyl);
-#endif
-void repaint()
-{
-	uint8_t** change = changes - 1;
-	while (*++change != CHANGES_TERMINATOR)
-	{
-		set_bkg_tile_xy_2_map_to_tiles_with_translation(*change);
-	}
-}
-#else
-inline void set_bkg_tile_xy_2(uint8_t x, uint8_t y, uint8_t t)
-{
-	uint8_t main_tiles[] = { t, t + 1, t + 2, t + 3 };
-	set_bkg_tiles(2 * x - fixTileX, 2 * y - fixTileY, 2, 2, main_tiles);
-}
-void repaint()
-{
-	uint8_t** change = changes - 1;
-	while (*++change != CHANGES_TERMINATOR)
-	{
-		uint8_t low = (uint8_t)(*change);
-		uint8_t ux = low & 0xf;
-		uint8_t uy = (low >> 4) | ((uint8_t)(((uint16_t)(*change)) >> 8) << 4);
-		set_bkg_tile_xy_2(ux, uy, *((uint8_t*)((map_to_tiles_hi << 8) | **change)));
-	}
-}
-#endif
 
 inline uint8_t bcdIncerement(uint8_t i)
 {
@@ -140,26 +106,7 @@ bool setupLevel()
 		gb_decompress_bkg_data(8, walls_tiles[cave]);
 	}
 	SWITCH_ROM_EX(current);
-
-	uint8_t startY = map_pos_y == 0 ? 0 : map_pos_y - 1;
-	uint8_t* mapIterator = map + 16 * startY;
-#ifdef ASM_TILES
-	for (uint8_t y = 0; y < visibleY + 2; y++)
-	{
-		for (uint8_t x = 0; x < 16; x++, mapIterator++)
-		{
-			set_bkg_tile_xy_2_map_to_tiles_with_translation(mapIterator);
-		}
-	}
-#else
-	for (uint8_t y = startY; y < map_pos_y + visibleY + 1; y++)
-	{
-		for (uint8_t x = 0; x < 16; x++, mapIterator++)
-		{
-			set_bkg_tile_xy_2(x, y, map_to_tiles[*mapIterator]);
-		}
-	}
-#endif
+	repaintAll();
 	robboX = 255;
 	robboY = 255;
 	nextFunction = &setupLevelFinished;
@@ -287,29 +234,32 @@ void incrementCounter()
 		}
 		if (padEnabled)
 		{
-			if (padState & J_SELECT)
+			if (padState & J_B)
 			{
 				if (padState & J_A)
 				{
-					padEnabled = false;
-					uint8_t newLevel = bcdIncerement(level);
-					if (newLevel == 0x57)
-						newLevel = 1;
-					level = newLevel;
-					drawNumber(9, 8, level);
-					nextFunction = &setupLevel;
-					startSlideIn();
-				}
-				else if (padState & J_B)
-				{
-					padEnabled = false;
-					uint8_t newLevel = bcdDecerement(level);
-					if (newLevel == 0)
-						newLevel = 0x56;
-					level = newLevel;
-					drawNumber(9, 8, level);
-					nextFunction = &setupLevel;
-					startSlideIn();
+					if (padState & J_LEFT)
+					{
+						padEnabled = false;
+						uint8_t newLevel = bcdIncerement(level);
+						if (newLevel == 0x57)
+							newLevel = 1;
+						level = newLevel;
+						drawNumber(9, 8, level);
+						nextFunction = &setupLevel;
+						startSlideIn();
+					}
+					else if (padState & J_RIGHT)
+					{
+						padEnabled = false;
+						uint8_t newLevel = bcdDecerement(level);
+						if (newLevel == 0)
+							newLevel = 0x56;
+						level = newLevel;
+						drawNumber(9, 8, level);
+						nextFunction = &setupLevel;
+						startSlideIn();
+					}
 				}
 				else
 				{

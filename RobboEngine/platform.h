@@ -1,6 +1,8 @@
 #pragma once
 #include <gbdk/platform.h>
+
 #ifdef GAMEBOY
+	#define STANDARD_CALL(...) OLDCALL
 	#define maxPosX 6
 	#define maxPosY 23
 	#define visibleY 8
@@ -15,6 +17,7 @@
 		__asm__("	halt");	
 	#define SWITCH_ROM_EX SWITCH_ROM
 #else
+	#define STANDARD_CALL(...) Z88DK_CALLEE PRESERVES_REGS(__VA_ARGS__)
 	extern void wait_vbl_done_alt();
 	#define wait_vbl_done()	wait_vbl_done_alt()	
 	#define SWITCH_ROM_EX SWITCH_ROM2

@@ -20,12 +20,12 @@ uint8_t keys;
 
 bool robbo()
 {
-	if (!(padState & J_SELECT) && (animCounter & 1))
+	if (!(padState & J_B) && (animCounter & 1))
 	{
 		if (robboX == 255)
 		{
 			robboX = ((uint8_t)mapPtr) & 0xf;
-			robboY = ((((uint8_t)mapPtr) & 0xf0) >> 4) | ((((uint8_t)((uint16_t)mapPtr >> 8)) & 0xf) << 4);
+			robboY = (((uint8_t)mapPtr) >> 4) | (((uint8_t)((uint16_t)mapPtr >> 8)) << 4);
 			keys = 0;
 		}
 		newRobboX = robboX;

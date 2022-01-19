@@ -119,6 +119,7 @@
     <ClCompile Include="palettes.c" />
     <ClCompile Include="robbo.c" />
     <ClCompile Include="tiles_data.c" />
+    <ClCompile Include="tiles_helperc.c" />
     <ClCompile Include="win_slide.c" />
   </ItemGroup>
   <ItemGroup>
@@ -140,6 +141,7 @@
     <ClInclude Include="robbo.h" />
     <ClInclude Include="stdbool.h" />
     <ClInclude Include="tiles.h" />
+    <ClInclude Include="tiles_helperc.h" />
     <ClInclude Include="win_slide.h" />
   </ItemGroup>
   <ItemGroup>

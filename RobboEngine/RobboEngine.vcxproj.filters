@@ -72,6 +72,9 @@
     <ClCompile Include="palettes.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="tiles_helperc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tiles.h">
@@ -129,6 +132,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="palettes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tiles_helperc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
