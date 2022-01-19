@@ -19,7 +19,7 @@ bool sendChange;
 uint8_t newRobboX;
 uint8_t newRobboY;
 robbo_info robboState;
-uint8_t screwCounting;
+bool screwCounting;
 
 void slideToRobbo()
 {
@@ -47,7 +47,7 @@ bool screw()
 bool robbo()
 {
 	if (!(animCounter & 1))
-		return;
+		return false;
 	if (robboState.X == 255)
 	{
 		newRobboX = ((uint8_t)mapPtr) & 0xf;
