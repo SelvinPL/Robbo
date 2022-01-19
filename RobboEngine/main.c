@@ -384,6 +384,7 @@ void main()
 	winSlideToX = 0;
 	padEnabled = false;
 	set_bkg_palette(0, 1, (palette_color_t*)palettes);
+	set_sprite_palette(0, 1, (palette_color_t*)sprites_palettes);
 	uint8_t current = _current_bank;
 	SWITCH_ROM_EX(BANK(tiles_data));
 	gb_decompress_bkg_data(0, main_tiles);

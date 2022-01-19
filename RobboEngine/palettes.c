@@ -16,3 +16,8 @@ const palette_color_t palettes[] =
 {
 	palette1c1, palette1c2, palette1c3, palette1c4,
 };
+
+const palette_color_t sprites_palettes[] =
+{
+	palette1c1, palette1c1, palette1c1, palette1c4,
+};
