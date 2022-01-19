@@ -109,3 +109,70 @@ bool surpriseExplosion()
 	*mapPtr = lootTable[rand() & 31];
 	return true;
 }
+
+//TODO: implement those
+
+bool robboDragLeft()
+{
+	return false;
+}
+
+bool robboDragRight()
+{
+	return false;
+}
+
+bool ship()
+{
+	return false;
+}
+
+bool shipBlink1()
+{
+	return false;
+}
+
+bool shipBlink2()
+{
+	return false;
+}
+
+bool robboStart()
+{
+	return false;
+}
+
+bool magnetLeft()
+{
+	return false;
+}
+
+bool magnetRight()
+{
+	return false;
+}
+
+bool inertBoxLeft()
+{
+	return false;
+}
+
+bool inertBoxRight()
+{
+	return false;
+}
+
+bool inertBoxUp()
+{
+	return false;
+}
+
+bool inertBoxDown()
+{
+	return false;
+}
+
+bool teleport()
+{
+	return (animCounter & 1);
+}

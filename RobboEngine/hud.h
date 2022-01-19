@@ -15,14 +15,14 @@ typedef enum
 	uiElementLevel = 16,
 } uiElement;
 
+void drawNumber(uint8_t x, uint8_t y, uint8_t number);
+void drawUICounter(uiElement type, uint8_t number);
+
 inline void drawUIElement(uint8_t x, uint8_t y, uiElement element)
 {
 	extern const uint8_t uiElementsTiles[20];
 	set_win_tiles(x, y, 2, 2, &uiElementsTiles[element]);
 }
-
-void drawNumber(uint8_t x, uint8_t y, uint8_t number);
-void drawUICounter(uiElement type, uint8_t number);
 
 inline void initHUD()
 {
@@ -36,10 +36,12 @@ inline void initHUD()
 inline void drawHUD()
 {
 }
+
 inline void hideHUD()
 {
 	fill_win_rect(0, 0, 20, 2, TILE_BLACK_WALL);
 }
+
 inline void showHUD()
 {
 	move_win(7, 128);
@@ -60,8 +62,6 @@ inline void showHUD()
 	drawUICounter(uiElementLevel, level);
 }
 #else
-
-
 #define TILE_HUD_SEGA_SCREW 0x04
 #define TILE_HUD_SEGA_NUM_PART0 0x18
 

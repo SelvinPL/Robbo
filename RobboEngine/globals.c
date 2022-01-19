@@ -29,7 +29,7 @@ uint8_t padState;
 bool padEnabled;
 function nextFunction;
 
-uint8_t level = 0x12;
+uint8_t level = 0x1;
 uint8_t cave = 255;
 
 uint8_t cameraPosX;

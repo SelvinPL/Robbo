@@ -1,7 +1,7 @@
 #include "platform.h"
-#include "stdbool.h"
 #include <stdint.h>
 #include <rand.h>
+#include "stdbool.h"
 #include "projectile_utils.h"
 #include "map.h"
 #include "fields.h"

@@ -14,10 +14,12 @@ inline uint8_t incrementCameraY()
 {
 	return cameraPosY += slideY;
 }
+
 inline void slide_bkg_x()
 {
 	SCX_REG = incrementCameraX();
 }
+
 inline void slide_bkg_y()
 {
 	SCY_REG = incrementCameraY();
@@ -37,6 +39,7 @@ inline void slide_bkg_x()
 {
 	__WRITE_VDP_REG(VDP_RSCX, -incrementCameraX());
 }
+
 inline void slide_bkg_y()
 {
 	__WRITE_VDP_REG(VDP_RSCY, incrementCameraY());

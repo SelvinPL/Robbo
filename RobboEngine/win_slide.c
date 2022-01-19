@@ -3,7 +3,8 @@
 
 bool winSlide;
 int8_t winSlideX;
+uint8_t winSlideToX;
+
 #ifndef GAMEBOY
 uint8_t winPositionX;
 #endif
-uint8_t winSlideToX;

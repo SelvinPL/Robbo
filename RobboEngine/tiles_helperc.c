@@ -7,7 +7,6 @@
 #define ASM_TILES
 
 #ifdef ASM_TILES
-
 void repaint()
 {
 	uint8_t** change = changes - 1;
@@ -29,9 +28,7 @@ void repaintAll()
 		}
 	}
 }
-
 #else
-
 inline void set_bkg_tile_xy_2(uint8_t x, uint8_t y, uint8_t t)
 {
 	uint8_t main_tiles[] = { t, t + 1, t + 2, t + 3 };
@@ -62,5 +59,4 @@ void repaintAll()
 		}
 	}
 }
-
 #endif

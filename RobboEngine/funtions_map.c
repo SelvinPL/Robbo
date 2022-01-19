@@ -9,67 +9,6 @@
 #include "bombs.h"
 #include "robbo.h"
 
-bool robboDragLeft()
-{
-	return false;
-}
-bool robboDragRight()
-{
-	return false;
-}
-
-bool ship()
-{
-	return false;
-}
-
-bool shipBlink1()
-{
-	return false;
-}
-
-bool shipBlink2()
-{
-	return false;
-}
-
-bool robboStart()
-{
-	return false;
-}
-
-bool magnetLeft()
-{
-	return false;
-}
-
-bool magnetRight()
-{
-	return false;
-}
-
-bool inertBoxLeft()
-{
-	return false;
-}
-bool inertBoxRight()
-{
-	return false;
-}
-bool inertBoxUp()
-{
-	return false;
-}
-bool inertBoxDown()
-{
-	return false;
-}
-
-bool teleport()
-{
-	return (animCounter & 1);
-}
-
 const function const functions_map[] =
 {
 	NULL, NULL, NULL, NULL, NULL, forceFieldEnd, robboDragLeft, robboDragRight,
