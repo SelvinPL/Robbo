@@ -29,8 +29,8 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3A64F37A-08ED-4F29-9EFD-D765B3A1D29C}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>RobboEngine</RootNamespace>
-    <ProjectName>RobboEngine</ProjectName>
+    <RootNamespace>Robbo</RootNamespace>
+    <ProjectName>Robbo</ProjectName>
     <BuildFormat>Binary</BuildFormat>
     <CodeLocation>0x600</CodeLocation>
   </PropertyGroup>
