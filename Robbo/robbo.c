@@ -151,11 +151,7 @@ bool robbo()
 				if (robboState.keys > 0)
 				{
 					robboState.keys--;
-					if (sendChange)
-					{
-						change(newRobboPosDest);
-					}
-					break;
+					*newRobboPosDest = FIELD_OPENING_DOOR;
 				}
 			default:
 				return false;
