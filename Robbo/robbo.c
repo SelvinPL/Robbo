@@ -152,6 +152,8 @@ bool robbo()
 					}
 				}
 				break;
+			case FIELD_INERT_BOX_RIGHT:
+			case FIELD_INERT_BOX_DOWN:
 			case FIELD_INERT_BOX:
 				{
 					if (nextRobboTile == FIELD_EMPTY)

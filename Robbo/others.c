@@ -224,7 +224,7 @@ bool inertBoxUp()
 		{
 			*newMap = FIELD_INERT_BOX_UP;
 			change(newMap);
-			*mapPtr = FIELD_INERT_BOX;
+			*mapPtr = FIELD_EMPTY;
 			return true;
 		}
 		else if (*newMap == FIELD_BOMB)
