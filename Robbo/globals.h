@@ -39,7 +39,8 @@ extern uint8_t cave;
 extern uint8_t cameraPosX;
 extern uint8_t cameraPosY;
 
-extern bool screwCounting;
+extern bool screwsCounting;
+extern bool screwsCounted;
 
 inline void setNextFunction(function nextFunction)
 {

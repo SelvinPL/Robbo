@@ -4,5 +4,3 @@
 
 bool robbo();
 bool screw();
-
-extern bool screwCounting;

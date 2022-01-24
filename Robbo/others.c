@@ -122,21 +122,6 @@ bool robboDragRight()
 	return false;
 }
 
-bool ship()
-{
-	return false;
-}
-
-bool shipBlink1()
-{
-	return false;
-}
-
-bool shipBlink2()
-{
-	return false;
-}
-
 bool robboStart()
 {
 	return false;
@@ -152,23 +137,158 @@ bool magnetRight()
 	return false;
 }
 
+
 bool inertBoxLeft()
 {
+	if (animCounter & 1)
+	{
+		uint8_t* newMap = MAP_LEFT(mapPtr);
+		if (*newMap == FIELD_EMPTY)
+		{
+			*newMap = FIELD_INERT_BOX_LEFT;
+			change(newMap);
+			*mapPtr = FIELD_EMPTY;
+			return true;
+		}
+		else if (*newMap == FIELD_BOMB)
+		{
+			*newMap = FIELD_BOMB_EXPLODING;
+			change(newMap);
+			*mapPtr = FIELD_INERT_BOX;
+		}
+		else if (*newMap == FIELD_SURPRISE)
+		{
+			*newMap = FIELD_SURPRISE_SHOOT_ANIM1;
+			change(newMap);
+			*mapPtr = FIELD_INERT_BOX;
+		}
+		else
+		{
+			uint8_t type = types[*newMap];
+			if (type & 1)
+			{
+				*newMap = FIELD_EXPLOSION_ANIM1;
+				change(newMap);
+				*mapPtr = FIELD_INERT_BOX;
+			}
+			else
+				*mapPtr = FIELD_INERT_BOX;
+		}
+	}
 	return false;
 }
 
 bool inertBoxRight()
 {
+	if (animCounter & 1)
+	{
+		uint8_t* newMap = MAP_RIGHT(mapPtr);
+		uint8_t next = *(currentYTilesPtr + 1) == FIELD_NONE ? *newMap : *(currentYTilesPtr + 1);
+		if (next == FIELD_EMPTY)
+		{
+			*(currentYTilesPtr + 1) = FIELD_INERT_BOX_RIGHT;
+			*mapPtr = FIELD_EMPTY;
+			return true;
+		}
+		else if (next == FIELD_BOMB)
+		{
+			*(currentYTilesPtr + 1) = FIELD_BOMB_EXPLODING;
+			*mapPtr = FIELD_INERT_BOX;
+		}
+		else if (next == FIELD_SURPRISE)
+		{
+			*(currentYTilesPtr + 1) = FIELD_SURPRISE_SHOOT_ANIM1;
+			*mapPtr = FIELD_INERT_BOX;
+		}
+		else
+		{
+			uint8_t type = types[next];
+			if (type & 1)
+			{
+				*(currentYTilesPtr + 1) = FIELD_EXPLOSION_ANIM1;
+				*mapPtr = FIELD_INERT_BOX;
+			}
+			else
+				*mapPtr = FIELD_INERT_BOX;
+		}
+	}
 	return false;
 }
 
 bool inertBoxUp()
 {
+	if (animCounter & 1)
+	{
+		uint8_t* newMap = MAP_UP(mapPtr);
+		if (*newMap == FIELD_EMPTY)
+		{
+			*newMap = FIELD_INERT_BOX_UP;
+			change(newMap);
+			*mapPtr = FIELD_INERT_BOX;
+			return true;
+		}
+		else if (*newMap == FIELD_BOMB)
+		{
+			*newMap = FIELD_BOMB_EXPLODING;
+			change(newMap);
+			*mapPtr = FIELD_INERT_BOX;
+		}
+		else if (*newMap == FIELD_SURPRISE)
+		{
+			*newMap = FIELD_SURPRISE_SHOOT_ANIM1;
+			change(newMap);
+			*mapPtr = FIELD_INERT_BOX;
+		}
+		else
+		{
+			uint8_t type = types[*newMap];
+			if (type & 1)
+			{
+				*newMap = FIELD_EXPLOSION_ANIM1;
+				change(newMap);
+				*mapPtr = FIELD_INERT_BOX;
+			}
+			else
+				*mapPtr = FIELD_INERT_BOX;
+		}
+	}
 	return false;
 }
 
 bool inertBoxDown()
 {
+	if (animCounter & 1)
+	{
+		uint8_t* newMap = MAP_DOWN(mapPtr);
+		uint8_t next = *nextYTilesPtr == FIELD_NONE ? *newMap : *nextYTilesPtr;
+		if (next == FIELD_EMPTY)
+		{
+			*nextYTilesPtr = FIELD_INERT_BOX_DOWN;
+			*mapPtr = FIELD_EMPTY;
+			return true;
+		}
+		else if (next == FIELD_BOMB)
+		{
+			*nextYTilesPtr = FIELD_BOMB_EXPLODING;
+			*mapPtr = FIELD_INERT_BOX;
+		}
+		else if (next == FIELD_SURPRISE)
+		{
+			*nextYTilesPtr = FIELD_SURPRISE_SHOOT_ANIM1;
+			*mapPtr = FIELD_INERT_BOX;
+		}
+		else
+		{
+			uint8_t type = types[next];
+			if (type & 1)
+			{
+				*nextYTilesPtr = FIELD_EXPLOSION_ANIM1;
+				*mapPtr = FIELD_INERT_BOX;
+			}
+			else
+				*mapPtr = FIELD_INERT_BOX;
+		}
+	}
 	return false;
 }
 

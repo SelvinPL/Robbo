@@ -8,8 +8,12 @@
 #include "projectile_utils.h"
 #include "hud.h"
 #include "BCD8.h"
+#include "win_slide.h"
+#include "projectile_utils.h"
 
 #define MIN(A,B)					((A)<(B)?(A):(B))
+
+bool setupLevel();
 
 uint8_t newRobboTile;
 uint8_t* newRobboPos;
@@ -21,7 +25,8 @@ bool sendChange;
 uint8_t newRobboX;
 uint8_t newRobboY;
 robbo_info robboState;
-bool screwCounting;
+bool screwsCounting;
+bool screwsCounted;
 
 void slideToRobbo()
 {
@@ -36,7 +41,7 @@ void slideToRobbo()
 
 bool screw()
 {
-	if (screwCounting)
+	if (screwsCounting)
 	{
 		robboState.screws.value = incerement(&robboState.screws);
 	}
@@ -138,7 +143,41 @@ bool robbo()
 				}
 				break;
 			case FIELD_LIFE:
-				//TODO: pick life
+				{
+					if (robboState.screws.value > 0)
+					{
+						uint8_t lives = incerement(&robboState.lives);
+						robboState.lives.value = lives;
+						postUICounter(uiElementLives, lives);
+					}
+				}
+				break;
+			case FIELD_INERT_BOX:
+				{
+					if (nextRobboTile == FIELD_EMPTY)
+					{
+						if (padState & J_UP)
+						{
+							*nextRobboPosDest = FIELD_INERT_BOX_UP;
+						}
+						else if (padState & J_DOWN)
+						{
+							*nextRobboPosDest = FIELD_INERT_BOX_DOWN;
+						}
+						else if (padState & J_LEFT)
+						{
+							*nextRobboPosDest = FIELD_INERT_BOX_LEFT;
+						}
+						else
+						{
+							*nextRobboPosDest = FIELD_INERT_BOX_RIGHT;
+						}
+						if(sendChange)
+							change(nextRobboPosDest);
+					}
+					else
+						return false;
+				}
 			case FIELD_EMPTY:
 				break;
 			case FIELD_BOX:
@@ -160,6 +199,24 @@ bool robbo()
 					return false;
 				}
 				break;
+			case FIELD_SHIP_BLINK1:
+			case FIELD_SHIP_BLINK2:
+				{
+					uint8_t newLevel = incerement(&level);
+					if (newLevel == 0x57)
+					{
+						//TODO: win!!
+						newLevel = 1;
+					}
+					level.value = newLevel;
+					drawNumber(9, 8, level.value);
+					setNextFunction(&setupLevel);
+					*mapPtr = FIELD_EMPTY;
+					*newRobboPosDest = FIELD_SHIP;
+					screwsCounted = false;
+					startSlideIn();
+				}
+				return true;
 			case FIELD_DOOR:
 				if (robboState.keys.value > 0)
 				{
@@ -167,6 +224,7 @@ bool robbo()
 					postUICounter(uiElementKeys, robboState.keys.value);
 					*newRobboPosDest = FIELD_OPENING_DOOR;
 				}
+				return false;
 			default:
 				return false;
 			}
@@ -209,6 +267,35 @@ bool robbo()
 	if (robboState.shootDelay)
 	{
 		robboState.shootDelay--;
+	}
+	return false;
+}
+
+
+bool ship()
+{
+	if (screwsCounted && !robboState.screws.value)
+		*mapPtr = FIELD_SHIP_BLINK1;
+	return false;
+}
+
+
+bool shipBlink1()
+{
+	if (animCounter == 1)
+	{
+		*mapPtr = FIELD_SHIP_BLINK2;
+		return true;
+	}
+	return false;
+}
+
+bool shipBlink2()
+{
+	if (animCounter == 1)
+	{
+		*mapPtr = FIELD_SHIP_BLINK1;
+		return true;
 	}
 	return false;
 }

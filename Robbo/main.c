@@ -75,7 +75,8 @@ void mapIteration()
 
 bool stopCounting()
 {
-	screwCounting = false;
+	screwsCounting = false;
+	screwsCounted = true;
 	showHUD();
 	return true;
 }
@@ -83,7 +84,7 @@ bool stopCounting()
 bool setupLevelFinished()
 {
 	padEnabled = true;
-	screwCounting = true;
+	screwsCounting = true;
 	setNextFunction(&stopCounting);
 	return false;
 }
@@ -107,6 +108,7 @@ bool setupLevel()
 	robboState.ammo.value = 0;
 	robboState.keys.value = 0;
 	robboState.Y = robboState.X = 255;
+	screwsCounted = false;
 	setNextFunction(&setupLevelFinished);
 	uint8_t wait = waitAfterSetupLevel;
 	while (wait--)
@@ -288,7 +290,7 @@ void incrementCounter()
 					}
 				}
 			}
-			memset(nextYTiles + 32, FIELD_NONE, 32);
+			memset(nextYTiles + 16, FIELD_NONE, 32);
 		}
 		if (slide_to_map_pos_x < map_pos_x)
 		{
