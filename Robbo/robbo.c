@@ -6,6 +6,8 @@
 #include "changes.h"
 #include "robbo_state.h"
 #include "projectile_utils.h"
+#include "hud.h"
+#include "BCD8.h"
 
 #define MIN(A,B)					((A)<(B)?(A):(B))
 
@@ -36,7 +38,7 @@ bool screw()
 {
 	if (screwCounting)
 	{
-		robboState.screws++;
+		robboState.screws.value = incerement(&robboState.screws);
 	}
 	return false;
 }
@@ -49,8 +51,8 @@ bool robbo()
 	{
 		newRobboX = ((uint8_t)mapPtr) & 0xf;
 		newRobboY = (((uint8_t)mapPtr) >> 4) | (((uint8_t)((uint16_t)mapPtr >> 8)) << 4);
-		robboState.keys = 0;
-		robboState.ammo = 0;
+		robboState.keys.value =  0;
+		robboState.ammo.value =  0;
 		robboState.shootDelay = 0;
 		slideToRobbo();
 	}
@@ -112,15 +114,29 @@ bool robbo()
 			switch (newRobboTile)
 			{
 			case FIELD_KEY:
-				//TODO: pick key
-				robboState.keys++;
+				{
+					uint8_t keys = incerement(&robboState.keys);
+					robboState.keys.value = keys < 0x99 ? keys : 0x99;
+					postUICounter(uiElementKeys, keys);
+				}
 				break;
 			case FIELD_AMMO:
-				robboState.ammo+=9;
-				//TODO: pick ammo
+				{
+					uint8_t ammo = add_up_to_9(&robboState.ammo, 9);
+					robboState.ammo.value = ammo < 0x99 ? ammo : 0x99;
+					postUICounter(uiElementAmmo, ammo);
+				}
 				break;
 			case FIELD_SCREW:
-				//TODO: pick screw
+				{
+					if (robboState.screws.value > 0 )
+					{
+						uint8_t screws = decrement(&robboState.screws);
+						robboState.screws.value = screws;
+						postUICounter(uiElementScrews, screws);
+					}
+				}
+				break;
 			case FIELD_LIFE:
 				//TODO: pick life
 			case FIELD_EMPTY:
@@ -145,9 +161,10 @@ bool robbo()
 				}
 				break;
 			case FIELD_DOOR:
-				if (robboState.keys > 0)
+				if (robboState.keys.value > 0)
 				{
-					robboState.keys--;
+					robboState.keys.value = decrement(&robboState.keys);
+					postUICounter(uiElementKeys, robboState.keys.value);
 					*newRobboPosDest = FIELD_OPENING_DOOR;
 				}
 			default:
@@ -162,7 +179,7 @@ bool robbo()
 			slideToRobbo();
 			return true;
 		}
-		else if(robboState.ammo > 0 && !robboState.shootDelay)
+		else if(robboState.ammo.value > 0 && !robboState.shootDelay)
 		{
 			if (padState & J_UP)
 			{
@@ -184,7 +201,8 @@ bool robbo()
 			{
 				return false;
 			}
-			robboState.ammo--;
+			robboState.ammo.value = decrement(&robboState.ammo);
+			postUICounter(uiElementAmmo, robboState.ammo.value);
 			robboState.shootDelay = 5;
 		}
 	}

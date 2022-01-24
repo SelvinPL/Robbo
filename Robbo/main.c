@@ -16,6 +16,7 @@
 #include "palettes.h"
 #include "tiles_helperc.h"
 #include "robbo_state.h"
+#include "BCD8.h"
 
 #define BETWEEN(n, start, end) ((((uint8_t)n)>=((uint8_t)(start))) && (((uint8_t)n)<((uint8_t)(end))))
 
@@ -23,26 +24,6 @@ inline void resetCounters()
 {
 	animCounter = 7;
 	counter = 255;
-}
-
-inline uint8_t bcdIncerement(uint8_t i)
-{
-	uint8_t ni = i + 1;
-	if ((ni & 0xf) == 0xa)
-	{
-		ni += 6;
-	}
-	return ni;
-}
-
-inline uint8_t bcdDecerement(uint8_t i)
-{
-	uint8_t ni = i - 1;
-	if ((ni & 0xf) == 0xf)
-	{
-		ni -= 6;
-	}
-	return ni;
 }
 
 const int8_t currentPtrOffests[] = { -1, 15, 31, 47 };
@@ -92,17 +73,25 @@ void mapIteration()
 	PUT_CHANGES_TERMINATOR();
 }
 
+bool stopCounting()
+{
+	screwCounting = false;
+	showHUD();
+	return true;
+}
+
 bool setupLevelFinished()
 {
 	padEnabled = true;
-	showHUD();
-	return true;
+	screwCounting = true;
+	setNextFunction(&stopCounting);
+	return false;
 }
 
 bool setupLevel()
 {
 	disableHUD();
-	const uint8_t lvl = (0xf & level) + (level >> 4 & 0xf) * 10 - 1;
+	const uint8_t lvl = (0xf & level.value) + (level.value >> 4 & 0xf) * 10 - 1;
 	uint8_t current = _current_bank;
 	SWITCH_ROM_EX(BANK(levels_data));
 	gb_decompress(levels[lvl], map);
@@ -114,14 +103,16 @@ bool setupLevel()
 	}
 	SWITCH_ROM_EX(current);
 	repaintAll();
+	robboState.screws.value = 0;
+	robboState.ammo.value = 0;
+	robboState.keys.value = 0;
 	robboState.Y = robboState.X = 255;
-	nextFunction = &setupLevelFinished;
+	setNextFunction(&setupLevelFinished);
 	uint8_t wait = waitAfterSetupLevel;
 	while (wait--)
 		wait_vbl_done();
 	startSlideOut();
-	screwCounting = true;
-	return true;
+	return false;
 }
 
 uint8_t* next_line = NULL;
@@ -212,6 +203,10 @@ void incrementCounter()
 	}
 	else
 	{
+		if (callNext)
+		{
+			callNextFunction();
+		}
 		changeYstart = 0;
 		changeYend = 6;
 		counter = 0;
@@ -248,23 +243,23 @@ void incrementCounter()
 					if (padState & J_RIGHT)
 					{
 						padEnabled = false;
-						uint8_t newLevel = bcdIncerement(level);
+						uint8_t newLevel = incerement(&level);
 						if (newLevel == 0x57)
 							newLevel = 1;
-						level = newLevel;
-						drawNumber(9, 8, level);
-						nextFunction = &setupLevel;
+						level.value = newLevel;
+						drawNumber(9, 8, level.value);
+						setNextFunction(&setupLevel);
 						startSlideIn();
 					}
 					else if (padState & J_LEFT)
 					{
 						padEnabled = false;
-						uint8_t newLevel = bcdDecerement(level);
+						uint8_t newLevel = decrement(&level);
 						if (newLevel == 0)
 							newLevel = 0x56;
-						level = newLevel;
-						drawNumber(9, 8, level);
-						nextFunction = &setupLevel;
+						level.value = newLevel;
+						drawNumber(9, 8, level.value);
+						setNextFunction(&setupLevel);
 						startSlideIn();
 					}
 				}
@@ -334,6 +329,7 @@ void incrementCounter()
 void main()
 {
 	waitAfterSetupLevel = 0;
+	callNext = false;
 	//cpu_fast();
 	DISABLE_VBL_TRANSFER;
 	DISPLAY_OFF;
@@ -363,7 +359,7 @@ void main()
 	map_pos_y = 0;
 	slide_to_map_pos_x = 0;
 	slide_to_map_pos_y = 0;
-	drawNumber(9, 8, level);
+	drawNumber(9, 8, level.value);
 	resetCounters();
 	slideX = 0;
 	slideY = 0;
@@ -374,7 +370,7 @@ void main()
 	cameraPosX = -fixX;
 	move_bkg(cameraPosX, cameraPosY);
 	SHOW_BKG;
-	nextFunction = &setupLevel;
+	setNextFunction(&setupLevel);
 	initHUD();
 	setupLevel();
 	waitAfterSetupLevel = 40;

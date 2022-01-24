@@ -22,4 +22,3 @@ bool inertBoxRight();
 bool inertBoxUp();
 bool inertBoxDown();
 bool teleport();
-bool screw();

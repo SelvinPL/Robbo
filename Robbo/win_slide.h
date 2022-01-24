@@ -6,6 +6,7 @@
 extern bool winSlide;
 extern int8_t winSlideX;
 extern uint8_t winSlideToX;
+extern bool callNext;
 
 #ifdef GAMEBOY
 #define winPositionX WX_REG
@@ -65,6 +66,7 @@ inline void startSlideIn()
 	startSlideInPlatformSpecific();
 	winSlideX = -4;
 	winSlide = true;
+	callNext = false;
 }
 
 inline void startSlideOut()
@@ -72,6 +74,7 @@ inline void startSlideOut()
 	startSlideOutPlatformSpecific();
 	winSlideX = 4;
 	winSlide = true;
+	callNext = false;
 }
 
 inline void slideStep()
@@ -86,8 +89,7 @@ inline void slideStep()
 		{
 			slideStepElsePlatformSpecific();
 			winSlide = false;
-			if(nextFunction)
-				nextFunction();
+			callNext = true;
 		}
 	}
 }

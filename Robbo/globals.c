@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include "BCD8.h"
 #include "functions_map.h"
 
 uint8_t iterX;
@@ -27,9 +28,9 @@ int8_t slideY;
 
 uint8_t padState;
 bool padEnabled;
-function nextFunction;
+function nextFunctionPtr;
 
-uint8_t level = 0x1;
+BCD8 level = { 0x1 };
 uint8_t cave = 255;
 
 uint8_t cameraPosX;

@@ -143,6 +143,9 @@
     <ClInclude Include="projectile_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BCD8.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup Label="UserMacros">
 	<AsmCompile Include="gb\tiles_helper.asm">

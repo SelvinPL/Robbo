@@ -1,34 +1,28 @@
 #include <stdint.h>
 #include "hud.h"
 #include "tiles.h"
+#include "BCD8.h"
+#include "robbo_state.h"
+#include <string.h>
+
+
+uint8_t* uiCountersPtr;
+uint8_t uiCounters[20];
+
+#ifdef SEGA
 
 const uint8_t tile2_data[] =
 {
-	TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
-	TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
-	TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
-	TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
-	TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
-	TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
-	TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
-	TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
+    TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
+    TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
+    TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
+    TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
+    TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
+    TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
+    TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
+    TILE_BLACK_WALL, 0, TILE_BLACK_WALL, 0,
 };
 
-const uint8_t uiElementsTiles[] =
-{
-	//screws
-	TILE_HUD_SCREW, TILE_HUD_SCREW + 1, TILE_HUD_SCREW + 2, TILE_HUD_SCREW + 3,
-	//lives
-	TILE_HUD_LIFE, TILE_HUD_LIFE + 1, TILE_HUD_LIFE + 2, TILE_HUD_LIFE + 3,
-	//keys
-	TILE_HUD_KEY, TILE_HUD_KEY + 1, TILE_HUD_KEY + 2, TILE_HUD_KEY + 3,
-	//ammo
-	TILE_HUD_AMMO, TILE_HUD_AMMO + 1, TILE_HUD_AMMO + 2, TILE_HUD_AMMO + 3,
-	//level
-	TILE_HUD_LEVEL, TILE_HUD_LEVEL + 1, TILE_HUD_LEVEL + 2, TILE_HUD_LEVEL + 3,
-};
-
-#ifdef SEGA
 const uint8_t sega_hud_tiles[] =
 {
     0x3f, 0x00, 0x85, 0xc0, 0xff, 0xc6, 0x3f, 0x00, 0x3a, 0x00, 0x3d, 0x00, 0x3f, 0x88, 0xb3, 0xff,
@@ -118,13 +112,26 @@ uint8_t hudCounter = 0;
 
 /*
 sprite order:
-T0T1B0A0 
-T2T3B1A1
-where: 
+T0T1T2T3B0B1A0A1
+where: TILE_HUD_SEGA_NUM_PART0 + 0x
     TX is ui element graphical title
     AX  is 2nd digit
     BX  is 1st digit
 */
+
+const uint8_t numbersTiles[10][2] =
+{
+    { TILE_HUD_SEGA_NUM_PART0 + 0x0, TILE_HUD_SEGA_NUM_PART0 + 0x1 }, //0
+    { TILE_HUD_SEGA_NUM_PART0 + 0x2, TILE_HUD_SEGA_NUM_PART0 + 0x3 }, //1
+    { TILE_HUD_SEGA_NUM_PART0 + 0xB, TILE_HUD_SEGA_NUM_PART0 + 0x5 }, //2
+    { TILE_HUD_SEGA_NUM_PART0 + 0xB, TILE_HUD_SEGA_NUM_PART0 + 0x6 }, //3
+    { TILE_HUD_SEGA_NUM_PART0 + 0x7, TILE_HUD_SEGA_NUM_PART0 + 0x8 }, //4
+    { TILE_HUD_SEGA_NUM_PART0 + 0x9, TILE_HUD_SEGA_NUM_PART0 + 0x6 }, //5
+    { TILE_HUD_SEGA_NUM_PART0 + 0x9, TILE_HUD_SEGA_NUM_PART0 + 0xA }, //6
+    { TILE_HUD_SEGA_NUM_PART0 + 0x4, TILE_HUD_SEGA_NUM_PART0 + 0x3 }, //7
+    { TILE_HUD_SEGA_NUM_PART0 + 0xC, TILE_HUD_SEGA_NUM_PART0 + 0xA }, //8
+    { TILE_HUD_SEGA_NUM_PART0 + 0xC, TILE_HUD_SEGA_NUM_PART0 + 0x6 }, //9
+};
 
 const uint8_t hud_sprites_x_tile[] =
 {
@@ -153,21 +160,41 @@ void initHUD()
     state |= R0_IE1;
     __WRITE_VDP_REG(VDP_R0, state);
     __WRITE_VDP_REG(VDP_R10, 175U - fixY);
+    initHUDCommon();
 }
 
-void drawHUD()
+uint8_t drawUICounterBuffer[8];
+
+inline void drawUICounter(uiElement type, uint8_t number)
 {
-    __WRITE_VDP_REG(VDP_R2, R2_MAP_0x3800);
-    if (counter == 3 && animCounter == 7 && hudVisible)
-    {
-        vmemcpy(hud_sprites_y_start[hudCounter], hud_sprites_y[hudCounter], hud_sprites_y_size[hudCounter]);
-        hudCounter++;
-        if (hudCounter == 3)
-            hudCounter = 0;
-    }
+    uint8_t offset = type + 8;
+    memcpy(drawUICounterBuffer, hud_sprites_x_tile + offset, 8);
+    uint8_t second = number & 0xf;
+    const uint8_t* tiles = numbersTiles[second];
+    drawUICounterBuffer[1] = tiles[0];
+    drawUICounterBuffer[3] = tiles[1];
+    uint8_t first = (number >> 4) & 0xf;
+    tiles = numbersTiles[first];
+    drawUICounterBuffer[5] = tiles[0];
+    drawUICounterBuffer[7] = tiles[1];
+    vmemcpy(0x7f80 + offset, drawUICounterBuffer, 8);
 }
 
 #else
+
+const uint8_t uiElementsTiles[] =
+{
+    //screws
+    TILE_HUD_SCREW, TILE_HUD_SCREW + 1, TILE_HUD_SCREW + 2, TILE_HUD_SCREW + 3,
+    //lives
+    TILE_HUD_LIFE, TILE_HUD_LIFE + 1, TILE_HUD_LIFE + 2, TILE_HUD_LIFE + 3,
+    //keys
+    TILE_HUD_KEY, TILE_HUD_KEY + 1, TILE_HUD_KEY + 2, TILE_HUD_KEY + 3,
+    //ammo
+    TILE_HUD_AMMO, TILE_HUD_AMMO + 1, TILE_HUD_AMMO + 2, TILE_HUD_AMMO + 3,
+    //level
+    TILE_HUD_LEVEL, TILE_HUD_LEVEL + 1, TILE_HUD_LEVEL + 2, TILE_HUD_LEVEL + 3,
+};
 
 const uint8_t numbersTiles[10][2] =
 {
@@ -183,7 +210,7 @@ const uint8_t numbersTiles[10][2] =
     { TILE_NUM_PARTC, TILE_NUM_PART6 }, //9
 };
 
-void drawUICounter(uiElement type, uint8_t number)
+inline void drawUICounter(uiElement type, uint8_t number)
 {
     set_win_tiles(type + 2, 0, 1, 2, numbersTiles[(number >> 4) & 0xf]);
     set_win_tiles(type + 3, 0, 1, 2, numbersTiles[number & 0xf]);
@@ -193,6 +220,76 @@ void drawNumber(uint8_t x, uint8_t y, uint8_t number)
 {
     set_win_tiles(x, y, 1, 2, numbersTiles[(number >> 4) & 0xf]);
     set_win_tiles(x + 1, y, 1, 2, numbersTiles[number & 0xf]);
+}
+
+
+void showHUD()
+{
+    move_win(7, 128);
+
+    drawUIElement(uiElementScrews);
+    postUICounter(uiElementScrews, robboState.screws.value);
+
+    drawUIElement(uiElementLives);
+    postUICounter(uiElementLives, robboState.lives.value);
+
+    drawUIElement(uiElementKeys);
+    postUICounter(uiElementKeys, robboState.keys.value);
+
+    drawUIElement(uiElementAmmo);
+    postUICounter(uiElementAmmo, robboState.ammo.value);
+
+    drawUIElement(uiElementLevel);
+    postUICounter(uiElementLevel, level.value);
+}
+
+#endif
+
+
+inline void drawHUDCommon()
+{
+    uint8_t* ptr = uiCounters;
+    while (*ptr != uiElementNone)
+    {
+        uiElement elem = (uiElement)*ptr++;
+        uint8_t value = *ptr++;
+        drawUICounter(elem, value);
+    }
+    uiCountersPtr = uiCounters;
+    *uiCountersPtr = uiElementNone;
+}
+
+
+#ifdef SEGA
+
+uint8_t hudDalayCounter = 0;
+
+void drawHUD()
+{
+    __WRITE_VDP_REG(VDP_R2, R2_MAP_0x3800);
+    if (hudVisible && counter == 3 && animCounter == 7)
+    {
+        if (hudDalayCounter == 1)
+        {
+            vmemcpy(hud_sprites_y_start[hudCounter], hud_sprites_y[hudCounter], hud_sprites_y_size[hudCounter]);
+            hudCounter++;
+            if (hudCounter == 3)
+                hudCounter = 0;
+            hudDalayCounter = 0;
+        }
+        else
+        {
+            hudDalayCounter++;
+        }
+    }
+    drawHUDCommon();
+}
+
+#else
+
+void drawHUD()
+{
+    drawHUDCommon();
 }
 
 #endif

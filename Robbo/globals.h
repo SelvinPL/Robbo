@@ -1,6 +1,8 @@
 #pragma once
 
 #include <stdint.h>
+#include <types.h>
+#include "BCD8.h"
 #include "functions_map.h"
 
 extern uint8_t iterX;
@@ -30,12 +32,24 @@ extern int8_t slideY;
 
 extern uint8_t padState;
 extern bool padEnabled;
-extern function nextFunction;
 
-extern uint8_t level;
+extern BCD8 level;
 extern uint8_t cave;
 
 extern uint8_t cameraPosX;
 extern uint8_t cameraPosY;
 
 extern bool screwCounting;
+
+inline void setNextFunction(function nextFunction)
+{
+	extern function nextFunctionPtr;
+	nextFunctionPtr = nextFunction;
+}
+
+inline void callNextFunction()
+{
+	extern function nextFunctionPtr;
+	if (nextFunctionPtr && nextFunctionPtr())
+		nextFunctionPtr = NULL;
+}
