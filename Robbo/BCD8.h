@@ -29,7 +29,8 @@ inline uint8_t decrement(BCD8* i)
 inline uint8_t add_up_to_9(BCD8* i, uint8_t a)
 {
 	uint8_t ni = i->value + a;
-	if (((i->value & 0xf) + (a & 0xf)) > 9)
+	uint8_t nv = (i->value & 0xf) + a;
+	if (nv > 9)
 	{
 		ni += 6;
 	}

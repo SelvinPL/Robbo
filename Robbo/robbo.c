@@ -121,14 +121,14 @@ bool robbo()
 			case FIELD_KEY:
 				{
 					uint8_t keys = incerement(&robboState.keys);
-					robboState.keys.value = keys < 0x99 ? keys : 0x99;
+					robboState.keys.value = keys < ((uint8_t)0x99) ? keys : ((uint8_t)0x99);
 					postUICounter(uiElementKeys, keys);
 				}
 				break;
 			case FIELD_AMMO:
 				{
 					uint8_t ammo = add_up_to_9(&robboState.ammo, 9);
-					robboState.ammo.value = ammo < 0x99 ? ammo : 0x99;
+					robboState.ammo.value = ammo < ((uint8_t)0x99) ? ammo : ((uint8_t)0x99);
 					postUICounter(uiElementAmmo, ammo);
 				}
 				break;
