@@ -17,6 +17,7 @@
 #include "tiles_helperc.h"
 #include "robbo_state.h"
 #include "BCD8.h"
+#include "sound_engine.h"
 
 #define BETWEEN(n, start, end) ((((uint8_t)n)>=((uint8_t)(start))) && (((uint8_t)n)<((uint8_t)(end))))
 
@@ -335,6 +336,7 @@ void main()
 	waitAfterSetupLevel = 0;
 	callNext = false;
 	//cpu_fast();
+	initSound();
 	DISABLE_VBL_TRANSFER;
 	DISPLAY_OFF;
 	winSlideX = 0;
@@ -388,5 +390,6 @@ void main()
 		drawHUD();
 		incrementCounter();
 		repaint();
+		loopSound();
 	}
 }

@@ -10,6 +10,7 @@
 #include "BCD8.h"
 #include "win_slide.h"
 #include "projectile_utils.h"
+#include "sound_engine.h"
 
 #define MIN(A,B)					((A)<(B)?(A):(B))
 
@@ -118,8 +119,11 @@ bool robbo()
 			}
 			switch (newRobboTile)
 			{
+			case FIELD_EMPTY:
+				break;
 			case FIELD_KEY:
 				{
+					playSound(keySound);
 					uint8_t keys = incerement(&robboState.keys);
 					robboState.keys.value = keys < ((uint8_t)0x99) ? keys : ((uint8_t)0x99);
 					postUICounter(uiElementKeys, keys);
@@ -127,6 +131,7 @@ bool robbo()
 				break;
 			case FIELD_AMMO:
 				{
+					playSound(ammoSound);
 					uint8_t ammo = add_up_to_9(&robboState.ammo, 9);
 					robboState.ammo.value = ammo < ((uint8_t)0x99) ? ammo : ((uint8_t)0x99);
 					postUICounter(uiElementAmmo, ammo);
@@ -134,6 +139,7 @@ bool robbo()
 				break;
 			case FIELD_SCREW:
 				{
+					playSound(screwSound);
 					if (robboState.screws.value > 0 )
 					{
 						uint8_t screws = decrement(&robboState.screws);
@@ -144,12 +150,10 @@ bool robbo()
 				break;
 			case FIELD_LIFE:
 				{
-					if (robboState.screws.value > 0)
-					{
-						uint8_t lives = incerement(&robboState.lives);
-						robboState.lives.value = lives;
-						postUICounter(uiElementLives, lives);
-					}
+					playSound(extraLifeSound);
+					uint8_t lives = incerement(&robboState.lives);
+					robboState.lives.value = lives;
+					postUICounter(uiElementLives, lives);
 				}
 				break;
 			case FIELD_INERT_BOX_RIGHT:
@@ -180,8 +184,6 @@ bool robbo()
 					else
 						return false;
 				}
-			case FIELD_EMPTY:
-				break;
 			case FIELD_BOX:
 			case FIELD_BOMB:
 			case FIELD_SURPRISE:
@@ -204,6 +206,7 @@ bool robbo()
 			case FIELD_SHIP_BLINK1:
 			case FIELD_SHIP_BLINK2:
 				{
+					playSound(nextLevelSound);
 					uint8_t newLevel = incerement(&level);
 					if (newLevel == 0x57)
 					{
@@ -222,6 +225,7 @@ bool robbo()
 			case FIELD_DOOR:
 				if (robboState.keys.value > 0)
 				{
+					playSound(openDoorSound);
 					robboState.keys.value = decrement(&robboState.keys);
 					postUICounter(uiElementKeys, robboState.keys.value);
 					*newRobboPosDest = FIELD_OPENING_DOOR;
@@ -277,7 +281,10 @@ bool robbo()
 bool ship()
 {
 	if (screwsCounted && !robboState.screws.value)
+	{
+		playSound(openExitSound);
 		*mapPtr = FIELD_SHIP_BLINK1;
+	}
 	return false;
 }
 
