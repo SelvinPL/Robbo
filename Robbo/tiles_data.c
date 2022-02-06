@@ -2,7 +2,7 @@
 #include <stdint.h>
 
 #ifdef GAMEBOY
-#pragma bank 1
+#pragma bank 2
 #else
 #pragma bank 0
 #endif
