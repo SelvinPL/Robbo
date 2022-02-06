@@ -6,6 +6,7 @@
 #include "globals.h"
 #include "changes.h"
 #include "map.h"
+#include "robbo_state.h"
 
 #define RND() (((uint8_t)rand()) < 18)
 
@@ -351,7 +352,96 @@ bool batShootingRight()
 	return true;
 }
 
+#define eyesDown() \
+{\
+	uint8_t* newMap = MAP_DOWN(mapPtr);\
+	if (*newMap == FIELD_EMPTY)\
+	{\
+		*mapPtr = FIELD_EMPTY;\
+		*nextYTilesPtr = FIELD_EYES;\
+		return true;\
+	}\
+}
+
+#define eyesUp() \
+{\
+	uint8_t* newMap = MAP_UP(mapPtr);\
+	if (*newMap == FIELD_EMPTY)\
+	{\
+		*newMap = FIELD_EYES;\
+		*mapPtr = FIELD_EMPTY;\
+		change(newMap);\
+		return true;\
+	}\
+}
+
+#define eyesRight() \
+{\
+	uint8_t* newMap = MAP_RIGHT(mapPtr);\
+	if (*newMap == FIELD_EMPTY && *(currentYTilesPtr + 1) == FIELD_NONE)\
+	{\
+		*mapPtr = FIELD_EMPTY;\
+		*(currentYTilesPtr + 1) = FIELD_EYES;\
+	}\
+	return true;\
+}
+
+#define eyesLeft() \
+{\
+	uint8_t* newMap = MAP_LEFT(mapPtr);\
+	if (*newMap == FIELD_EMPTY)\
+	{\
+		*newMap = FIELD_EYES;\
+		*mapPtr = FIELD_EMPTY;\
+		change(newMap);\
+	}\
+}
+
 bool eyes()
 {
+	if (!(animCounter & 1))
+		return false;
+	if (rand() & 1)
+	{
+		if (robboState.Y > iterY)
+		{
+			eyesDown();
+		}
+		else if (robboState.Y < iterY)
+		{
+			eyesUp();
+		}
+		if (robboState.X > iterX)
+		{
+			eyesRight();
+		}
+		else if (robboState.X < iterX)
+		{
+			eyesLeft();
+		}
+		return true;
+	}
+	else
+	{
+		//jump
+		if (rand() & 32)
+		{
+			switch (rand() & 3)
+			{
+			case 0:
+				eyesDown();
+				return true;
+			case 1:
+				eyesUp();
+				return true;
+			case 2:
+				eyesRight();
+				return true;
+			case 3:
+				eyesLeft();
+				return true;
+			}
+		}
+	}
 	return true;
 }
