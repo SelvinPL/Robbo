@@ -78,12 +78,12 @@ bool stopCounting()
 	screwsCounting = false;
 	screwsCounted = true;
 	showHUD();
+	padEnabled = true;
 	return true;
 }
 
 bool setupLevelFinished()
 {
-	padEnabled = true;
 	screwsCounting = true;
 	setNextFunction(&stopCounting);
 	return false;
@@ -250,6 +250,7 @@ void incrementCounter()
 							newLevel = 1;
 						level.value = newLevel;
 						drawNumber(9, 8, level.value);
+						uiCounters[0] = uiElementNone;
 						setNextFunction(&setupLevel);
 						startSlideIn();
 					}
@@ -261,6 +262,7 @@ void incrementCounter()
 							newLevel = 0x56;
 						level.value = newLevel;
 						drawNumber(9, 8, level.value);
+						uiCounters[0] = uiElementNone;
 						setNextFunction(&setupLevel);
 						startSlideIn();
 					}
