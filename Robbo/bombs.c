@@ -5,17 +5,13 @@
 #include "changes.h"
 #include "stdbool.h"
 #include "platform.h"
+#include "sound_engine.h"
 
 bool bombExploding()
 {
 	if (!(animCounter & 1))
 	{
-#ifdef GAMEBOY
-		//rAUD4LEN = 0x00;
-		//rAUD4ENV = 0xf5;
-		//rAUD4POLY = 0x5d;
-		//rAUD4GO = 0x80;
-#endif
+		playSound(explosionSound);
 		uint8_t* newMap = MAP_LEFT(MAP_UP(mapPtr));
 		if (types[*newMap])
 		{

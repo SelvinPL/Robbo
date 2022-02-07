@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include "../platform.h"
 
 #define CHANNEL1		0x0
 #define CHANNEL2		0x1

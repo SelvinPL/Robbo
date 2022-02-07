@@ -78,13 +78,7 @@
     <ClCompile Include="sound_engine_c.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gb\sound_data.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="gg\sound_data.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sms\sound_data.c">
+    <ClCompile Include="projectile_utils.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -163,23 +157,32 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup Label="UserMacros">
+    <ClInclude Include="gb\sound_data.c">
+      <Filter>Source Files\gb</Filter>
+    </ClInclude>
+    <AsmCompile Include="gb\sound_engine.asm">
+      <Filter>Source Files\gb</Filter>
+    </AsmCompile>
     <AsmCompile Include="gb\tiles_helper.asm">
       <Filter>Source Files\gb</Filter>
     </AsmCompile>
-	<AsmCompile Include="sms\tiles_helper.asm">
-	  <Filter>Source Files\sms</Filter>
-	</AsmCompile>
-		<AsmCompile Include="gg\tiles_helper.asm">
-	  <Filter>Source Files\gg</Filter>
-	</AsmCompile>
-    <AsmCompile Include="gg\sound_engine.asm">
-      <Filter>Source Files</Filter>
-    </AsmCompile>
+    <ClInclude Include="sms\sound_data.c">
+      <Filter>Source Files\sms</Filter>
+    </ClInclude>
     <AsmCompile Include="sms\sound_engine.asm">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\sms</Filter>
     </AsmCompile>
-    <AsmCompile Include="gb\sound_engine.asm">
-      <Filter>Source Files</Filter>
+    <AsmCompile Include="sms\tiles_helper.asm">
+      <Filter>Source Files\sms</Filter>
+    </AsmCompile>
+    <ClInclude Include="gg\sound_data.c">
+      <Filter>Source Files\gg</Filter>
+    </ClInclude>
+    <AsmCompile Include="gg\sound_engine.asm">
+      <Filter>Source Files\gg</Filter>
+    </AsmCompile>
+    <AsmCompile Include="gg\tiles_helper.asm">
+      <Filter>Source Files\gg</Filter>
     </AsmCompile>
   </ItemGroup>
 </Project>

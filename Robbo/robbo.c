@@ -180,6 +180,7 @@ bool robbo()
 						}
 						if(sendChange)
 							change(nextRobboPosDest);
+						break;
 					}
 					else
 						return false;
@@ -235,6 +236,7 @@ bool robbo()
 				return false;
 			}
 			*mapPtr = FIELD_EMPTY;
+			playSound(walkSound);
 			*newRobboPosDest = FIELD_ROBBO;
 			if (sendChange)
 			{
