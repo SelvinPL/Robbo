@@ -1,3 +1,0 @@
-replace {
-call ___sdcc_call_hl
-} by { rst 0x30 }

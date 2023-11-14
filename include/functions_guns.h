@@ -1,0 +1,31 @@
+#pragma once
+
+#include <stdint.h>
+
+void laserHeadLeft();
+void laserHeadRight();
+void laserHeadUp();
+void laserHeadDown();
+void projectileLeft();
+void projectileRight();
+void projectileUp();
+void projectileDown();
+void laserLeft();
+void laserRight();
+void laserUp();
+void laserDown();
+void gunLeft();
+void gunRight();
+void gunUp();
+void gunDown();
+void blasterHeadLeft();
+void blasterHeadRight();
+void blasterHeadUp();
+void blasterHeadDown();
+void blasterLeft();
+void blasterRight();
+void blasterUp();
+void blasterDown();
+void rotatingGun();
+void movableGunLeft();
+void movableGunRight();
