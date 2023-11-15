@@ -47,7 +47,7 @@ void screw()
 
 void robboStart()
 {
-	robboState.existsCounter = 40;
+	robboState.existsCounter = EXISTS_COUNTER_START;
 	if(slideX != 0 || slideY != 0 || winSlide)
 	{
 		return;
@@ -64,7 +64,7 @@ void robboStart()
 
 void robbo()
 {
-	robboState.existsCounter = 20;
+	robboState.existsCounter = EXISTS_COUNTER_START;
 	if (!(animCounter & 1))
 		return;
 	if (robboState.X == 255)

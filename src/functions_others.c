@@ -101,7 +101,7 @@ void robboDragLeft()
 {
 	newRobboX = iterX;
 	newRobboY = iterY;
-	robboState.existsCounter = 20;
+	robboState.existsCounter = EXISTS_COUNTER_START;
 	slideToRobbo();
 	if(animCounter & 1)
 	{
@@ -127,7 +127,7 @@ void robboDragRight()
 {
 	newRobboX = iterX;
 	newRobboY = iterY;
-	robboState.existsCounter = 20;
+	robboState.existsCounter = EXISTS_COUNTER_START;
 	slideToRobbo();
 	if(animCounter & 1)
 	{
@@ -225,7 +225,7 @@ void teleportTo(uint8_t* spawnPlace)
 	newRobboY = (((uint8_t)spawnPlace) >> 4) | (((uint8_t)((uint16_t)spawnPlace >> 8)) << 4);
 	robboState.teleporting = 0;
 	robboState.teleportingState = 0;
-	robboState.existsCounter = 30;
+	robboState.existsCounter = EXISTS_COUNTER_START;
 	slideToRobbo();
 }
 
@@ -265,11 +265,25 @@ uint8_t teleportRight()
 	return true;
 }
 
+void none()
+{
+
+}
+
+void explode()
+{
+	if((*mapPtr & FIELD_TYPES_MAX) != FIELD_EMPTY)
+	{
+		*mapPtr = FIELD_EXPLOSION_ANIM1 + (rand() & 3U);
+			change(mapPtr);
+	}
+}
+
 void teleport()
 {
 	if(robboState.teleporting)
 	{
-		robboState.existsCounter = 20;
+		robboState.existsCounter = EXISTS_COUNTER_START;
 		if(robboState.teleportingState == 1 && robboState.teleportX == iterX && robboState.teleportY == iterY)
 		{
 			robboState.teleportingState = 2;

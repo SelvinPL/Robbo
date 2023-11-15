@@ -19,3 +19,5 @@ void inertBoxRight();
 void inertBoxUp();
 void inertBoxDown();
 void teleport();
+void explode();
+void none();

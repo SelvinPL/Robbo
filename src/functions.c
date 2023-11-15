@@ -23,7 +23,22 @@ const void_function functions_map[] =
 		blasterDown, rotatingGun, rotatingGun, rotatingGun, rotatingGun, movableGunLeft, movableGunRight, next,
 	next, next, next, next, next, next, next, next,
 		next, next, next, next, next, next, next, next,
-	next, next, next, next, next, next, screw,
+	next, next, next, next, next, next, screw, none, 
+        none, none, none, none, none, none, none, none,
+	none, none, none, none, none, none, none, none, 
+        none, none, none, none, none, none, none, none
+};
+
+const void_function functions_map_room_exploding[] = 
+{
+	NULL, NULL, NULL, NULL, NULL, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode,
+    explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode,
+    explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode,
+    explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode,
+    explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, next,
+    next, next, next, next, next, next, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode,
+    explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode,
+    explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode, explode
 };
 
 const uint8_t types[] =

@@ -3,6 +3,8 @@
 #include <stdint.h>
 #include <BCD8.h>
 
+#define EXISTS_COUNTER_START	40U
+
 typedef struct
 {
 	uint8_t X;

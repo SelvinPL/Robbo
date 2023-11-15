@@ -26,6 +26,8 @@ inline void resetCounters()
 	counter = 255U;
 }
 
+void_function* current_functions_map = functions_map;
+
 void mapIteration()
 {
 	changesPtr = changes;
@@ -37,11 +39,11 @@ void mapIteration()
 		{
 			if (*++mapPtr > FIELD_TYPES_WALLS_END)
 			{
-				if (*mapPtr <= FIELD_TYPES_FUNCTIONS_END)
+				if (*mapPtr <= FIELD_TYPES_MAX)
 				{
-					functions_map[*mapPtr]();
+					current_functions_map[*mapPtr]();
 				} 
-				else if (*mapPtr > FIELD_TYPES_MAX)
+				else
 				{
 					*mapPtr = *mapPtr & FIELD_TYPES_MAX;
 					change(mapPtr);
@@ -96,7 +98,7 @@ uint8_t setupLevel()
 	robboState.teleportX = 0;
 	robboState.teleportY = 0;
 	robboState.Y = robboState.X = 255;
-	robboState.existsCounter = 20;
+	robboState.existsCounter = EXISTS_COUNTER_START;
 	robboState.direction = J_DOWN;
 	setupRooboSprite(TILE_EMPTY, TILE_EMPTY);
 	screwsCountingState = SCREW_STATE_NONE;
@@ -348,6 +350,14 @@ void incrementCounter()
 			padEnabled = false;
 			setNextFunction(&setupLevel);
 			startSlideIn();
+		}
+		if(robboState.existsCounter == 20)
+		{
+			current_functions_map = functions_map_room_exploding;
+		}
+		else
+		{
+			current_functions_map = functions_map;
 		}
 	}
 	slideStep();
