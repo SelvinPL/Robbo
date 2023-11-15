@@ -1,11 +1,10 @@
 #pragma once
 
-#define FIELD_NONE						0x00
-
+#define FIELD_EMPTY                     0x00
 #define FIELD_WALL                      0x01
 #define FIELD_BLACK_WALL                0x02
 #define FIELD_WALL2                     0x03
-#define FIELD_FORCE_FIELD_START			0x04
+#define FIELD_FORCE_FIELD_START         0x04
 #define FIELD_TYPES_WALLS_END	        FIELD_FORCE_FIELD_START
 
 #define FIELD_FORCE_FIELD_END           0x05
@@ -106,22 +105,19 @@
 #define FIELD_SURPRISE_SHOOT_ANIM7      0x61
 #define FIELD_SURPRISE_SHOOT_ANIM8      0x62
 #define FIELD_OPENING_DOOR              0x63
-#define FIELD_ROBBO_DRAG_ANIM1          0x64
-#define FIELD_ROBBO_DRAG_ANIM2          0x65
-#define FIELD_SCREW                     0x66
+#define FIELD_SCREW                     0x64
 #define FIELD_TYPES_NEXT_START		    FIELD_EXPLOSION_ANIM1
 #define FIELD_TYPES_FUNCTIONS_END	    FIELD_SCREW
 
-#define FIELD_KEY                       0x67
-#define FIELD_EMPTY                     0x68
-#define FIELD_INERT_BOX                 0x69
-#define FIELD_DOOR                      0x6a
-#define FIELD_BOX                       0x6b
-#define FIELD_SURPRISE                  0x6c
-#define FIELD_BOMB                      0x6d
-#define FIELD_AMMO                      0x6e
-#define FIELD_GROUND                    0x6f
-#define FIELD_LIFE						0x70
+#define FIELD_KEY                       0x65
+#define FIELD_INERT_BOX                 0x66
+#define FIELD_DOOR                      0x67
+#define FIELD_BOX                       0x68
+#define FIELD_SURPRISE                  0x69
+#define FIELD_BOMB                      0x6a
+#define FIELD_AMMO                      0x6b
+#define FIELD_GROUND                    0x6c
+#define FIELD_LIFE                      0x6d
 #define FIELD_TYPES_NONE_START		    FIELD_KEY
 #define FIELD_TYPES_MAX                 0x7f
 #define FIELD_TYPES_WAIT_FLAG           0x80
