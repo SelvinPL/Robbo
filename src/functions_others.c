@@ -215,7 +215,7 @@ void inertBoxDown()
 	inertBox(MAP_DOWN(mapPtr), FIELD_INERT_BOX_DOWN, true);
 }
 
-void teleportTo(uint8_t* spawnPlace)
+inline void teleportTo(uint8_t* spawnPlace)
 {
 	*spawnPlace = FIELD_ROBBO_APEARS_ANIM1;
 	newRobboX = ((uint8_t)spawnPlace) & 0xf;
@@ -226,36 +226,9 @@ void teleportTo(uint8_t* spawnPlace)
 	slideToRobbo();
 }
 
-uint8_t teleportDown()
+inline uint8_t teleportDirection(directions direction)
 {
-	uint8_t* spawnPlace = MAP_DOWN(mapPtr);
-	if(*spawnPlace != FIELD_EMPTY)
-		return false;
-	teleportTo(spawnPlace);
-	return true;
-}
-
-uint8_t teleportUp()
-{
-	uint8_t* spawnPlace = MAP_UP(mapPtr);
-	if(*spawnPlace != FIELD_EMPTY)
-		return false;
-	teleportTo(spawnPlace);
-	return true;
-}
-
-uint8_t teleportLeft()
-{
-	uint8_t* spawnPlace = MAP_LEFT(mapPtr);
-	if(*spawnPlace != FIELD_EMPTY)
-		return false;
-	teleportTo(spawnPlace);
-	return true;
-}
-
-uint8_t teleportRight()
-{
-	uint8_t* spawnPlace = MAP_RIGHT(mapPtr);
+	uint8_t* spawnPlace = mapPtr + directions_matrix[direction];
 	if(*spawnPlace != FIELD_EMPTY)
 		return false;
 	teleportTo(spawnPlace);
@@ -289,31 +262,9 @@ void teleport()
 		{
 			if(robboState.teleporting == *mapPtr)
 			{
-				switch(robboState.direction)
+				for(uint8_t direction = 0; direction < 4; direction++)
 				{
-					case J_DOWN:
-						if(teleportDown()) break;
-						if(teleportLeft()) break;
-						if(teleportUp()) break;
-						if(teleportRight()) break;
-						break;
-					case J_RIGHT:
-						if(teleportRight()) break;
-						if(teleportDown()) break;
-						if(teleportLeft()) break;
-						if(teleportUp()) break;
-						break;
-					case J_UP:
-						if(teleportUp()) break;
-						if(teleportRight()) break;
-						if(teleportDown()) break;
-						if(teleportLeft()) break;
-						break;
-					case J_LEFT:
-						if(teleportLeft()) break;
-						if(teleportUp()) break;
-						if(teleportRight()) break;
-						if(teleportDown()) break;
+					if(teleportDirection((robboState.direction + direction) % 4))
 						break;
 				}
 			}

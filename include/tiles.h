@@ -5,7 +5,7 @@
 
 BANKREF_EXTERN(tiles_data)
 
-extern const uint8_t const main_tiles[];
+extern const uint8_t main_tiles[];
 extern const uint8_t* const walls_tiles[];
 
 #define TILE_EMPTY					0x00

@@ -14,16 +14,17 @@
 #include <stdbool.h>
 #include <functions_robbo.h>
 #include <map_to_tiles.h>
+#include <tiles_helperc.h>
 
 #define MIN(A,B)					((A)<(B)?(A):(B))
 
 uint8_t setupLevel();
 
-uint8_t newRobboTile;
+HIRAMUINT8(0xffc0) newRobboTile;
 uint8_t* newRobboPos;
-uint8_t nextRobboTile;
+HIRAMUINT8(0xffc1) nextRobboTile;
 uint8_t* nextRobboPos;
-uint8_t waitFlag;
+HIRAMUINT8(0xffc2) waitFlag;
 robbo_info robboState;
 
 void slideToRobbo()
@@ -59,7 +60,7 @@ void robboStart()
 	playSound(startLevelSound);
 	*mapPtr = FIELD_ROBBO_APEARS_ANIM1;
 	change(mapPtr);
-	setupRooboSprite(TILE_ROBBO_DOWN, TILE_ROBBO_DOWN2);
+	setupRooboTiles(direction_down);
 }
 
 void robbo()
@@ -78,7 +79,11 @@ void robbo()
 		change(mapPtr);
 		slideToRobbo();
 	}
-	else if (!(padState & J_B))
+	if (robboState.delay)
+	{
+		robboState.delay--;
+	}
+	if (!(padState & J_B))
 	{
 		if (!(padState & J_A))
 		{
@@ -86,46 +91,26 @@ void robbo()
 			newRobboY = robboState.Y;
 			if (padState & J_UP)
 			{
-				newRobboPos = MAP_UP(mapPtr);
-				newRobboTile = *newRobboPos & FIELD_TYPES_MAX;
-				nextRobboPos = MAP_UP(newRobboPos);
-				nextRobboTile = *nextRobboPos & FIELD_TYPES_MAX;
 				newRobboY--;
-				robboState.direction = J_UP;
-				setupRooboSprite(TILE_ROBBO_UP, TILE_ROBBO_UP2);
+				robboState.direction = direction_up;
 				waitFlag = 0;
 			}
 			else if (padState & J_DOWN)
 			{
-				newRobboPos = MAP_DOWN(mapPtr);
-				newRobboTile = *newRobboPos & FIELD_TYPES_MAX;
-				nextRobboPos = MAP_DOWN(newRobboPos);
-				nextRobboTile = *nextRobboPos & FIELD_TYPES_MAX;
 				newRobboY++;
-				robboState.direction = J_DOWN;
-				setupRooboSprite(TILE_ROBBO_DOWN, TILE_ROBBO_DOWN2);
-				waitFlag = FIELD_TYPES_WAIT_FLAG;
+				robboState.direction = direction_down;
+				waitFlag = 0;
 			}
 			else if (padState & J_LEFT)
 			{
-				newRobboPos = MAP_LEFT(mapPtr);
-				newRobboTile = *newRobboPos & FIELD_TYPES_MAX;
-				nextRobboPos = MAP_LEFT(newRobboPos);
-				nextRobboTile = *nextRobboPos & FIELD_TYPES_MAX;
 				newRobboX--;
-				robboState.direction = J_LEFT;
-				setupRooboSprite(TILE_ROBBO_LEFT, TILE_ROBBO_LEFT2);
-				waitFlag = 0;
+				robboState.direction = direction_left;
+				waitFlag = FIELD_TYPES_WAIT_FLAG;
 			}
 			else if (padState & J_RIGHT)
 			{
-				newRobboPos = MAP_RIGHT(mapPtr);
-				newRobboTile = *newRobboPos & FIELD_TYPES_MAX;
-				nextRobboPos = MAP_RIGHT(newRobboPos);
-				nextRobboTile = *nextRobboPos & FIELD_TYPES_MAX;
 				newRobboX++;
-				robboState.direction = J_RIGHT;
-				setupRooboSprite(TILE_ROBBO_RIGHT, TILE_ROBBO_RIGHT2);
+				robboState.direction = direction_right;
 				waitFlag = FIELD_TYPES_WAIT_FLAG;
 			}
 			else
@@ -133,6 +118,12 @@ void robbo()
 				robboState.teleporting = 0;
 				return;
 			}
+			int8_t direction_offset = directions_matrix[(uint8_t)robboState.direction];
+			newRobboPos = mapPtr + direction_offset;
+			newRobboTile = *newRobboPos & FIELD_TYPES_MAX;
+			nextRobboPos = newRobboPos + direction_offset;
+			nextRobboTile = *nextRobboPos & FIELD_TYPES_MAX;
+			setupRooboTiles(robboState.direction);
 			switch (newRobboTile)
 			{
 			case FIELD_EMPTY:
@@ -176,22 +167,7 @@ void robbo()
 				{
 					if (nextRobboTile == FIELD_EMPTY)
 					{
-						if (padState & J_UP)
-						{
-							*nextRobboPos = FIELD_INERT_BOX_UP;
-						}
-						else if (padState & J_DOWN)
-						{
-							*nextRobboPos = FIELD_INERT_BOX_DOWN | FIELD_TYPES_WAIT_FLAG;
-						}
-						else if (padState & J_LEFT)
-						{
-							*nextRobboPos = FIELD_INERT_BOX_LEFT;
-						}
-						else
-						{
-							*nextRobboPos = FIELD_INERT_BOX_RIGHT | FIELD_TYPES_WAIT_FLAG;
-						}
+						*nextRobboPos = (FIELD_INERT_BOX_LEFT + robboState.direction) | waitFlag;
 						change(nextRobboPos);
 						break;
 					}
@@ -259,19 +235,19 @@ void robbo()
 				robboState.teleportingState = 1;
 				switch (robboState.direction)
 				{
-				case J_UP:
+				case direction_up:
 					robboState.teleportX = iterX;
 					robboState.teleportY = iterY - 1;
 					break;
-				case J_DOWN:
+				case direction_down:
 					robboState.teleportX = iterX;
 					robboState.teleportY = iterY + 1;
 					break;
-				case J_LEFT:
+				case direction_left:
 					robboState.teleportX = iterX - 1;
 					robboState.teleportY = iterY;
 					break;
-				case J_RIGHT:
+				case direction_right:
 					robboState.teleportX = iterX + 1;
 					robboState.teleportY = iterY;
 					break;
@@ -293,41 +269,35 @@ void robbo()
 		}
 		else if(robboState.ammo.value > 0 && !robboState.delay)
 		{
+			uint8_t direction;
 			if (padState & J_UP)
 			{
-				setupRooboSprite(TILE_ROBBO_UP, TILE_ROBBO_UP2);
-				shootUp(true, mapPtr);
+				direction = direction_up;
 			}
 			else if (padState & J_DOWN)
 			{
-				setupRooboSprite(TILE_ROBBO_DOWN, TILE_ROBBO_DOWN2);
-				shootDown(true, mapPtr);
+				direction = direction_down;
 			}
 			else if (padState & J_LEFT)
 			{
-				
-				setupRooboSprite(TILE_ROBBO_LEFT, TILE_ROBBO_LEFT2);
-				shootLeft(true, mapPtr);
+				direction = direction_left;
 			}
 			else if (padState & J_RIGHT)
 			{
-				setupRooboSprite(TILE_ROBBO_RIGHT, TILE_ROBBO_RIGHT2);
-				shootRight(true, mapPtr);
+				direction = direction_right;
 			}
 			else
 			{
 				return;
 			}
+			setupRooboTiles(direction);
+			shootDirection(direction, true, mapPtr);
 			robboState.ammo.value = decrement(&robboState.ammo);
 			postUICounter(uiElementAmmo, robboState.ammo.value);
 			robboState.delay = 5;
 			change(mapPtr);
 			return;
 		}
-	}
-	if (robboState.delay)
-	{
-		robboState.delay--;
 	}
 }
 

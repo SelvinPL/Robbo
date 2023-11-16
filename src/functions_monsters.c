@@ -193,10 +193,7 @@ void batShootingLeft()
 	uint8_t offset = monsterMove(newMap, FIELD_BAT_SHOOTING_LEFT, FIELD_BAT_SHOOTING_RIGHT);
 	if (RND())
 	{
-		if(offset)
-		{
-			shoot(MAP_DOWN(offset ? newMap : mapPtr), FIELD_PROJECTILE_DOWN, true);
-		}
+		shootDirection(direction_down, true, (offset ? newMap : mapPtr));
 	}
 	change(mapPtr);
 }
@@ -209,10 +206,7 @@ void batShootingRight()
 	uint8_t offset = monsterMove(newMap, FIELD_BAT_SHOOTING_RIGHT | FIELD_TYPES_WAIT_FLAG, FIELD_BAT_SHOOTING_LEFT);
 	if (RND())
 	{
-		if(offset)
-		{
-			shoot(MAP_DOWN(offset ? newMap : mapPtr), FIELD_PROJECTILE_DOWN, true);
-		}
+		shootDirection(direction_down, true, (offset ? newMap : mapPtr));
 	}
 	change(mapPtr);
 }

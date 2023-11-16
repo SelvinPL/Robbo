@@ -26,7 +26,7 @@ inline void resetCounters()
 	counter = 255U;
 }
 
-void_function* current_functions_map = functions_map;
+const void_function*  current_functions_map = functions_map;
 
 void mapIteration()
 {
@@ -99,8 +99,8 @@ uint8_t setupLevel()
 	robboState.teleportY = 0;
 	robboState.Y = robboState.X = 255;
 	robboState.existsCounter = EXISTS_COUNTER_START;
-	robboState.direction = J_DOWN;
-	setupRooboSprite(TILE_EMPTY, TILE_EMPTY);
+	robboState.direction = direction_down;
+	setupRooboTiles(direction_none);
 	screwsCountingState = SCREW_STATE_NONE;
 	counter = 5;
 	setNextFunction(&setupLevelFinished);

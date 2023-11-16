@@ -12,15 +12,6 @@ extern uint8_t map_to_tiles1[];
 extern uint8_t map_to_tiles2[];
 extern uint8_t map_to_tiles3[];
 
-inline void setupRooboSprite(uint8_t sprite, uint8_t alternativeSprite)
-{
-	map_to_tiles0[FIELD_ROBBO] = sprite;
-	map_to_tiles1[FIELD_ROBBO] = alternativeSprite;
-	map_to_tiles2[FIELD_ROBBO] = sprite;
-	map_to_tiles3[FIELD_ROBBO] = alternativeSprite;
-}
-
-
 inline void setupMapToTiles(uint8_t set)
 {
     switch (set)

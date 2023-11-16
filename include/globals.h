@@ -47,6 +47,22 @@ extern uint8_t waitAfterSetupLevel;
 
 extern BCD8 level;
 
+#define LEFT	-1
+#define UP		-16
+#define RIGHT	1
+#define DOWN	16
+
+typedef enum
+{
+	direction_left	= 0,
+	direction_up	= 1,
+	direction_right	= 2,
+	direction_down	= 3,
+	direction_none	= 4,
+} directions;
+
+extern const int8_t directions_matrix[];
+
 
 inline void setNextFunction(function nextFunction)
 {

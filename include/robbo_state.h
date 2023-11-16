@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 #include <BCD8.h>
+#include <globals.h>
 
 #define EXISTS_COUNTER_START	40U
 
@@ -19,7 +20,7 @@ typedef struct
 	uint8_t teleportingState;
 	uint8_t teleportX;
 	uint8_t teleportY;
-	uint8_t direction;
+	directions direction;
 } robbo_info;
 
 extern robbo_info robboState;

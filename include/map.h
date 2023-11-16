@@ -9,4 +9,4 @@
 
 extern uint8_t map[];
 
-extern const uint8_t const types[];
+extern const uint8_t types[];

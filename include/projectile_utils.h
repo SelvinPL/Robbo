@@ -66,40 +66,11 @@ inline uint8_t projectileGeneral(uint8_t* newMap, uint8_t newFiled, uint8_t allo
 	return 0;
 }
 
-inline void shoot(uint8_t* newMap, uint8_t newFiled, uint8_t waitFlag)
-{
-	if(projectileGeneral(newMap, newFiled, false, NULL, NULL, waitFlag, false))
-		playSound(smallExplosionSound);
-}
-
-inline void shootLeft(uint8_t when, uint8_t* map)
+inline void shootDirection(directions direction, uint8_t when, uint8_t* map)
 {
 	if(when)
 	{
-		shoot(MAP_LEFT(map), FIELD_PROJECTILE_LEFT, false);
-	}
-}
-
-inline void shootRight(uint8_t when, uint8_t* map)
-{
-	if(when)
-	{
-		shoot(MAP_RIGHT(map), FIELD_PROJECTILE_RIGHT, true);
-	}
-}
-
-inline void shootUp(uint8_t when, uint8_t* map)
-{
-	if(when)
-	{
-		shoot(MAP_UP(map), FIELD_PROJECTILE_UP, false);
-	}
-}
-
-inline void shootDown(uint8_t when, uint8_t* map)
-{
-	if(when)
-	{
-		shoot(MAP_DOWN(map), FIELD_PROJECTILE_DOWN, true);
+		if(projectileGeneral(map + directions_matrix[direction], FIELD_PROJECTILE_LEFT + direction, false, NULL, NULL, direction > direction_up, false))
+			playSound(smallExplosionSound);
 	}
 }

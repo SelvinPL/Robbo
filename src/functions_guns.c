@@ -113,22 +113,22 @@ void laserDown()
 
 void gunLeft()
 {
-	shootLeft(RND(), mapPtr);
+	shootDirection(direction_left, RND(), mapPtr);
 }
 
 void gunRight()
 {
-	shootRight(RND(), mapPtr);
+	shootDirection(direction_right, RND(), mapPtr);
 }
 
 void gunUp()
 {
-	shootUp(RND(), mapPtr);
+	shootDirection(direction_up, RND(), mapPtr);
 }
 
 void gunDown()
 {
-	shootDown(RND(), mapPtr);
+	shootDirection(direction_down, RND(), mapPtr);
 }
 
 inline void blasterGeneral(uint8_t* newMap, uint8_t newFiled, uint8_t waitFlag, uint8_t changeCurrent)
@@ -222,28 +222,20 @@ void blasterDown()
 	}
 }
 
-const uint8_t const rotationClock[] =  
+const uint8_t rotationClock[] =  
 {
 	FIELD_ROTATING_GUN_UP, 
-	FIELD_ROTATING_GUN_DOWN,
 	FIELD_ROTATING_GUN_RIGHT, 
+	FIELD_ROTATING_GUN_DOWN,
 	FIELD_ROTATING_GUN_LEFT,
 };
 
-const uint8_t const rotationCounterClock[] =
+const uint8_t rotationCounterClock[] =
 {
 	FIELD_ROTATING_GUN_DOWN,
+	FIELD_ROTATING_GUN_RIGHT,
 	FIELD_ROTATING_GUN_UP,
 	FIELD_ROTATING_GUN_LEFT,
-	FIELD_ROTATING_GUN_RIGHT,
-};
-
-const int8_t const shootRotatingGunPosition[] =
-{
-	-1,
-	1,
-	-16,
-	16,
 };
 
 void rotatingGun()
@@ -261,8 +253,7 @@ void rotatingGun()
 		{
 			if(rand() & 7)
 			{
-				uint8_t index = (*mapPtr) - FIELD_ROTATING_GUN_LEFT;
-				shoot(mapPtr + shootRotatingGunPosition[index], index + FIELD_PROJECTILE_LEFT, index % 2);
+				shootDirection(*mapPtr - FIELD_ROTATING_GUN_LEFT, true, mapPtr);
 			}
 		}
 	}
@@ -274,7 +265,7 @@ inline void moveGun(uint8_t* newMap, uint8_t ifEmpty, uint8_t ifChange)
 	{
 		*newMap = ifEmpty;
 		change(newMap);
-		shootUp(RND(),  newMap);
+		shootDirection(direction_up, RND(),  newMap);
 		*mapPtr = FIELD_EMPTY;
 		change(mapPtr);
 
@@ -282,7 +273,7 @@ inline void moveGun(uint8_t* newMap, uint8_t ifEmpty, uint8_t ifChange)
 	else
 	{
 		*mapPtr =  ifChange;
-		shootUp(RND(),  mapPtr);
+		shootDirection(direction_up, RND(),  mapPtr);
 	}
 }
 
@@ -294,7 +285,7 @@ void movableGunLeft()
 	}
 	else
 	{
-		shootUp(RND(),  mapPtr);
+		shootDirection(direction_up, RND(),  mapPtr);
 	}
 }
 
@@ -306,6 +297,6 @@ void movableGunRight()
 	}
 	else
 	{
-		shootUp(RND(),  mapPtr);
+		shootDirection(direction_up, RND(),  mapPtr);
 	}
 }

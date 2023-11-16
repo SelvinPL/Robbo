@@ -4,8 +4,28 @@
 #include <globals.h>
 #include <map.h>
 #include <fields.h>
+#include <map_to_tiles.h>
+#include <tiles.h>
 
 #define MIN(A,B)					((A)<(B)?(A):(B))
+
+const uint8_t robboTiles[] =
+{
+	TILE_ROBBO_LEFT, TILE_ROBBO_LEFT2,
+	TILE_ROBBO_UP, TILE_ROBBO_UP2,
+	TILE_ROBBO_RIGHT, TILE_ROBBO_RIGHT2,
+	TILE_ROBBO_DOWN, TILE_ROBBO_DOWN2,
+	TILE_EMPTY, TILE_EMPTY
+};
+
+void setupRooboTiles(directions direction)
+{
+	map_to_tiles0[FIELD_ROBBO] = robboTiles[2*direction];
+	map_to_tiles2[FIELD_ROBBO] = robboTiles[2*direction];
+	map_to_tiles1[FIELD_ROBBO] = robboTiles[2*direction + 1];
+	map_to_tiles3[FIELD_ROBBO] = robboTiles[2*direction + 1];
+}
+
 
 #ifdef SET_BKG_TILE_ASM
 void repaint()
@@ -63,3 +83,4 @@ void repaintAll()
 	}
 }
 #endif
+

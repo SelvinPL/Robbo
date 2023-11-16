@@ -7,7 +7,7 @@
 #include <robbo_state.h>
 #include <gbdecompress.h>
 
-const uint8_t const uiElementsTiles[] =
+const uint8_t uiElementsTiles[] =
 {
     //screws
     TILE_HUD_SCREW, TILE_HUD_SCREW + 1, TILE_HUD_SCREW + 2, TILE_HUD_SCREW + 3,
@@ -21,7 +21,7 @@ const uint8_t const uiElementsTiles[] =
     TILE_HUD_LEVEL, TILE_HUD_LEVEL + 1, TILE_HUD_LEVEL + 2, TILE_HUD_LEVEL + 3,
 };
 
-const uint8_t const numbersTiles[10][2] =
+const uint8_t numbersTiles[10][2] =
 {
     { TILE_NUM_PART0, TILE_NUM_PART1 }, //0
     { TILE_NUM_PART2, TILE_NUM_PART3 }, //1
