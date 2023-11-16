@@ -8,5 +8,4 @@
 #define MAP_DOWN(map)		((map)+16)
 
 extern uint8_t map[];
-
-extern const uint8_t types[];
+extern uint8_t* mapPtr;

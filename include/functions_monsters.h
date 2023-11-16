@@ -1,7 +1,5 @@
 #pragma once
 
-#include <stdint.h>
-
 void leftHandLeft();
 void leftHandRight();
 void leftHandUp();

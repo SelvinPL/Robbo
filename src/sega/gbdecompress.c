@@ -1,6 +1,7 @@
 #include <stdint.h>
-#include <gbdk/gbdecompress.h>
 #include <platform.h>
+#include <gbdk/gbdecompress.h>
+
 
 void gb_decompress_bkg_data(uint16_t start, const uint8_t* source)
 {

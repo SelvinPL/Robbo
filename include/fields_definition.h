@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdint.h>
+
 #define FIELD_EMPTY                     0x00
 #define FIELD_WALL                      0x01
 #define FIELD_BLACK_WALL                0x02
@@ -119,3 +121,5 @@
 #define FIELD_TYPES_NONE_START		    FIELD_KEY
 #define FIELD_TYPES_MAX                 0x7f
 #define FIELD_TYPES_WAIT_FLAG           0x80
+
+extern const uint8_t fields_types[];

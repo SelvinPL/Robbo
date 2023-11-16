@@ -1,5 +1,4 @@
 #include <stdint.h>
-#include <types.h>
 
 const uint8_t nextLevelSound[] =
 {

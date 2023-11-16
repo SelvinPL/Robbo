@@ -1,4 +1,5 @@
 #pragma once
+
 #include <gbdk/platform.h>
 
 #define sliderYPos 0U

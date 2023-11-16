@@ -1,11 +1,16 @@
+#include <stdint.h>
 #include <platform.h>
 #include <changes.h>
-#include <tiles_helperc.h>
 #include <globals.h>
 #include <map.h>
-#include <fields.h>
+#include <fields_definition.h>
 #include <map_to_tiles.h>
-#include <tiles.h>
+#include <tiles_definition.h>
+#include <directions.h>
+
+#ifdef SET_BKG_TILE_ASM
+void set_bkg_tile_xy_2_map_to_tiles_with_translation(uint8_t* map) STANDARD_CALL;
+#endif
 
 #define MIN(A,B)					((A)<(B)?(A):(B))
 

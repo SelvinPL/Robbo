@@ -1,7 +1,7 @@
 #pragma once
 
 #include <platform.h>
-#include <tiles.h>
+#include <tiles_definition.h>
 #include <globals.h>
 #include <robbo_state.h>
 #include <uielement.h>

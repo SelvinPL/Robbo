@@ -1,8 +1,8 @@
 ﻿#pragma once
 
 #include <stdint.h>
-#include <globals.h>
 #include <platform.h>
+#include <globals.h>
 
 #ifdef NINTENDO
 #include "gb/camera.h"

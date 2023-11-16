@@ -1,7 +1,5 @@
 #pragma once
 
-#include <stdint.h>
-
 void laserHeadLeft();
 void laserHeadRight();
 void laserHeadUp();

@@ -1,19 +1,16 @@
 #include <stdint.h>
-#include <map.h>
-#include <globals.h>
+#include <stdbool.h>
 #include <platform.h>
-#include <fields.h>
+#include <globals.h>
+#include <fields_definition.h>
 #include <changes.h>
 #include <robbo_state.h>
 #include <projectile_utils.h>
 #include <hud.h>
-#include <BCD8.h>
 #include <win_slide.h>
 #include <projectile_utils.h>
 #include <sound_engine.h>
-#include <stdbool.h>
-#include <functions_robbo.h>
-#include <map_to_tiles.h>
+#include <next_function.h>
 #include <tiles_helperc.h>
 
 #define MIN(A,B)					((A)<(B)?(A):(B))

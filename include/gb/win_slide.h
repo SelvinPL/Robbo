@@ -1,5 +1,6 @@
 #pragma once
 
+#include <platform.h>
 #include <globals.h>
 
 #define winPositionX WX_REG

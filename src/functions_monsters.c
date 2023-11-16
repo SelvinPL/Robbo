@@ -2,29 +2,21 @@
 #include <stdint.h>
 #include <rand.h>
 #include <map.h>
-#include <fields.h>
+#include <fields_definition.h>
 #include <globals.h>
 #include <changes.h>
 #include <map.h>
 #include <robbo_state.h>
-#include <functions_monsters.h>
 #include <projectile_utils.h>
+#include <directions.h>
 
 #define RND() (((uint8_t)rand()) < 18)
-
-const int8_t const checkForRobboPositions[] =
-{
-	-1,
-	1,
-	-16,
-	16,
-};
 
 void checkRobbo(uint8_t* newMap)
 {
 	for (uint8_t i = 0; i < 4; i++)
 	{
-		uint8_t* near = newMap + checkForRobboPositions[i];
+		uint8_t* near = newMap + directions_matrix[i];
 		if((*near & FIELD_TYPES_MAX) == FIELD_ROBBO)
 		{
 			*near = FIELD_EXPLOSION_ANIM1;

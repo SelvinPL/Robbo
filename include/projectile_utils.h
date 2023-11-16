@@ -2,10 +2,11 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include <fields.h>
-#include <map.h>
+#include <fields_definition.h>
 #include <changes.h>
 #include <sound_engine.h>
+#include <map.h>
+#include <directions.h>
 
 inline uint8_t projectileGeneral(uint8_t* newMap, uint8_t newFiled, uint8_t allow, uint8_t replaceIfEmpty, uint8_t replaceOnHit, uint8_t waitFlag, uint8_t changeCurrent)
 {
@@ -42,7 +43,7 @@ inline uint8_t projectileGeneral(uint8_t* newMap, uint8_t newFiled, uint8_t allo
 	}
 	else
 	{
-		uint8_t type = types[*newMap & FIELD_TYPES_MAX];
+		uint8_t type = fields_types[*newMap & FIELD_TYPES_MAX];
 		if (type & 1)
 		{
 			playSound(smallExplosionSound);

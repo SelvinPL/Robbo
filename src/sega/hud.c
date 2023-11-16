@@ -1,9 +1,8 @@
 #include <stdint.h>
-#include <hud.h>
-#include <tiles.h>
-#include <BCD8.h>
-#include <robbo_state.h>
 #include <string.h>
+#include <platform.h>
+#include <hud.h>
+#include <tiles_definition.h>
 #include <gbdecompress.h>
 
 #ifndef TILE_HUD_SEGA_NUM_PART0

@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <gbdecompress.h>
-#include <fields.h>
+#include <fields_definition.h>
 #include <functions_map.h>
 #include <map.h>
 #include <globals.h>
@@ -19,14 +19,13 @@
 #include <BCD8.h>
 #include <sound_engine.h>
 #include <changes.h>
+#include <next_function.h>
 
 inline void resetCounters()
 {
 	animCounter = 7U;
 	counter = 255U;
 }
-
-const void_function*  current_functions_map = functions_map;
 
 void mapIteration()
 {
@@ -90,6 +89,7 @@ uint8_t setupLevel()
 	SWITCH_ROM_EX(current);
 	setupMapToTiles(0);
 	repaintAll();
+	current_functions_map = functions_map;
 	robboState.screws.value = 0;
 	robboState.ammo.value = 0;
 	robboState.keys.value = 0;

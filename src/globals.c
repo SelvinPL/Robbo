@@ -1,6 +1,5 @@
 #include <stdint.h>
 #include <BCD8.h>
-#include <functions_map.h>
 #include <platform.h>
 
 #define START 0xffe0
@@ -34,16 +33,10 @@ uint8_t cave;
 uint8_t slideX;
 uint8_t slideY;
 
-
-uint8_t* mapPtr;
-
 uint8_t* map_to_tiles;
 
 uint8_t slide_to_map_pos_x;
 uint8_t slide_to_map_pos_y;
-
-
-function nextFunctionPtr;
 
 BCD8 level = { 0x1 };
 

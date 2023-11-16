@@ -6,7 +6,7 @@
 #define DEFHIRAMUINT8 uint8_t
 #define STANDARD_CALL Z88DK_FASTCALL
 
-extern void wait_vbl_done_alt();
+void wait_vbl_done_alt();
 
 #define wait_vbl_done()	wait_vbl_done_alt()	
 #define SWITCH_ROM_EX SWITCH_ROM

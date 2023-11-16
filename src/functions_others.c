@@ -1,15 +1,11 @@
 #include <stdint.h>
 #include <rand.h>
 #include <stdbool.h>
-#include <fields.h>
+#include <fields_definition.h>
 #include <globals.h>
 #include <changes.h>
 #include <map.h>
 #include <robbo_state.h>
-#include <platform.h>
-#include <tiles.h>
-#include <functions_robbo.h>
-#include <functions_others.h>
 #include <projectile_utils.h>
 #include <sound_engine.h>
 

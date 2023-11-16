@@ -2,6 +2,6 @@
 
 #include <stdint.h>
 
-extern void timerSoundProc();
-extern void initSound();
-extern void loopSound();
+void timerSoundProc();
+void initSound();
+void loopSound();

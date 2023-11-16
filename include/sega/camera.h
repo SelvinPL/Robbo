@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 #include <platform.h>
+#include <globals.h>
 
 inline uint8_t incrementCameraX();
 

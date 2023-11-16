@@ -2,4 +2,4 @@
 
 #define timerSoundProc()
 #define initSound()
-extern void loopSound();
+void loopSound();

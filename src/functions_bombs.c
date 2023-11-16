@@ -1,17 +1,15 @@
-#include <stdbool.h>
+#include <stdint.h>
 #include <platform.h>
-#include <globals.h>
 #include <map.h>
-#include <fields.h>
+#include <fields_definition.h>
 #include <changes.h>
 #include <sound_engine.h>
-#include <functions_bombs.h>
 
 #pragma bank 1
 
 inline void checkNextField(uint8_t* newMap)
 {
-	if (types[*newMap & FIELD_TYPES_MAX])
+	if (fields_types[*newMap & FIELD_TYPES_MAX])
 	{
 		if (*newMap == FIELD_BOMB)
 		{
@@ -21,6 +19,7 @@ inline void checkNextField(uint8_t* newMap)
 		{
 			*newMap = FIELD_EXPLOSION_ANIM1;
 		}
+		change(newMap);
 	}
 }
 

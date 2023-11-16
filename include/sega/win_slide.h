@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include <platform.h>
 #include <globals.h>
 
 #ifdef __SDCC

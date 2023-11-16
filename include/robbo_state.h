@@ -2,7 +2,7 @@
 
 #include <stdint.h>
 #include <BCD8.h>
-#include <globals.h>
+#include <directions.h>
 
 #define EXISTS_COUNTER_START	40U
 

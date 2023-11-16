@@ -36,4 +36,4 @@ typedef enum
 	startLevelSound = 12,
 } soundType;
 
-extern void playSound(soundType sound);
+void playSound(soundType sound);

@@ -1,11 +1,10 @@
 #pragma once
 #include <stdint.h>
-#include <fields.h>
 #include <globals.h>
 #include <platform.h>
 
 BANKREF_EXTERN(map_to_tiles_data)
-extern void loadMapToTilesData();
+void loadMapToTilesData();
 
 extern uint8_t map_to_tiles0[];
 extern uint8_t map_to_tiles1[];

@@ -1,6 +1,6 @@
 #include <stdint.h>
-#include <tiles.h>
 #include <string.h>
+#include <tiles_definition.h>
 #include <map_to_tiles.h>
 
 #pragma bank 255

@@ -1,12 +1,12 @@
 #pragma once
 
+#include <stdbool.h>
+#include <string.h>
 #include <platform.h>
-#include <tiles.h>
 #include <globals.h>
 #include <robbo_state.h>
 #include <uielement.h>
-#include <string.h>
-#include <stdbool.h>
+
 
 #define TILE_HUD_SEGA_SCREW 0x04
 #define TILE_HUD_SEGA_NUM_PART0 0x18

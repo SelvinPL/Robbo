@@ -1,8 +1,7 @@
 #pragma once
 
 #include <stdint.h>
-#include <globals.h>
-#include <changes.h>
+#include <types.h>
 
 extern uint8_t* changes[];
 extern uint8_t** changesPtr;
@@ -13,4 +12,4 @@ extern uint8_t** changesPtr;
 
 #define PUT_CHANGES_TERMINATOR()	*changesPtr=CHANGES_TERMINATOR
 
-extern void change(uint8_t* map);
+void change(uint8_t* map);

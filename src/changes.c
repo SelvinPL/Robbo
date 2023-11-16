@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include <types.h>
-#include <globals.h>
 #include <platform.h>
+#include <globals.h>
 #include <changes.h>
 
 uint8_t** changesPtr = NULL;

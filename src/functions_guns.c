@@ -1,13 +1,12 @@
-#include <platform.h>
 #include <stdint.h>
-#include <rand.h>
 #include <stdbool.h>
+#include <rand.h>
+#include <platform.h>
 #include <projectile_utils.h>
-#include <map.h>
-#include <fields.h>
-#include <globals.h>
+#include <fields_definition.h>
 #include <changes.h>
-#include <functions_guns.h>
+#include <directions.h>
+#include <globals.h>
 
 #pragma bank 1
 
@@ -138,7 +137,7 @@ inline void blasterGeneral(uint8_t* newMap, uint8_t newFiled, uint8_t waitFlag, 
 		*newMap = waitFlag ? (newFiled | FIELD_BOMB_EXPLODING) : newFiled;
 		change(newMap);
 	}
-	else if (*newMap == FIELD_EMPTY || (types[*newMap & FIELD_TYPES_MAX] & 1))
+	else if (*newMap == FIELD_EMPTY || (fields_types[*newMap & FIELD_TYPES_MAX] & 1))
 	{
 		*newMap = waitFlag ? (newFiled | FIELD_TYPES_WAIT_FLAG) : newFiled;
 		change(newMap);

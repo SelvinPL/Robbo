@@ -2,10 +2,8 @@
 
 #include <stdint.h>
 #include <hud.h>
-#include <tiles.h>
-#include <BCD8.h>
+#include <tiles_definition.h>
 #include <robbo_state.h>
-#include <gbdecompress.h>
 
 const uint8_t uiElementsTiles[] =
 {
