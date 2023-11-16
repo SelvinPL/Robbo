@@ -47,8 +47,8 @@ LOCATIONS		+=-Wl-b_DATA=$(DATA_LOCATION)
 
 ASM_CODE		=-Wf-DSET_BKG_TILE_ASM
 
-NINTEND_SEGA_LINKER	=$(LOCATIONS) -Wl-g_shadow_OAM=0x0000 -autobank -Wl-b_CODE_1=0x4380
-NINTENDO_FLAGS	=$(NINTEND_SEGA_LINKER) -Wl-g.refresh_OAM=0xff80 -Wl-yt0x1B 
+NINTEND_SEGA_LINKER	=$(LOCATIONS) -Wl-g_shadow_OAM=0xD000 -autobank
+NINTENDO_FLAGS	=$(NINTEND_SEGA_LINKER) -Wl-g.refresh_OAM=0xff80 -Wl-yt0x1B
 SEGA_FLAGS		=$(NINTEND_SEGA_LINKER)
 # Configure platform specific LCC flags here:
 LCCFLAGS_gb		=$(NINTENDO_FLAGS) # Set an MBC for banking (1B-ROM+MBC5+RAM+BATT)
@@ -114,7 +114,7 @@ CFLAGS += -I$(OBJDIR) -Wa-l -Iinclude
 
 DEBUG ?= 0
 ifeq ($(DEBUG), 1)
-    CFLAGS	+= -Wl-y -debug
+    CFLAGS	+= -Wl-y -debug -Wf--peep-asm -Wf--peep-return -Wf"--peep-file $(COMMONDIR)/peep.txt"
 else
     CFLAGS	+= -Wf--peep-asm -Wf--peep-return -Wf--opt-code-speed -Wf"--max-allocs-per-node 600000" -Wf"--peep-file $(COMMONDIR)/peep.txt"
 endif
