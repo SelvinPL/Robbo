@@ -8,6 +8,7 @@
 #include <robbo_state.h>
 #include <projectile_utils.h>
 #include <sound_engine.h>
+#include <functions_robbo.h>
 
 uint8_t transportForceField = false;
 
