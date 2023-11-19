@@ -5,7 +5,6 @@
 		.globl			_map_to_tiles_hi
 		VDP_STAT		= 0xbf
 		VDP_CMD			= 0xbf
-		.VDP_CMD	    = 0xbf
 		VDP_DATA       = 0xbe
 		VDP_RSCY		= 0x89
 		VDP_R10			= 0x8a
@@ -24,7 +23,7 @@
 .endm
 		
 _INT_ISR::
-	ex af,af'
+	push af
 	in a, (VDP_STAT)
 	and #STATF_INT_VBL
 	jr z, hbl$
@@ -38,7 +37,7 @@ hbl$:
 .endm
 	set_tile_map_address #R2_MAP_0x3000
 end$:
-	ex af,af'
+	push pop
 	ei
 	reti
 
