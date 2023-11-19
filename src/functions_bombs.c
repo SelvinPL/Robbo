@@ -7,7 +7,7 @@
 
 #pragma bank 1
 
-inline void checkNextField(uint8_t* newMap)
+inline void checkNextField(uint8_t* newMap, uint8_t explosionType)
 {
 	if (fields_types[*newMap & FIELD_TYPES_MAX])
 	{
@@ -17,7 +17,7 @@ inline void checkNextField(uint8_t* newMap)
 		}
 		else
 		{
-			*newMap = FIELD_EXPLOSION_ANIM1;
+			*newMap = explosionType;
 		}
 		change(newMap);
 	}
@@ -28,19 +28,19 @@ void bombExploding()
 	playSound(explosionSound);
 	*mapPtr = FIELD_EXPLOSION_ANIM3 | FIELD_TYPES_WAIT_FLAG;
 	uint8_t* newMap = MAP_LEFT(MAP_UP(mapPtr));
-	checkNextField(newMap);
+	checkNextField(newMap, FIELD_EXPLOSION_ANIM1 | FIELD_TYPES_WAIT_FLAG);
 	newMap = MAP_RIGHT(newMap);
-	checkNextField(newMap);
+	checkNextField(newMap, FIELD_EXPLOSION_ANIM2 | FIELD_TYPES_WAIT_FLAG);
 	newMap = MAP_RIGHT(newMap);
-	checkNextField(newMap);
+	checkNextField(newMap, FIELD_EXPLOSION_ANIM1 | FIELD_TYPES_WAIT_FLAG);
 	newMap = MAP_DOWN(newMap);
-	checkNextField(newMap);
+	checkNextField(newMap, FIELD_EXPLOSION_ANIM2);
 	newMap = MAP_LEFT(MAP_LEFT(newMap));
-	checkNextField(newMap);
+	checkNextField(newMap, FIELD_EXPLOSION_ANIM2 | FIELD_TYPES_WAIT_FLAG);
 	newMap = MAP_DOWN(newMap);
-	checkNextField(newMap);
+	checkNextField(newMap, FIELD_EXPLOSION_ANIM1);
 	newMap = MAP_RIGHT(newMap);
-	checkNextField(newMap);
+	checkNextField(newMap, FIELD_EXPLOSION_ANIM2);
 	newMap = MAP_RIGHT(newMap);
-	checkNextField(newMap);
+	checkNextField(newMap, FIELD_EXPLOSION_ANIM1);
 }
