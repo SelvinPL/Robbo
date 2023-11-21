@@ -37,7 +37,7 @@ hbl$:
 .endm
 	set_tile_map_address #R2_MAP_0x3000
 end$:
-	push pop
+	pop af
 	ei
 	reti
 

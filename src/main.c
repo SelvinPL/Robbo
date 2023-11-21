@@ -414,13 +414,13 @@ void main()
 	padStateCounter = 255;
 	while (true)
 	{
-		padStates[++padStateCounter & 1] = joypad();
-		padState = padStates[0] | padStates[1];
-		mapIteration();
 		wait_vbl_done();
 		drawHUD();
 		incrementCounter();
 		repaint();
 		loopSound();
+		padStates[++padStateCounter & 1] = joypad();
+		padState = padStates[0] | padStates[1];
+		mapIteration();		
 	}
 }

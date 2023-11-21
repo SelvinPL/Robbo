@@ -47,7 +47,7 @@ LOCATIONS		+=-Wl-b_DATA=$(DATA_LOCATION)
 
 ASM_CODE		=-Wf-DSET_BKG_TILE_ASM
 
-NINTEND_SEGA_LINKER	=$(LOCATIONS) -Wl-g_shadow_OAM=0xD000 -autobank
+NINTEND_SEGA_LINKER	=$(LOCATIONS) -Wl-g_shadow_OAM=0x0000 -autobank
 NINTENDO_FLAGS	=$(NINTEND_SEGA_LINKER) -Wl-g.refresh_OAM=0xff80 -Wl-yt0x1B
 SEGA_FLAGS		=$(NINTEND_SEGA_LINKER)
 # Configure platform specific LCC flags here:
