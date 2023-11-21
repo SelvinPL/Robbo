@@ -15,7 +15,8 @@ lbl:
 	jr		NZ,		lbl
 .endm
 
-.macro put_2_on_2_tile ;b - tile, hl addres, de addres + 32
+;b - tile, hl - addres, de - 30
+.macro put_2_on_2_tile 
 	WAIT_STAT
 	ld		a,		b
 	ld		(hl+),	a
@@ -28,44 +29,38 @@ lbl:
 	ld		(hl),	a
 .endm
 
-.macro set_bkg_tile_xy_2_map_to_tiles ;e - low, a - hi, b - tile
-	ld		c,		#0xf		;in fact x is in first 4 bits of low and y is (hi & 0x1) << 4 | low >> 4 but since it's page aligned we can do hi & 0xf
-	and		c					;_______y yyyyxxxx
-	ld		h,		a
-	ld		a,		e
-	and		#0xf0
-	ld		l,		a
-	add		hl,		hl			;y =* 4 but still at _____?y?yy yyyy0000
+;b - tile, d - hi, e - low
+.macro set_bkg_tile_xy_2_map_to_tiles 
+	ld		h,		d			;nibbles of address are also x,y coords in format x+16*y (Nyyx) (as x is [0,16), and y [0, 32) )
+	ld		l,		e			;we need to translate it to as we have 16x16 field 
+	add		hl,		hl			;4*Nyyx
 	add		hl,		hl
-	ld		a,		e
-	and		c					;
-	add		a					;x *= 2
-	add		l
-	ld		l,		a			;now we should add carry to h
-	xor		a,		a
-	ld		d,		a
-	adc		h
-	and		#3					;we need to get rid of eventually 3 bit of hi
+	ld		a,		e			
+	and		#0xf				;get x
+	add		a
+	ld		c,		a			;2*x
+	ld		a,		l
+	sub		c					;and substract
+	ld		l,		a
+	ld		a,		h
+	and 	a,		#3			;since buffer is 32x32
 	add		#>.SCRN0			;and add to hi of tiles address 
-	ld		h,		a			
-	ld		a,		c
-	add		c
-	ld		e,		a
+	ld		h,		a
+	ld		de,		#0x001e
 	put_2_on_2_tile
 .endm
 
 
 _set_bkg_tile_xy_2_map_to_tiles_with_translation:: 
 	ld		a,		(de)
-	and 	#0x7f
+	and 	#0x7f							;get rid of wait flag
 	ld		l,		a
 	ld 		a, 		(_map_to_tiles_lo)
 	add 	a,		l
 	ld		l,		a
-	ldh		a,		(_map_to_tiles_hi)		;efectivly in map_to_tiles_hi is hi part of address of current map_to_tiles and since it's size is 256 we can add l
+	ldh		a,		(_map_to_tiles_hi)		;efectivly in map_to_tiles_hi is hi part of address of current map_to_tiles and since it's size is 128 we can add l
 	ld		h,		a						;to get what we want which is map_to_tiles[l]
 	ld		b,		(hl)					;b - tile hl - addres
-	ld		a,		d
-	;e - low, a - hi, b - tile
+	;b - tile, d - hi, e - low
 	set_bkg_tile_xy_2_map_to_tiles
 	ret
