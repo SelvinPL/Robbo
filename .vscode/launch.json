@@ -1,48 +1,23 @@
 {
-	// Use IntelliSense to learn about possible attributes.
-	// Hover to view descriptions of existing attributes.
-	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
 	"version": "0.2.0",
 	"configurations": [
 		{
 			"type": "emulicious-debugger",
 			"request": "launch",
-			"name": "GBC",
-			"program": "${workspaceFolder}/build/gbc/robbo.gbc", 
-			"additionalSrcFolders": "${workspaceFolder}/obj/gbc;${workspaceFolder}/src",
+			"name": "Debug",
+			"program": "${workspaceFolder}/build/${input:ext}/${workspaceFolderBasename}.${input:ext}",
+			"additionalSrcFolders": "${workspaceFolder}/obj/${input:ext};${workspaceFolder}/src",
 			"port": 58870,
 			"stopOnEntry": false,
-			"preLaunchTask": "MakeGBC"
-		},
-		{
-			"type": "emulicious-debugger",
-			"request": "launch",
-			"name": "SMS",
-			"program": "${workspaceFolder}/build/sms/robbo.sms", 
-			"additionalSrcFolders": "${workspaceFolder}/obj/sms;${workspaceFolder}/src",
-			"port": 58870,
-			"stopOnEntry": false,
-			"preLaunchTask": "MakeSMS"
-		},
-		{
-			"type": "emulicious-debugger",
-			"request": "launch",
-			"name": "GG",
-			"program": "${workspaceFolder}/build/gg/robbo.gg", 
-			"additionalSrcFolders": "${workspaceFolder}/obj/gg;${workspaceFolder}/src",
-			"port": 58870,
-			"stopOnEntry": false,
-			"preLaunchTask": "MakeGG"
-		},
-		{
-			"type": "emulicious-debugger",
-			"request": "launch",
-			"name": "GB",
-			"program": "${workspaceFolder}/build/gb/robbo.gb", 
-			"additionalSrcFolders": "${workspaceFolder}/obj/gb;${workspaceFolder}/src",
-			"port": 58870,
-			"stopOnEntry": false,
-			"preLaunchTask": "MakeGB"
+			"preLaunchTask": "Make"
 		}
-	]
+	],
+	"inputs": [
+        {
+            "id": "ext",
+            "type": "command",
+            "command": "cpptools.activeConfigCustomVariable",
+            "args": "ext"
+        }
+    ]
 }

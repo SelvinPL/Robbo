@@ -5,7 +5,10 @@ LCC			=$(GBDK_HOME)bin/lcc
 PNG2ASSET	=$(GBDK_HOME)bin/png2asset
 
 # You can set the name of the ROM file here
-PROJECTNAME = robbo
+mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
+current_dir := $(notdir $(patsubst %/,%,$(dir $(mkfile_path))))
+
+PROJECTNAME = $(current_dir)
 
 # Set platforms to build here, spaced separated. (These are in the separate Makefile.targets)
 # They can also be built/cleaned individually: "make gg" and "make gg-clean"
