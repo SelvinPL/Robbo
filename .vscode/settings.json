@@ -1,12 +1,8 @@
 {
-    "C_Cpp.default.includePath": [
-        "${env:GBDK_HOME}/include",
-        "${workspaceFolder}/include",
-        "${workspaceFolder}/**"
-    ],
-    "C_Cpp.autoAddFileAssociations": false,
+	"C_Cpp.autoAddFileAssociations": false,
+	"C_Cpp.loggingLevel": "Information",
 	"files.exclude": {
 		"obj": true,
 		"build": true
-    }
+	}
 }
